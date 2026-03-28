@@ -1,0 +1,113 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "codex-django-cli"
+dynamic = ["version"]
+description = "Standalone CLI and blueprint scaffolding package for codex-django"
+readme = { file = "README.md", content-type = "text/markdown" }
+license = { text = "Apache-2.0" }
+requires-python = ">=3.12"
+authors = [{ name = "CodexDLC" }]
+keywords = ["django", "cli", "scaffold", "blueprints", "codex"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+dependencies = [
+    "codex-django",
+    "jinja2>=3.1",
+    "rich>=13.0",
+    "questionary>=2.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/codexdlc/codex-django-cli"
+Documentation = "https://github.com/codexdlc/codex-django-cli"
+Repository = "https://github.com/codexdlc/codex-django-cli"
+Issues = "https://github.com/codexdlc/codex-django/issues"
+
+[project.optional-dependencies]
+dev = [
+    "codex-django-cli",
+    "pytest>=8.0",
+    "pytest-cov",
+    "ruff>=0.4",
+    "mypy>=1.10",
+    "pre-commit>=3.0",
+    "bandit>=1.7",
+    "pip-audit>=2.7",
+    "detect-secrets>=1.5",
+    "mkdocs>=1.5",
+    "mkdocs-material>=9.0",
+    "mkdocstrings[python]>=0.24",
+    "mkdocs-include-markdown-plugin",
+]
+
+[project.scripts]
+codex-django = "codex_django_cli.main:main"
+
+[tool.hatch.version]
+source = "vcs"
+fallback-version = "0.1.0"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/codex_django_cli"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/README.md",
+    "/mkdocs.yml",
+    "/docs",
+    "/src/codex_django_cli",
+    "/tests",
+]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "C4", "SIM"]
+ignore = ["B008"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+exclude = [
+    "src/codex_django_cli/blueprints",
+]
+
+[[tool.mypy.overrides]]
+module = [
+    "questionary.*",
+]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "--cov=src/codex_django_cli --cov-report=term-missing"
+markers = [
+    "unit: unit tests (no external dependencies)",
+    "integration: integration tests (real file I/O via tmp_path)",
+    "e2e: end-to-end tests via subprocess with isolated venv",
+]
+
+[tool.coverage.run]
+source = ["src/codex_django_cli"]
+omit = ["*/_draft/*"]
+
+[tool.coverage.report]
+show_missing = true
+
+[tool.bandit]
+exclude_dirs = ["tests"]
+skips = ["B602", "B605", "B607", "B404"]
+
+[tool.uv.sources]
+codex-django = { path = "../codex-django", editable = true }

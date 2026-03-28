@@ -1,0 +1,63 @@
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: {{ project_name }}_test-redis
+    ports:
+      - "6381:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    networks:
+      - {{ project_name }}_test-network
+
+  db:
+    image: postgres:16-alpine
+    container_name: {{ project_name }}_test-db
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_DB={{ project_name }}_db
+      - POSTGRES_USER={{ project_name }}_user
+      - POSTGRES_PASSWORD=dev_password
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U {{ project_name }}_user"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    networks:
+      - {{ project_name }}_test-network
+
+  backend:
+    build:
+      context: ..
+      dockerfile: deploy/docker/django.Dockerfile
+      args:
+        PROJECT_ID: {{ project_name }}
+    container_name: {{ project_name }}_test-backend
+    ports:
+      - "8001:8000"
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - POSTGRES_HOST=db
+      - ENVIRONMENT=testing
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+    networks:
+      - {{ project_name }}_test-network
+
+networks:
+  {{ project_name }}_test-network:
+    name: {{ project_name }}_test-network
+    driver: bridge

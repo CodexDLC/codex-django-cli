@@ -1,0 +1,19 @@
+#!/bin/sh
+set -e
+
+if [ "$#" -gt 0 ]; then
+    echo "Running command: $@"
+    exec "$@"
+fi
+
+echo "Running collectstatic..."
+python /app/manage.py collectstatic --noinput
+
+echo "Running migrations..."
+python /app/manage.py migrate --noinput
+
+echo "Starting gunicorn..."
+exec gunicorn {{ project_name }}.core.wsgi:application \
+    --bind 0.0.0.0:8000 \
+    --workers ${GUNICORN_WORKERS:-2} \
+    --timeout 90

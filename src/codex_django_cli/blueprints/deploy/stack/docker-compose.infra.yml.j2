@@ -1,0 +1,80 @@
+services:
+  # --- Shared Redis ---
+  redis:
+    image: redis:7-alpine
+    container_name: {{ cluster_name }}-cluster-redis
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-change_me}
+    command: >
+      sh -c "redis-server --requirepass $${REDIS_PASSWORD} --appendonly yes"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "sh", "-c", "REDISCLI_AUTH=$${REDIS_PASSWORD} redis-cli ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - {{ cluster_name }}-cluster-network
+{% if with_worker %}
+
+  # --- Shared Worker (Notifications) ---
+  worker:
+    image: ${DOCKER_IMAGE_WORKER}
+    container_name: {{ cluster_name }}-cluster-worker
+    env_file: .env
+    depends_on:
+      redis:
+        condition: service_healthy
+    command: arq src.workers.notification_worker.worker.WorkerSettings
+    restart: always
+    networks:
+      - {{ cluster_name }}-cluster-network
+{% endif %}
+
+  # --- Shared Nginx ---
+  nginx:
+    image: ${DOCKER_IMAGE_NGINX}
+    container_name: {{ cluster_name }}-cluster-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - static_volume:/app/staticfiles:ro
+      - media_volume:/app/media:ro
+      - certs_volume:/etc/letsencrypt:ro
+      - certbot_challenge_volume:/var/www/certbot:ro
+    depends_on:
+      - redis
+    restart: always
+    networks:
+      - {{ cluster_name }}-cluster-network
+
+  # --- Shared Certbot ---
+  certbot:
+    image: certbot/certbot:latest
+    container_name: {{ cluster_name }}-cluster-certbot
+    volumes:
+      - certs_volume:/etc/letsencrypt
+      - certbot_challenge_volume:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    networks:
+      - {{ cluster_name }}-cluster-network
+
+volumes:
+  redis-data:
+  static_volume:
+    name: {{ cluster_name }}_cluster_static
+  media_volume:
+    name: {{ cluster_name }}_cluster_media
+  certs_volume:
+    name: {{ cluster_name }}_cluster_certs
+  certbot_challenge_volume:
+    name: {{ cluster_name }}_cluster_certbot_challenge
+
+networks:
+  {{ cluster_name }}-cluster-network:
+    name: {{ cluster_name }}-cluster-network
+    driver: bridge

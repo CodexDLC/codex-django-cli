@@ -1,0 +1,27 @@
+# === Django Project Image ===
+ARG BASE_IMAGE={{ project_name }}-base:latest
+FROM ${BASE_IMAGE}
+
+WORKDIR /app
+
+RUN useradd -m -u 1000 appuser
+
+# PROJECT_ID is set per-project during CI/CD build
+ARG PROJECT_ID={{ project_name }}
+COPY src/${PROJECT_ID} /app
+
+RUN mkdir -p /app/staticfiles /app/media /app/logs/backend && \
+    chown -R appuser:appuser /app && \
+    chmod -R 755 /app/media /app/logs/backend
+
+COPY deploy/docker/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+USER appuser
+
+ENV PYTHONPATH="/app:$PYTHONPATH"
+
+HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
+    CMD curl -f http://localhost:8000/api/v1/health || exit 1
+
+ENTRYPOINT ["/entrypoint.sh"]

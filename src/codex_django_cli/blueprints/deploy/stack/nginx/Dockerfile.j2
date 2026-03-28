@@ -1,0 +1,12 @@
+FROM nginx:alpine
+
+RUN rm /etc/nginx/conf.d/*
+
+COPY deploy/nginx/nginx-main.conf /etc/nginx/nginx.conf
+
+# Per-project site configs are volume-mounted at runtime from conf.d/
+RUN mkdir -p /etc/nginx/conf.d /var/www/certbot
+
+EXPOSE 80 443
+
+CMD ["nginx", "-g", "daemon off;"]

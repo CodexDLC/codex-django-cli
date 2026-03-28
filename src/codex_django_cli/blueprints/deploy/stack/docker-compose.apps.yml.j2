@@ -1,0 +1,41 @@
+services:
+  # --- Project Backend ---
+  backend:
+    image: ${DOCKER_IMAGE_BACKEND}
+    container_name: ${PROJECT_NAME:-{{ project_name }}}-backend
+    env_file:
+      - .env
+      - src/{{ project_name }}/.env
+    environment:
+      DJANGO_SETTINGS_MODULE: "{{ project_name }}.core.settings.prod"
+      PROJECT_NAME: ${PROJECT_NAME:-{{ project_name }}}
+    volumes:
+      - static_volume:/app/staticfiles/${PROJECT_NAME:-{{ project_name }}}
+      - media_volume:/app/media/${PROJECT_NAME:-{{ project_name }}}
+      - logs_volume:/app/logs/backend
+    expose:
+      - "8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: always
+    networks:
+      - {{ cluster_name }}-cluster-network
+
+volumes:
+  static_volume:
+    external: true
+    name: {{ cluster_name }}_cluster_static
+  media_volume:
+    external: true
+    name: {{ cluster_name }}_cluster_media
+  logs_volume:
+    driver: local
+
+networks:
+  {{ cluster_name }}-cluster-network:
+    external: true
+    name: {{ cluster_name }}-cluster-network

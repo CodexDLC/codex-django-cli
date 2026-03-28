@@ -1,0 +1,41 @@
+services:
+  # --- Project Backend (Local with Hot-Reload) ---
+  backend:
+    build:
+      context: ..
+      dockerfile: deploy/docker/django.Dockerfile
+      args:
+        BASE_IMAGE: {{ project_name }}-base:latest
+        PROJECT_ID: {{ project_name }}
+    image: {{ project_name }}-backend:local
+    container_name: {{ project_name }}-backend-local
+    env_file: ../.env
+    environment:
+      - PROJECT_NAME={{ project_name }}
+      - DEBUG=True
+      - DJANGO_SETTINGS_MODULE={{ project_name }}.core.settings.dev
+    volumes:
+      - ../src/{{ project_name }}:/app
+      - static_local:/app/staticfiles/{{ project_name }}
+      - media_local:/app/media/{{ project_name }}
+    expose:
+      - "8000"
+    command: python manage.py runserver 0.0.0.0:8000
+    depends_on:
+      - redis
+      - db
+    networks:
+      - {{ cluster_name }}-cluster-local-network
+
+volumes:
+  static_local:
+    external: true
+    name: {{ cluster_name }}_cluster_static_local
+  media_local:
+    external: true
+    name: {{ cluster_name }}_cluster_media_local
+
+networks:
+  {{ cluster_name }}-cluster-local-network:
+    external: true
+    name: {{ cluster_name }}-cluster-local-network

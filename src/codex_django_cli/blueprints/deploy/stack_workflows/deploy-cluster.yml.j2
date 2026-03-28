@@ -1,0 +1,112 @@
+{% raw %}name: Deploy Cluster (Manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 'Target to deploy (infra, apps, or all)'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - infra
+          - apps
+      project:
+        description: 'Specific project name. Leave empty for all apps.'
+        required: false
+        type: string
+      update_envs:
+        description: 'Write project .env files from GitHub Secrets before deploying'
+        type: boolean
+        default: false
+
+jobs:
+  deploy:
+    name: Update Cluster on VPS
+    runs-on: ubuntu-latest
+
+    steps:
+      # ─── Optional: write per-project .env from GitHub Secrets ────────────
+      # Secret naming: {PROJECT_ID_UPPER}_ENV → src/{project_id}/.env
+      # Example: {% endraw %}{{ project_name | upper | replace("-", "_") }}{% raw %}_ENV → src/{% endraw %}{{ project_name }}{% raw %}/.env
+      - name: Write Project .env Files
+        if: ${{ inputs.update_envs == true }}
+        uses: appleboy/ssh-action@v1.0.3
+        env:
+          {% endraw %}{{ project_name | upper | replace("-", "_") }}{% raw %}_ENV: ${{ secrets.{% endraw %}{{ project_name | upper | replace("-", "_") }}{% raw %}_ENV }}
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: {% endraw %}{{ project_name | upper | replace("-", "_") }}{% raw %}_ENV
+          script: |
+            set -e
+            cd ${{ secrets.DEPLOY_PATH }}
+            echo "📝 Writing project .env files..."
+
+            if [ ! -z "${% endraw %}{{ project_name | upper | replace("-", "_") }}{% raw %}_ENV" ]; then
+              mkdir -p src/{% endraw %}{{ project_name }}{% raw %}
+              printf '%s' "${% endraw %}{{ project_name | upper | replace("-", "_") }}{% raw %}_ENV" > src/{% endraw %}{{ project_name }}{% raw %}/.env
+              echo "   ✅ src/{% endraw %}{{ project_name }}{% raw %}/.env"
+            fi
+
+            echo "✅ Project .env files updated."
+
+      # ─── Main deploy ──────────────────────────────────────────────────────
+      - name: SSH Remote Commands
+        uses: appleboy/ssh-action@v1.0.3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: ${{ github.actor }}
+          TARGET: ${{ inputs.target }}
+          PROJECT: ${{ inputs.project }}
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: GITHUB_TOKEN,GITHUB_ACTOR,TARGET,PROJECT
+          script: |
+            set -e
+            cd ${{ secrets.DEPLOY_PATH }}/deploy
+
+            echo "🚀 Starting deployment for target: $TARGET"
+            if [ ! -z "$PROJECT" ]; then
+                echo "🎯 Specific project: $PROJECT"
+            fi
+
+            echo "$GITHUB_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+
+            if [ "$TARGET" == "infra" ] || [ "$TARGET" == "all" ]; then
+                echo "🔄 Pulling Infrastructure images..."
+                docker compose -f docker-compose.infra.yml pull
+            fi
+
+            if [ "$TARGET" == "apps" ] || [ "$TARGET" == "all" ]; then
+                if [ ! -z "$PROJECT" ]; then
+                    echo "🔄 Pulling image for $PROJECT..."
+                    docker compose -f docker-compose.apps.yml pull "${PROJECT}-backend"
+                else
+                    echo "🔄 Pulling ALL Apps images..."
+                    docker compose -f docker-compose.apps.yml pull
+                fi
+            fi
+
+            if [ "$TARGET" == "infra" ] || [ "$TARGET" == "all" ]; then
+                echo "🚀 Restarting Infrastructure..."
+                docker compose -f docker-compose.infra.yml up -d --remove-orphans
+            fi
+
+            if [ "$TARGET" == "apps" ] || [ "$TARGET" == "all" ]; then
+                if [ ! -z "$PROJECT" ]; then
+                    echo "🚀 Restarting $PROJECT..."
+                    docker compose -f docker-compose.apps.yml up -d --remove-orphans "${PROJECT}-backend"
+                else
+                    echo "🚀 Restarting ALL Apps..."
+                    docker compose -f docker-compose.apps.yml up -d --remove-orphans
+                fi
+            fi
+
+            docker image prune -f
+            echo "✅ Deployment completed successfully!"
+{% endraw %}

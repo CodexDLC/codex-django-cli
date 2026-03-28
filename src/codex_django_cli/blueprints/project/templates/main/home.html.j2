@@ -1,0 +1,129 @@
+{% raw %}{% extends "base.html" %}
+{% load i18n static %}
+
+{% block title %}
+    {{ site_settings.company_name }} | {% trans "Home" %}
+{% endblock title %}
+
+{% block content %}
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <span class="home-eyebrow">{% trans "Codex Django Starter" %}</span>
+                <h1 class="hero-title">
+                    {{ site_settings.company_name|default:_("Build your service platform faster") }}
+                </h1>
+                <p class="hero-subtitle">
+                    {% trans "A clean foundation for public pages, cabinet flows, notifications, and operational features that grow with your project." %}
+                </p>
+                <div class="hero-actions flex justify-center gap-md">
+                    <a href="{% url 'codex_showcase:index' %}" class="btn btn-primary btn-lg">
+                        {% trans "Open Showcase" %}
+                    </a>
+                    <a href="{% url 'contacts' %}" class="btn btn-outline btn-lg">
+                        {% trans "Contact Page Example" %}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">{% trans "What this starter already demonstrates" %}</h2>
+                <p class="text-muted home-section-copy">
+                    {% trans "Use the generated project as a production-ready base, and use Showcase as a guided tour through the reference UX patterns bundled with the library." %}
+                </p>
+            </div>
+
+            <div class="grid home-feature-grid">
+                <article class="card col-span-4">
+                    <div class="feature-icon">01</div>
+                    <h3 class="card-title">{% trans "Public website foundation" %}</h3>
+                    <p class="card-description">
+                        {% trans "A clean site shell with reusable header, footer, SEO primitives, static content, and room for your own landing pages." %}
+                    </p>
+                </article>
+                <article class="card col-span-4">
+                    <div class="feature-icon">02</div>
+                    <h3 class="card-title">{% trans "Cabinet and backoffice flows" %}</h3>
+                    <p class="card-description">
+                        {% trans "Reference patterns for staff and client interfaces, including dashboards, appointments, catalog pages, and operational screens." %}
+                    </p>
+                </article>
+                <article class="card col-span-4">
+                    <div class="feature-icon">03</div>
+                    <h3 class="card-title">{% trans "Notifications and integrations" %}</h3>
+                    <p class="card-description">
+                        {% trans "Support for direct Django delivery, queued workers, prepared HTML or template-based notifications, and deploy-ready building blocks." %}
+                    </p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="section home-tour-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">{% trans "Start with the guided tour" %}</h2>
+                <p class="text-muted home-section-copy">
+                    {% trans "These demo routes make the library ideas concrete before you replace them with your own product logic." %}
+                </p>
+            </div>
+
+            <div class="grid home-tour-grid">
+                <article class="card col-span-6">
+                    <span class="home-tour-tag">{% trans "Showcase" %}</span>
+                    <h3 class="card-title">{% trans "Staff cabinet demo" %}</h3>
+                    <p class="card-description">
+                        {% trans "Explore dashboard, clients, catalog, booking, and admin-oriented workflows in one connected reference area." %}
+                    </p>
+                    <div class="flex flex-wrap gap-sm">
+                        <a href="{% url 'codex_showcase:dashboard' %}" class="btn btn-primary">
+                            {% trans "Open Staff Demo" %}
+                        </a>
+                        <a href="{% url 'codex_showcase:notifications_log' %}" class="btn btn-outline">
+                            {% trans "Notification Log" %}
+                        </a>
+                    </div>
+                </article>
+                <article class="card col-span-6">
+                    <span class="home-tour-tag">{% trans "Showcase" %}</span>
+                    <h3 class="card-title">{% trans "Client journey demo" %}</h3>
+                    <p class="card-description">
+                        {% trans "Review profile, appointments, and notification settings from the customer side to shape your own client experience." %}
+                    </p>
+                    <div class="flex flex-wrap gap-sm">
+                        <a href="{% url 'codex_showcase:my_appointments' %}" class="btn btn-primary">
+                            {% trans "Open Client Demo" %}
+                        </a>
+                        <a href="{% url 'codex_showcase:index' %}" class="btn btn-outline">
+                            {% trans "Showcase Hub" %}
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="cta-section home-cta">
+                <h2 class="cta-title">{% trans "Replace the placeholders, keep the structure" %}</h2>
+                <p class="cta-subtitle">
+                    {% trans "This homepage is a starting point: swap in your own story, connect real data, and use Showcase as the internal reference while building." %}
+                </p>
+                <div class="flex justify-center gap-md flex-wrap">
+                    <a href="{% url 'codex_showcase:index' %}" class="btn btn-outline btn-lg home-cta-button">
+                        {% trans "Review Showcase" %}
+                    </a>
+                    <a href="{% url 'contacts' %}" class="btn btn-outline btn-lg home-cta-button">
+                        {% trans "Edit Public Pages" %}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
+{% endraw %}

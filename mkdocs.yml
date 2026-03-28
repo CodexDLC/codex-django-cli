@@ -1,0 +1,57 @@
+site_name: codex-django-cli
+site_description: CLI scaffolding and blueprint package for codex-django
+site_author: Codex Team
+docs_dir: docs
+
+theme:
+  name: material
+
+plugins:
+  - search
+  - include-markdown
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            docstring_style: google
+            show_source: true
+            show_root_heading: true
+
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/mermaid.js
+
+nav:
+  - Home: index.md
+  - Guide (EN):
+      - Getting Started: en/getting-started.md
+      - Installation Modes: en/guides/installation-modes.md
+      - Runtime vs CLI: en/guides/runtime-vs-cli.md
+      - Blueprints: en/guides/blueprints-and-scaffolding.md
+      - Architecture:
+          - Overview: en/architecture/cli/README.md
+          - Module: en/architecture/cli/module.md
+          - Entrypoints: en/architecture/cli/entrypoints.md
+          - Blueprints: en/architecture/cli/blueprints.md
+          - Engine: en/architecture/cli/engine.md
+          - Commands: en/architecture/cli/commands.md
+          - Project Output: en/architecture/cli/project-output.md
+      - API:
+          - Public: en/api/cli.md
+          - Internal: en/api/internal/cli.md
+  - Guide (RU):
+      - Быстрый старт: ru/getting-started.md
+      - Режимы установки: ru/guides/installation-modes.md
+      - Runtime и CLI: ru/guides/runtime-vs-cli.md
+      - Blueprints: ru/guides/blueprints-and-scaffolding.md
+      - Архитектура:
+          - Обзор: ru/architecture/cli/README.md
+          - Модуль: ru/architecture/cli/module.md
+          - Entrypoints: ru/architecture/cli/entrypoints.md
+          - Blueprints: ru/architecture/cli/blueprints.md
+          - Engine: ru/architecture/cli/engine.md
+          - Commands: ru/architecture/cli/commands.md
+          - Project Output: ru/architecture/cli/project-output.md
