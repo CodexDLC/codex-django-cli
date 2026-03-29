@@ -141,4 +141,3 @@ class TestScaffoldRealBlueprints:
         # so the engine strips `.j2` and produces a file without extension.
         assert (tmp_path / "system" / "models" / "email_content").exists()
         assert (tmp_path / "system" / "services" / "notification").exists()
-

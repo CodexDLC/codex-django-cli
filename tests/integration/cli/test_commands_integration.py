@@ -133,4 +133,3 @@ class TestHandleAddNotificationsIntegration:
         model_file = tmp_path / "features" / "system" / "models" / "email_content"
         content = model_file.read_text()
         assert "system" in content
-

@@ -51,7 +51,7 @@ jobs:
 
       - name: Run Pytest
         env:
-          SECRET_KEY: "test_secret_key_for_ci"
+          SECRET_KEY: "test_secret_key_for_ci" # pragma: allowlist secret
           ENVIRONMENT: "testing"
           REDIS_HOST: "localhost"
           REDIS_PORT: "6379"

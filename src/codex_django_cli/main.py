@@ -468,4 +468,3 @@ def _handle_legacy_args(args: list[str]) -> int:
 
 if __name__ == "__main__":  # pragma: no cover
     sys.exit(main())
-

@@ -19,7 +19,6 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
 ]
 dependencies = [
-    "codex-django",
     "jinja2>=3.1",
     "rich>=13.0",
     "questionary>=2.0.0",
@@ -27,13 +26,14 @@ dependencies = [
 
 [project.urls]
 Homepage = "https://github.com/codexdlc/codex-django-cli"
-Documentation = "https://github.com/codexdlc/codex-django-cli"
+Documentation = "https://codexdlc.github.io/codex-django-cli/"
 Repository = "https://github.com/codexdlc/codex-django-cli"
 Issues = "https://github.com/codexdlc/codex-django/issues"
 
 [project.optional-dependencies]
 dev = [
     "codex-django-cli",
+    "codex-core>=0.2.2,<0.3.0",
     "pytest>=8.0",
     "pytest-cov",
     "ruff>=0.4",
@@ -42,10 +42,13 @@ dev = [
     "bandit>=1.7",
     "pip-audit>=2.7",
     "detect-secrets>=1.5",
+]
+docs = [
     "mkdocs>=1.5",
     "mkdocs-material>=9.0",
     "mkdocstrings[python]>=0.24",
     "mkdocs-include-markdown-plugin",
+    "mike>=2.0",
 ]
 
 [project.scripts]
@@ -108,6 +111,3 @@ show_missing = true
 [tool.bandit]
 exclude_dirs = ["tests"]
 skips = ["B602", "B605", "B607", "B404"]
-
-[tool.uv.sources]
-codex-django = { path = "../codex-django", editable = true }

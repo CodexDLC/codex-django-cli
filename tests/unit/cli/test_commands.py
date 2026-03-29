@@ -224,4 +224,3 @@ class TestHandleAddNotifications:
             # Use os.path.join to match how the handler computes the path
             expected = os.path.join(str(tmp_path), "myapp/arq")
             assert arq_call[1]["target_dir"] == expected
-

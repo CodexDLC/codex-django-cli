@@ -56,4 +56,3 @@ class TestScaffoldQuality:
             text=True,
         )
         assert result.returncode == 0, f"bandit found issues in scaffolded project:\n{result.stdout}\n{result.stderr}"
-

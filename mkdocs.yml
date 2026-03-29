@@ -6,6 +6,11 @@ docs_dir: docs
 theme:
   name: material
 
+extra:
+  version:
+    provider: mike
+    default: latest
+
 plugins:
   - search
   - include-markdown
@@ -55,3 +60,5 @@ nav:
           - Engine: ru/architecture/cli/engine.md
           - Commands: ru/architecture/cli/commands.md
           - Project Output: ru/architecture/cli/project-output.md
+  - Changelog: changelog.md
+  - Roadmap: evolution/roadmap.md

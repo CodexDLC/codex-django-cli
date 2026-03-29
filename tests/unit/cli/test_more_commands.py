@@ -99,28 +99,27 @@ class TestHandleConfigurePrecommit:
 @pytest.mark.unit
 class TestRunDjangoCommand:
     def test_executes_command_successfully(self):
-        with patch("django.core.management.execute_from_command_line") as mock_exec:
+        management = MagicMock()
+        with patch("codex_django_cli.utils.import_module", return_value=management):
             from codex_django_cli.utils import run_django_command
 
             run_django_command(["migrate"])
 
-            mock_exec.assert_called_once_with(["manage.py", "migrate"])
+            management.execute_from_command_line.assert_called_once_with(["manage.py", "migrate"])
 
     def test_handles_system_exit_zero(self):
-        with patch(
-            "django.core.management.execute_from_command_line",
-            side_effect=SystemExit(0),
-        ):
+        management = MagicMock()
+        management.execute_from_command_line.side_effect = SystemExit(0)
+        with patch("codex_django_cli.utils.import_module", return_value=management):
             from codex_django_cli.utils import run_django_command
 
             # Should not raise
             run_django_command(["migrate"])
 
     def test_handles_system_exit_nonzero(self, capsys):
-        with patch(
-            "django.core.management.execute_from_command_line",
-            side_effect=SystemExit(1),
-        ):
+        management = MagicMock()
+        management.execute_from_command_line.side_effect = SystemExit(1)
+        with patch("codex_django_cli.utils.import_module", return_value=management):
             from codex_django_cli.utils import run_django_command
 
             run_django_command(["migrate"])
@@ -129,10 +128,9 @@ class TestRunDjangoCommand:
             assert "failed" in captured.out.lower() or "1" in captured.out
 
     def test_handles_generic_exception(self, capsys):
-        with patch(
-            "django.core.management.execute_from_command_line",
-            side_effect=RuntimeError("boom"),
-        ):
+        management = MagicMock()
+        management.execute_from_command_line.side_effect = RuntimeError("boom")
+        with patch("codex_django_cli.utils.import_module", return_value=management):
             from codex_django_cli.utils import run_django_command
 
             run_django_command(["migrate"])
@@ -140,3 +138,82 @@ class TestRunDjangoCommand:
             captured = capsys.readouterr()
             assert "boom" in captured.out
 
+
+# ---------------------------------------------------------------------------
+# booking.py
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.unit
+class TestHandleAddBooking:
+    _BOOKING_ENGINE = "codex_django_cli.engine.CLIEngine"
+
+    def test_scaffolds_booking_feature(self, tmp_path: Path):
+        with patch(self._BOOKING_ENGINE) as mock_engine_cls:
+            mock_engine = MagicMock()
+            mock_engine_cls.return_value = mock_engine
+
+            from codex_django_cli.commands.booking import handle_add_booking
+
+            handle_add_booking(str(tmp_path))
+
+            mock_engine.scaffold.assert_called_once_with(
+                "features/booking",
+                target_dir=str(tmp_path),
+                context={},
+            )
+
+    def test_prints_next_steps_for_booking(self, tmp_path: Path, capsys):
+        with patch(self._BOOKING_ENGINE) as mock_engine_cls:
+            mock_engine = MagicMock()
+            mock_engine_cls.return_value = mock_engine
+
+            from codex_django_cli.commands.booking import handle_add_booking
+
+            handle_add_booking(str(tmp_path))
+
+            captured = capsys.readouterr()
+            assert "Booking scaffolded" in captured.out
+            assert "Next steps" in captured.out
+            assert "LOCAL_APPS" in captured.out
+            assert "my/bookings" in captured.out
+
+
+# ---------------------------------------------------------------------------
+# client_cabinet.py
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.unit
+class TestHandleAddClientCabinet:
+    _CABINET_ENGINE = "codex_django_cli.engine.CLIEngine"
+
+    def test_scaffolds_client_cabinet_feature(self, tmp_path: Path):
+        with patch(self._CABINET_ENGINE) as mock_engine_cls:
+            mock_engine = MagicMock()
+            mock_engine_cls.return_value = mock_engine
+
+            from codex_django_cli.commands.client_cabinet import handle_add_client_cabinet
+
+            handle_add_client_cabinet(str(tmp_path))
+
+            mock_engine.scaffold.assert_called_once_with(
+                "features/client_cabinet",
+                target_dir=str(tmp_path),
+                context={},
+            )
+
+    def test_prints_next_steps_for_client_cabinet(self, tmp_path: Path, capsys):
+        with patch(self._CABINET_ENGINE) as mock_engine_cls:
+            mock_engine = MagicMock()
+            mock_engine_cls.return_value = mock_engine
+
+            from codex_django_cli.commands.client_cabinet import handle_add_client_cabinet
+
+            handle_add_client_cabinet(str(tmp_path))
+
+            captured = capsys.readouterr()
+            assert "Client cabinet scaffolded" in captured.out
+            assert "Next steps" in captured.out
+            assert "ACCOUNT_ADAPTER" in captured.out
+            assert "UserProfile" in captured.out

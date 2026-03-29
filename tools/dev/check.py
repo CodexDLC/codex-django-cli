@@ -1,22 +1,22 @@
 """Quality gate for codex-django-cli."""
 
-import os
 import sys
 from pathlib import Path
 
-from codex_core.dev.check_runner import BaseCheckRunner, Colors
+from codex_core.dev.check_runner import BaseCheckRunner
 
 
 class CheckRunner(BaseCheckRunner):
     PROJECT_NAME = "codex-django-cli"
     INTEGRATION_REQUIRES = "filesystem only"
+    RUN_EXTRA_CHECKS = False
     # CVE-2026-4539: pygments — no fix available yet (latest version)
     AUDIT_FLAGS = "--skip-editable --ignore-vuln CVE-2026-4539"
 
     def run_tests(self, marker: str = "unit") -> bool:
         self.print_step(f"Running {marker.capitalize()} Tests")
-        no_cov = "--no-cov" if marker != "unit" else ""
-        cmd = f'"{sys.executable}" -m pytest {self.tests_dir} -m {marker} -v --tb=short {no_cov}'.strip()
+        no_cov = " --no-cov" if marker != "unit" else ""
+        cmd = f'"{sys.executable}" -m pytest {self.tests_dir} -m {marker} -v --tb=short{no_cov}'
         success, _ = self.run_command(cmd)
         if success:
             self.print_success(f"{marker.capitalize()} tests passed.")
@@ -35,43 +35,6 @@ class CheckRunner(BaseCheckRunner):
         else:
             self.print_success("Security audit passed.")
         return success
-
-    def extra_checks(self) -> bool:
-        return True
-
-    def run_all(self) -> None:
-        """Developer mode: run checks and default integration prompt to 'no' when non-interactive."""
-        if os.name == "nt":
-            os.system("cls")
-        else:
-            os.system("clear")
-
-        print(f"{Colors.HEADER}{Colors.BOLD}=== {self.PROJECT_NAME} quality gate ==={Colors.ENDC}")
-
-        if not self.check_quality():
-            sys.exit(1)
-        if not self.check_types():
-            sys.exit(1)
-        if not self.check_security():
-            sys.exit(1)
-        if not self.extra_checks():
-            sys.exit(1)
-        if not self.run_tests("unit"):
-            sys.exit(1)
-
-        prompt = (
-            f"\n{Colors.YELLOW}🚀 Run Integration Tests? (Requires: {self.INTEGRATION_REQUIRES}) [y/N]: {Colors.ENDC}"
-        )
-        try:
-            answer = input(prompt).strip().lower()
-        except EOFError:
-            answer = "n"
-            print("n")
-
-        if answer == "y" and not self.run_tests("integration"):
-            sys.exit(1)
-
-        print(f"\n{Colors.GREEN}{Colors.BOLD}ALL CHECKS PASSED!{Colors.ENDC}")
 
 
 if __name__ == "__main__":

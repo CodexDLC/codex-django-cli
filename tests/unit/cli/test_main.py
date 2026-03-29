@@ -697,4 +697,3 @@ def test_legacy_deploy_uses_new_flags(tmp_path: Path):
             generate_cicd=True,
         )
         assert result == 0
-

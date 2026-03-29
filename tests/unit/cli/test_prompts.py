@@ -192,4 +192,3 @@ class TestPromptWrappers:
             mock_q.text.return_value = self._make_text("  ")
             result = prompts.ask_languages(enable_i18n=True)
             assert result == ["en"]
-
