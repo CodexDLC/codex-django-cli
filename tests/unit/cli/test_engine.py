@@ -137,7 +137,6 @@ class TestScaffoldRealBlueprints:
             str(tmp_path / "system"),
             {"app_name": "system"},
         )
-        # Note: notification blueprints use `email_content.j2` (not `.py.j2`),
-        # so the engine strips `.j2` and produces a file without extension.
-        assert (tmp_path / "system" / "models" / "email_content").exists()
-        assert (tmp_path / "system" / "services" / "notification").exists()
+        assert (tmp_path / "system" / "models" / "email_content.py").exists()
+        assert (tmp_path / "system" / "services" / "notification.py").exists()
+

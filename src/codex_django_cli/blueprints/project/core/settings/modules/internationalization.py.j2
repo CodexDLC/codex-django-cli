@@ -35,9 +35,10 @@ LANGUAGES = [
 try:
     import modeltranslation  # noqa
     MODELTRANSLATION_DEFAULT_LANGUAGE = LANGUAGE_CODE.split("-")[0]
-    MODELTRANSLATION_LANGUAGES = ({% for lang in languages %}"{{ lang }}"{% if not loop.last %}, {% endif %}{% endfor %})
+    MODELTRANSLATION_LANGUAGES = ({% for lang in languages %}"{{ lang }}", {% endfor %})
 except ImportError:
     pass
 
 LOCALE_PATHS = discover_locale_paths(BASE_DIR)
 {%- endif %}
+

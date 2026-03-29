@@ -1,7 +1,23 @@
-"""Shared helper functions for CLI command execution."""
+"""Shared helper functions for CLI command execution and bootstrap tasks."""
 
+from __future__ import annotations
+
+import base64
+import os
 from importlib import import_module
 from typing import Any, cast
+
+
+def generate_secret_key() -> str:
+    """Generate a Django-compatible SECRET_KEY value."""
+    from secrets import token_urlsafe
+
+    return token_urlsafe(50)
+
+
+def generate_field_encryption_key() -> str:
+    """Generate a Fernet-compatible key for encrypted model fields."""
+    return base64.urlsafe_b64encode(os.urandom(32)).decode()
 
 
 def run_django_command(args: list[str]) -> None:

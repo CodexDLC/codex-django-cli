@@ -92,14 +92,10 @@ def _init_wizard() -> int:
 
     with_cabinet = False
     with_booking = False
-    with_notifications = False
-
     if is_custom:
         modules = prompts.ask_init_modules()
         with_cabinet = "cabinet" in modules
         with_booking = "booking" in modules
-        with_notifications = "notifications" in modules
-
     enable_i18n = prompts.ask_enable_i18n()
     languages = prompts.ask_languages(enable_i18n) if enable_i18n else None
 
@@ -109,22 +105,22 @@ def _init_wizard() -> int:
         handle_init(
             name,
             os.getcwd(),
+            target_dir=os.getcwd(),
             overwrite=overwrite,
             enable_i18n=enable_i18n,
             with_cabinet=with_cabinet,
             with_booking=with_booking,
-            with_notifications=with_notifications,
         )
     else:
         handle_init(
             name,
             os.getcwd(),
+            target_dir=os.getcwd(),
             overwrite=overwrite,
             enable_i18n=enable_i18n,
             languages=languages,
             with_cabinet=with_cabinet,
             with_booking=with_booking,
-            with_notifications=with_notifications,
         )
     return 0
 
@@ -149,10 +145,15 @@ def _project_menu(forced_project: str | None = None) -> int:
         return _handle_deployment_setup(forced_project=forced_project)
 
     elif action == "⚙️  Security":
-        from secrets import token_urlsafe
+        from codex_django_cli.utils import generate_field_encryption_key, generate_secret_key
 
-        key = token_urlsafe(50)
-        console.print(f"\n[green]Generated new SECRET_KEY:[/green]\n[bold]{key}[/bold]\n")
+        secret_key = generate_secret_key()
+        field_encryption_key = generate_field_encryption_key()
+        console.print(f"\n[green]Generated new Django SECRET_KEY:[/green]\n[bold]{secret_key}[/bold]\n")
+        console.print(
+            f"[green]Generated new FIELD_ENCRYPTION_KEY (Fernet):[/green]\n"
+            f"[bold]{field_encryption_key}[/bold]\n"
+        )
 
     return 0
 
@@ -378,7 +379,6 @@ def _handle_legacy_args(args: list[str]) -> int:
     )
     init_parser.add_argument("--with-cabinet", action="store_true", default=False)
     init_parser.add_argument("--with-booking", action="store_true", default=False)
-    init_parser.add_argument("--with-notifications", action="store_true", default=False)
     init_parser.set_defaults(
         func=lambda args: handle_init(
             name=args.name,
@@ -391,7 +391,6 @@ def _handle_legacy_args(args: list[str]) -> int:
             languages=prompts.parse_language_codes(args.languages) if args.languages else None,
             with_cabinet=args.with_cabinet,
             with_booking=args.with_booking,
-            with_notifications=args.with_notifications,
         )
     )
 
@@ -468,3 +467,10 @@ def _handle_legacy_args(args: list[str]) -> int:
 
 if __name__ == "__main__":  # pragma: no cover
     sys.exit(main())
+
+
+
+
+
+
+

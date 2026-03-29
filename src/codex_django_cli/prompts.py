@@ -200,7 +200,6 @@ def ask_init_modules() -> list[str]:
         choices=[
             questionary.Choice("Client Cabinet (user portal)", value="cabinet", checked=True),
             questionary.Choice("Booking (Advanced)", value="booking", checked=False),
-            questionary.Choice("Notifications (email / ARQ)", value="notifications", checked=False),
         ],
     ).ask()
     return result or []
@@ -256,3 +255,5 @@ def ask_languages(enable_i18n: bool) -> list[str]:
         ],
     ).ask()
     return cast(list[str], results) or ["en"]
+
+

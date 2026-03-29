@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-03-29
+
+### Changed
+- **Notifications as base layer**: Moved notification scaffolding into the shared `system` and `core/arq` layers and removed it from optional init module selection so generated projects start with a consistent messaging foundation.
+- **Project bootstrap environment**: `init` now creates a real local `.env` with a generated Django `SECRET_KEY` and a valid Fernet `FIELD_ENCRYPTION_KEY`, while `.env.example` remains a repository-safe example file.
+- **Security menu output**: Split the interactive security helper into separate Django and Fernet key generation so scaffold users do not confuse the two values.
+- **Single-language i18n support**: Kept translation-aware mode enabled for `i18n + 1 language` and rendered a valid `MODELTRANSLATION_LANGUAGES` tuple for that case.
+
+### Fixed
+- **Notification template filenames**: Renamed notification blueprints to `*.py.j2` so generated projects no longer receive Python source files without the `.py` extension.
+- **Generated app config consistency**: Aligned local `AppConfig.name` values for `system` and `features.main` with the scaffold's short import model, fixing startup failures such as `StaticPageSeo` not belonging to an installed app.
+- **Scaffold onboarding text**: Clarified generated-project next steps and i18n messaging so user-facing output matches the actual bootstrap flow.
+
+
 ## [0.2.0] - 2026-03-29
 
 ### Added
@@ -39,3 +53,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - **Repository boundaries**: Separated CLI concerns from the runtime library so `codex-django` can depend on the CLI optionally, while generated projects continue to depend on `codex-django` itself.
+
+

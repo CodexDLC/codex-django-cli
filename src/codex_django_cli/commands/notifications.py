@@ -5,7 +5,7 @@ CLI handler for the ``codex-django add-notifications`` command.
 
 Scaffolds notification infrastructure into the target project:
 
-  features/{app_name}/
+  system/
     models/email_content.py
     selectors/email_content.py
     services/notification.py
@@ -14,8 +14,8 @@ Scaffolds notification infrastructure into the target project:
 
 Usage (from project root)::
 
-    codex-django add-notifications --app system
-    codex-django add-notifications --app system --arq-dir myapp/arq
+    codex-django add-notifications
+    codex-django add-notifications --arq-dir myapp/arq
 """
 
 from __future__ import annotations
@@ -28,24 +28,35 @@ console = Console()
 
 
 def handle_add_notifications(app_name: str, base_dir: str, arq_dir: str | None = None) -> None:
-    """Scaffold notification feature files and an ARQ client.
+    """Scaffold notification infrastructure into the shared system layer.
 
     Args:
-        app_name: Feature app that should receive notification files.
+        app_name: Reserved for backward compatibility. Notifications always live in ``system``.
         base_dir: Project root directory.
         arq_dir: Optional relative directory for the ARQ client scaffold.
     """
     from codex_django_cli.engine import CLIEngine
 
     engine = CLIEngine()
-    context = {"app_name": app_name}
+    context = {"app_name": "system"}
 
-    # --- Feature files ---
-    feature_target = os.path.join(base_dir, "features", app_name)
-    engine.scaffold("features/notifications/feature", target_dir=feature_target, context=context)
-    console.print(f"[green]✓[/green] Notification feature scaffolded → [bold]features/{app_name}/[/bold]")
+    engine.scaffold(
+        "features/notifications/feature/models",
+        target_dir=os.path.join(base_dir, "system", "models"),
+        context=context,
+    )
+    engine.scaffold(
+        "features/notifications/feature/selectors",
+        target_dir=os.path.join(base_dir, "system", "selectors"),
+        context=context,
+    )
+    engine.scaffold(
+        "features/notifications/feature/services",
+        target_dir=os.path.join(base_dir, "system", "services"),
+        context=context,
+    )
+    console.print("[green]✓[/green] Notification layer scaffolded → [bold]system/[/bold]")
 
-    # --- ARQ client ---
     arq_target = os.path.join(base_dir, arq_dir) if arq_dir else os.path.join(base_dir, "core", "arq")
     engine.scaffold("features/notifications/arq", target_dir=arq_target, context=context)
     arq_rel = arq_dir or "core/arq"
@@ -53,7 +64,7 @@ def handle_add_notifications(app_name: str, base_dir: str, arq_dir: str | None =
 
     console.print()
     console.print("[bold]Next steps:[/bold]")
-    console.print(f"  1. Add [cyan]EmailContent[/cyan] to your admin in features/{app_name}/")
+    console.print("  1. Register [cyan]EmailContent[/cyan] in [cyan]system/admin[/cyan]")
     console.print("  2. Run [cyan]python manage.py makemigrations[/cyan]")
-    console.print("  3. Set [cyan]ARQ_REDIS_URL[/cyan] in your Django settings")
-    console.print("  4. Add event methods to [cyan]NotificationService[/cyan]")
+    console.print("  3. Set [cyan]ARQ_REDIS_URL[/cyan] in your project settings")
+    console.print("  4. Reuse [cyan]NotificationService[/cyan] from features like booking, forms, or other workflows")

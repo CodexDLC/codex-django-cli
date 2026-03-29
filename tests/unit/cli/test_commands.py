@@ -7,8 +7,6 @@ from unittest.mock import ANY, MagicMock, call, patch
 
 import pytest
 
-# CLIEngine is imported lazily inside each handler function,
-# so we patch it at the source module: codex_django_cli.engine.CLIEngine
 _ENGINE_PATH = "codex_django_cli.engine.CLIEngine"
 
 
@@ -23,8 +21,7 @@ class TestHandleInit:
 
             handle_init("myproject", str(tmp_path))
 
-            # handle_init calls scaffold 3x: repo, deploy/shared, project. secret_key is random → ANY.
-            assert mock_engine.scaffold.call_count == 3
+            assert mock_engine.scaffold.call_count == 7
             calls = mock_engine.scaffold.call_args_list
             base_context = {
                 "project_name": "myproject",
@@ -33,7 +30,6 @@ class TestHandleInit:
                 "languages": ["en"],
                 "with_cabinet": False,
                 "with_booking": False,
-                "with_notifications": False,
             }
             assert calls[0] == call(
                 "repo",
@@ -53,9 +49,35 @@ class TestHandleInit:
                 context=base_context,
                 overwrite=False,
             )
+            assert calls[3] == call(
+                "features/notifications/feature/models",
+                target_dir=str(tmp_path / "myproject" / "src" / "myproject" / "system" / "models"),
+                context={**base_context, "app_name": "system"},
+            )
+            assert calls[4] == call(
+                "features/notifications/feature/selectors",
+                target_dir=str(tmp_path / "myproject" / "src" / "myproject" / "system" / "selectors"),
+                context={**base_context, "app_name": "system"},
+            )
+            assert calls[5] == call(
+                "features/notifications/feature/services",
+                target_dir=str(tmp_path / "myproject" / "src" / "myproject" / "system" / "services"),
+                context={**base_context, "app_name": "system"},
+            )
+            assert calls[6] == call(
+                "features/notifications/arq",
+                target_dir=str(tmp_path / "myproject" / "src" / "myproject" / "core" / "arq"),
+                context={**base_context, "app_name": "system"},
+            )
+
+            env_path = tmp_path / "myproject" / ".env"
+            assert env_path.exists()
+            env_content = env_path.read_text(encoding="utf-8")
+            assert "SECRET_KEY=" in env_content
+            assert "FIELD_ENCRYPTION_KEY=" in env_content
+            assert "replace-with-your" not in env_content
 
     def test_skips_if_target_exists(self, tmp_path: Path):
-        # handle_init checks for manage.py inside backend_dir to detect an existing project
         manage_py = tmp_path / "myproject" / "src" / "myproject" / "manage.py"
         manage_py.parent.mkdir(parents=True)
         manage_py.write_text("")
@@ -115,7 +137,8 @@ class TestHandleInit:
             from codex_django_cli.commands.init import handle_init
 
             handle_init("myproject", str(tmp_path), code_only=True)
-            assert mock_engine.scaffold.call_count == 1
+            assert mock_engine.scaffold.call_count == 5
+            assert not (tmp_path / "myproject" / ".env").exists()
 
     def test_i18n_languages_context(self, tmp_path: Path):
         with patch(_ENGINE_PATH) as mock_engine_cls:
@@ -125,7 +148,6 @@ class TestHandleInit:
 
             handle_init("myproject", str(tmp_path), enable_i18n=True, languages=["en", "ru", "de"])
 
-            # Verify context passed to engine
             _, kwargs = mock_engine.scaffold.call_args
             context = kwargs["context"]
             assert context["enable_i18n"] is True
@@ -143,6 +165,21 @@ class TestHandleInit:
             context = kwargs["context"]
             assert context["enable_i18n"] is True
             assert context["languages"] == ["ja"]
+
+    def test_i18n_single_language_init_output_mentions_translation_aware_config(self, tmp_path: Path):
+        with (
+            patch(_ENGINE_PATH) as mock_engine_cls,
+            patch("codex_django_cli.commands.init.console.print") as mock_print,
+        ):
+            mock_engine = MagicMock()
+            mock_engine_cls.return_value = mock_engine
+            from codex_django_cli.commands.init import handle_init
+
+            handle_init("myproject", str(tmp_path), enable_i18n=True, languages=["en"])
+
+            rendered = "\n".join(str(call.args[0]) for call in mock_print.call_args_list if call.args)
+            assert "translation-aware settings" in rendered
+            assert "single selected language" in rendered
 
     def test_explicit_languages_enable_i18n_even_without_flag(self, tmp_path: Path):
         with patch(_ENGINE_PATH) as mock_engine_cls:
@@ -199,13 +236,19 @@ class TestHandleAddNotifications:
             handle_add_notifications("system", str(tmp_path))
 
             calls = mock_engine.scaffold.call_args_list
-            assert len(calls) == 2
+            assert len(calls) == 4
 
-            feature_call = calls[0]
-            assert feature_call[0][0] == "features/notifications/feature"
-            assert feature_call[1]["context"] == {"app_name": "system"}
+            assert calls[0][0][0] == "features/notifications/feature/models"
+            assert calls[0][1]["target_dir"] == str(tmp_path / "system" / "models")
+            assert calls[0][1]["context"] == {"app_name": "system"}
 
-            arq_call = calls[1]
+            assert calls[1][0][0] == "features/notifications/feature/selectors"
+            assert calls[1][1]["target_dir"] == str(tmp_path / "system" / "selectors")
+
+            assert calls[2][0][0] == "features/notifications/feature/services"
+            assert calls[2][1]["target_dir"] == str(tmp_path / "system" / "services")
+
+            arq_call = calls[3]
             assert arq_call[0][0] == "features/notifications/arq"
             assert arq_call[1]["target_dir"] == str(tmp_path / "core" / "arq")
 
@@ -220,7 +263,7 @@ class TestHandleAddNotifications:
 
             handle_add_notifications("system", str(tmp_path), arq_dir="myapp/arq")
 
-            arq_call = mock_engine.scaffold.call_args_list[1]
-            # Use os.path.join to match how the handler computes the path
+            arq_call = mock_engine.scaffold.call_args_list[3]
             expected = os.path.join(str(tmp_path), "myapp/arq")
             assert arq_call[1]["target_dir"] == expected
+

@@ -29,6 +29,12 @@ def test_init_creates_project_structure(sterile_env: dict):
     assert (project_dir / "core").is_dir()
     assert (project_dir / "system").is_dir()
     assert (project_dir / "cabinet").is_dir()
+    system_apps = project_dir / "system" / "apps.py"
+    main_apps = project_dir / "features" / "main" / "apps.py"
+    assert system_apps.exists()
+    assert main_apps.exists()
+    assert 'name = "system"' in system_apps.read_text(encoding="utf-8")
+    assert 'name = "features.main"' in main_apps.read_text(encoding="utf-8")
 
 
 @pytest.mark.e2e
@@ -101,6 +107,8 @@ def test_init_i18n_creates_i18n_settings(sterile_env: dict):
     assert "LANGUAGES = [" in content
     assert "discover_locale_paths(BASE_DIR)" in content
     assert "USE_I18N = True" in content
+    assert 'MODELTRANSLATION_DEFAULT_LANGUAGE = LANGUAGE_CODE.split("-")[0]' in content
+    assert 'MODELTRANSLATION_LANGUAGES = ("en", )' in content
 
 
 @pytest.mark.e2e
@@ -126,7 +134,7 @@ def test_init_languages_argument_supports_arbitrary_language_codes(sterile_env: 
     assert 'LANGUAGE_CODE = os.environ.get("LANGUAGE_CODE", "ja")' in content
     assert '("ja", "ja")' in content
     assert '("de-at", "de-at")' in content
-    assert 'MODELTRANSLATION_LANGUAGES = ("ja", "en", "de-at")' in content
+    assert 'MODELTRANSLATION_LANGUAGES = ("ja", "en", "de-at", )' in content
 
 
 @pytest.mark.e2e
@@ -142,3 +150,4 @@ def test_cli_help_exits_cleanly(sterile_env: dict):
     )
 
     assert result.returncode == 0
+

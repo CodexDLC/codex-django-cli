@@ -84,12 +84,11 @@ def test_interactive_menu_init(tmp_path: Path):
         mock_handle.assert_called_once_with(
             "myproject",
             str(tmp_path),
+            target_dir=str(tmp_path),
             overwrite=False,
             enable_i18n=False,
             with_cabinet=False,
-            with_booking=False,
-            with_notifications=False,
-        )
+            with_booking=False,        )
         assert result == 0
 
 
@@ -109,13 +108,12 @@ def test_interactive_menu_init_i18n_single_language(tmp_path: Path):
         mock_handle.assert_called_once_with(
             "myproject",
             str(tmp_path),
+            target_dir=str(tmp_path),
             overwrite=False,
             enable_i18n=True,
             languages=["ja"],
             with_cabinet=False,
-            with_booking=False,
-            with_notifications=False,
-        )
+            with_booking=False,        )
         assert result == 0
 
 
@@ -352,12 +350,20 @@ def test_project_menu_quality_configure_precommit():
 
 
 @pytest.mark.unit
-def test_project_menu_security_generates_key(capsys):
+def test_project_menu_security_generates_keys():
     with (
         patch("codex_django_cli.main._is_in_project", return_value=True),
         patch.object(prompts_module, "ask_project_action", return_value="⚙️  Security"),
+        patch("codex_django_cli.utils.generate_secret_key", return_value="django-secret"),
+        patch("codex_django_cli.utils.generate_field_encryption_key", return_value="fernet-key"),
+        patch("codex_django_cli.main.console.print") as mock_print,
     ):
         assert _interactive_menu() == 0
+        rendered = "\n".join(str(call.args[0]) for call in mock_print.call_args_list if call.args)
+        assert "Generated new Django SECRET_KEY" in rendered
+        assert "django-secret" in rendered
+        assert "Generated new FIELD_ENCRYPTION_KEY (Fernet)" in rendered
+        assert "fernet-key" in rendered
 
 
 @pytest.mark.unit
@@ -411,9 +417,7 @@ def test_legacy_init(tmp_path: Path):
             enable_i18n=False,
             languages=None,
             with_cabinet=False,
-            with_booking=False,
-            with_notifications=False,
-        )
+            with_booking=False,        )
         assert result == 0
 
 
@@ -434,9 +438,7 @@ def test_legacy_init_i18n(tmp_path: Path):
             enable_i18n=True,
             languages=None,
             with_cabinet=False,
-            with_booking=False,
-            with_notifications=False,
-        )
+            with_booking=False,        )
         assert result == 0
 
 
@@ -457,9 +459,7 @@ def test_legacy_init_languages_argument(tmp_path: Path):
             enable_i18n=False,
             languages=["ja", "en", "de-at"],
             with_cabinet=False,
-            with_booking=False,
-            with_notifications=False,
-        )
+            with_booking=False,        )
         assert result == 0
 
 
@@ -697,3 +697,9 @@ def test_legacy_deploy_uses_new_flags(tmp_path: Path):
             generate_cicd=True,
         )
         assert result == 0
+
+
+
+
+
+
