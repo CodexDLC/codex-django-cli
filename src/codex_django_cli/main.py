@@ -151,8 +151,7 @@ def _project_menu(forced_project: str | None = None) -> int:
         field_encryption_key = generate_field_encryption_key()
         console.print(f"\n[green]Generated new Django SECRET_KEY:[/green]\n[bold]{secret_key}[/bold]\n")
         console.print(
-            f"[green]Generated new FIELD_ENCRYPTION_KEY (Fernet):[/green]\n"
-            f"[bold]{field_encryption_key}[/bold]\n"
+            f"[green]Generated new FIELD_ENCRYPTION_KEY (Fernet):[/green]\n[bold]{field_encryption_key}[/bold]\n"
         )
 
     return 0
@@ -467,10 +466,3 @@ def _handle_legacy_args(args: list[str]) -> int:
 
 if __name__ == "__main__":  # pragma: no cover
     sys.exit(main())
-
-
-
-
-
-
-

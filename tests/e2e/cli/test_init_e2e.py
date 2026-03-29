@@ -150,4 +150,3 @@ def test_cli_help_exits_cleanly(sterile_env: dict):
     )
 
     assert result.returncode == 0
-

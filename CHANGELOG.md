@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.2] - 2026-03-30
+
+### Added
+- **Install-chain E2E smoke coverage**: Added a parametrized end-to-end smoke test for both local editable install chain and optional online install chain, including generated-project runtime sanity checks.
+- **Subprocess diagnostics fixture**: Added a shared helper fixture for subprocess-based tests with command tracing, elapsed time logging, and rich failure output.
+
+### Changed
+- **Developer check flow**: Updated `tools/dev/check.py` so unit tests keep coverage, e2e can run with live subprocess output, and integration/e2e runs are prompted explicitly.
+- **Pytest default flags**: Removed global coverage `addopts` from `pyproject.toml` so integration/e2e runs are not forced through coverage instrumentation by default.
+- **Scaffold verification tests**: Refined integration and unit expectations around notification scaffolding paths and generated app configuration values.
+- **Install-chain documentation**: Expanded `README.md` with concrete local and online install-chain e2e command examples and environment variable toggles.
+
+### Fixed
+- **Secret scanner false positives**: Added allowlist pragmas to scaffolded `.env` example secret placeholders and the commented `DATABASE_URL` template line generated during project init.
+
 ## [0.2.1] - 2026-03-29
 
 ### Changed
@@ -53,5 +68,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - **Repository boundaries**: Separated CLI concerns from the runtime library so `codex-django` can depend on the CLI optionally, while generated projects continue to depend on `codex-django` itself.
-
-

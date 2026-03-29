@@ -255,5 +255,3 @@ def ask_languages(enable_i18n: bool) -> list[str]:
         ],
     ).ask()
     return cast(list[str], results) or ["en"]
-
-

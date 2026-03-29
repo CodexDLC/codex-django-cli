@@ -31,6 +31,24 @@ uv run pytest tests/unit/cli tests/integration/cli
 uv build --no-sources
 ```
 
+Install-chain e2e smoke:
+
+```bash
+# Local dev chain (editable codex-django-cli + editable ../codex-django)
+uv run pytest tests/e2e/cli/test_install_chains_e2e.py -m e2e -k local_dev_chain -v
+
+# Optional override for runtime checkout path
+export CODEX_DJANGO_CHECKOUT=/absolute/path/to/codex-django
+
+# Online-install chain (PyPI codex-django-cli + local codex-django wheel)
+export CODEX_DJANGO_E2E_ONLINE=1
+export CODEX_DJANGO_WHEEL=/absolute/path/to/codex_django-*.whl
+uv run pytest tests/e2e/cli/test_install_chains_e2e.py -m e2e -k online_install_chain -v
+
+# Optional: test a specific PyPI target (version, index alias, etc.)
+export CODEX_DJANGO_CLI_PYPI_SPEC='codex-django-cli'
+```
+
 Requires Python 3.12 or newer.
 
 ## Quick Start

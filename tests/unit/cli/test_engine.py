@@ -139,4 +139,3 @@ class TestScaffoldRealBlueprints:
         )
         assert (tmp_path / "system" / "models" / "email_content.py").exists()
         assert (tmp_path / "system" / "services" / "notification.py").exists()
-

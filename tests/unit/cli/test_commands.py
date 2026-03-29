@@ -266,4 +266,3 @@ class TestHandleAddNotifications:
             arq_call = mock_engine.scaffold.call_args_list[3]
             expected = os.path.join(str(tmp_path), "myapp/arq")
             assert arq_call[1]["target_dir"] == expected
-

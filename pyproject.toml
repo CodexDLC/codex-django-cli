@@ -94,7 +94,6 @@ ignore_missing_imports = true
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]
-addopts = "--cov=src/codex_django_cli --cov-report=term-missing"
 markers = [
     "unit: unit tests (no external dependencies)",
     "integration: integration tests (real file I/O via tmp_path)",

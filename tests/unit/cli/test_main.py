@@ -88,7 +88,8 @@ def test_interactive_menu_init(tmp_path: Path):
             overwrite=False,
             enable_i18n=False,
             with_cabinet=False,
-            with_booking=False,        )
+            with_booking=False,
+        )
         assert result == 0
 
 
@@ -113,7 +114,8 @@ def test_interactive_menu_init_i18n_single_language(tmp_path: Path):
             enable_i18n=True,
             languages=["ja"],
             with_cabinet=False,
-            with_booking=False,        )
+            with_booking=False,
+        )
         assert result == 0
 
 
@@ -417,7 +419,8 @@ def test_legacy_init(tmp_path: Path):
             enable_i18n=False,
             languages=None,
             with_cabinet=False,
-            with_booking=False,        )
+            with_booking=False,
+        )
         assert result == 0
 
 
@@ -438,7 +441,8 @@ def test_legacy_init_i18n(tmp_path: Path):
             enable_i18n=True,
             languages=None,
             with_cabinet=False,
-            with_booking=False,        )
+            with_booking=False,
+        )
         assert result == 0
 
 
@@ -459,7 +463,8 @@ def test_legacy_init_languages_argument(tmp_path: Path):
             enable_i18n=False,
             languages=["ja", "en", "de-at"],
             with_cabinet=False,
-            with_booking=False,        )
+            with_booking=False,
+        )
         assert result == 0
 
 
@@ -697,9 +702,3 @@ def test_legacy_deploy_uses_new_flags(tmp_path: Path):
             generate_cicd=True,
         )
         assert result == 0
-
-
-
-
-
-

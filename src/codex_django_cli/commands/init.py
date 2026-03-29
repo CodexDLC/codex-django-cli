@@ -49,7 +49,9 @@ def _normalize_languages(languages: list[str] | None) -> list[str]:
     return normalized or ["en"]
 
 
-def _write_project_env(project_root: str, project_name: str, *, overwrite: bool, secret_key: str, field_encryption_key: str) -> None:
+def _write_project_env(
+    project_root: str, project_name: str, *, overwrite: bool, secret_key: str, field_encryption_key: str
+) -> None:
     """Create a real local .env file for the generated project."""
     env_path = Path(project_root) / ".env"
     if env_path.exists() and not overwrite:
@@ -68,7 +70,7 @@ def _write_project_env(project_root: str, project_name: str, *, overwrite: bool,
         "ALLOWED_HOSTS=localhost,127.0.0.1\n"
         "SITE_BASE_URL=http://127.0.0.1:8000/\n\n"
         "# Database\n"
-        f"# DATABASE_URL=postgres://user:pass@localhost:5432/{project_name}\n"
+        f"# DATABASE_URL=postgres://user:pass@localhost:5432/{project_name}  # pragma: allowlist secret\n"
     )
     env_path.write_text(env_content, encoding="utf-8")
 
@@ -207,7 +209,9 @@ def handle_init(
         console.print(f"[green]✓[/green] Project [bold]{name}[/bold] initialized in [bold]{project_root}[/bold]")
         console.print(f"  Modules: [cyan]{', '.join(modules)}[/cyan]")
         if enable_i18n:
-            console.print("  [dim]i18n is enabled; even a single selected language uses translation-aware settings.[/dim]")
+            console.print(
+                "  [dim]i18n is enabled; even a single selected language uses translation-aware settings.[/dim]"
+            )
 
     console.print()
     if not code_only and not dev_mode:
@@ -237,7 +241,8 @@ def handle_init(
         console.print(f"  {step}. [cyan]Install this project's dependencies: pip install -e .[/cyan]")
         step += 1
         console.print(
-            f"  {step}. [cyan]Review the generated .env file and adjust values like ALLOWED_HOSTS or DATABASE_URL if needed.[/cyan]"
+            f"  {step}. [cyan]Review the generated .env file and adjust values like "
+            "ALLOWED_HOSTS or DATABASE_URL if needed.[/cyan]"
         )
         step += 1
 

@@ -36,13 +36,14 @@ class TestHandleInitIntegration:
         assert (settings_dir / "dev.py").exists()
         assert (settings_dir / "prod.py").exists()
 
-    def test_renders_project_name_in_system_apps(self, tmp_path: Path):
+    def test_renders_system_app_config(self, tmp_path: Path):
         handle_init("blog_platform", str(tmp_path))
 
         system_apps = tmp_path / "blog_platform" / "src" / "blog_platform" / "system" / "apps.py"
         assert system_apps.exists()
         content = system_apps.read_text()
-        assert "blog_platform" in content
+        assert 'name = "system"' in content
+        assert 'label = "system"' in content
 
     def test_skips_existing_project(self, tmp_path: Path):
         target = tmp_path / "myproject" / "src" / "myproject"
@@ -110,26 +111,26 @@ class TestHandleAddNotificationsIntegration:
     def test_creates_feature_and_arq_structure(self, tmp_path: Path):
         handle_add_notifications("system", str(tmp_path))
 
-        feature = tmp_path / "features" / "system"
+        feature = tmp_path / "system"
         assert feature.is_dir()
-        # blueprints use .j2 (not .py.j2) so files have no .py extension
-        assert (feature / "models" / "email_content").exists()
-        assert (feature / "selectors" / "email_content").exists()
-        assert (feature / "services" / "notification").exists()
+        assert (feature / "models" / "email_content.py").exists()
+        assert (feature / "selectors" / "email_content.py").exists()
+        assert (feature / "services" / "notification.py").exists()
 
         arq = tmp_path / "core" / "arq"
         assert arq.is_dir()
-        assert (arq / "client").exists()
+        assert (arq / "client.py").exists()
 
     def test_custom_arq_dir(self, tmp_path: Path):
         handle_add_notifications("alerts", str(tmp_path), arq_dir="workers/arq")
 
-        assert (tmp_path / "features" / "alerts").is_dir()
-        assert (tmp_path / "workers" / "arq" / "client").exists()
+        # Notifications are always scaffolded into shared system layer.
+        assert (tmp_path / "system").is_dir()
+        assert (tmp_path / "workers" / "arq" / "client.py").exists()
 
     def test_renders_app_name_in_model_template(self, tmp_path: Path):
         handle_add_notifications("system", str(tmp_path))
 
-        model_file = tmp_path / "features" / "system" / "models" / "email_content"
+        model_file = tmp_path / "system" / "models" / "email_content.py"
         content = model_file.read_text()
         assert "system" in content
