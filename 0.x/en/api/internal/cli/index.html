@@ -1095,6 +1095,28 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#codex_django_cli.utils.generate_field_encryption_key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        generate_field_encryption_key
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.utils.generate_secret_key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        generate_secret_key
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#codex_django_cli.utils.run_django_command" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2214,6 +2236,28 @@
   
     <nav class="md-nav" aria-label="utils">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.utils.generate_field_encryption_key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        generate_field_encryption_key
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.utils.generate_secret_key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        generate_secret_key
+      
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#codex_django_cli.utils.run_django_command" class="md-nav__link">
@@ -3716,13 +3760,13 @@ instead of patching questionary directly.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/codex_django_cli/prompts.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">209</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">208</span>
+<span class="normal">209</span>
 <span class="normal">210</span>
 <span class="normal">211</span>
 <span class="normal">212</span>
 <span class="normal">213</span>
-<span class="normal">214</span>
-<span class="normal">215</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ask_enable_i18n</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="normal">214</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ask_enable_i18n</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Ask whether the project should enable i18n / modular locale support.&quot;&quot;&quot;</span>
     <span class="n">result</span> <span class="o">=</span> <span class="n">questionary</span><span class="o">.</span><span class="n">confirm</span><span class="p">(</span>
         <span class="s2">&quot;Enable i18n / modular locale support? Useful even with one language.&quot;</span><span class="p">,</span>
@@ -3854,15 +3898,13 @@ instead of patching questionary directly.</p>
 <span class="normal">202</span>
 <span class="normal">203</span>
 <span class="normal">204</span>
-<span class="normal">205</span>
-<span class="normal">206</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ask_init_modules</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="normal">205</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ask_init_modules</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Ask which optional modules should be included during init.&quot;&quot;&quot;</span>
     <span class="n">result</span> <span class="o">=</span> <span class="n">questionary</span><span class="o">.</span><span class="n">checkbox</span><span class="p">(</span>
         <span class="s2">&quot;Modules to include:&quot;</span><span class="p">,</span>
         <span class="n">choices</span><span class="o">=</span><span class="p">[</span>
             <span class="n">questionary</span><span class="o">.</span><span class="n">Choice</span><span class="p">(</span><span class="s2">&quot;Client Cabinet (user portal)&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;cabinet&quot;</span><span class="p">,</span> <span class="n">checked</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
             <span class="n">questionary</span><span class="o">.</span><span class="n">Choice</span><span class="p">(</span><span class="s2">&quot;Booking (Advanced)&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;booking&quot;</span><span class="p">,</span> <span class="n">checked</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
-            <span class="n">questionary</span><span class="o">.</span><span class="n">Choice</span><span class="p">(</span><span class="s2">&quot;Notifications (email / ARQ)&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;notifications&quot;</span><span class="p">,</span> <span class="n">checked</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
         <span class="p">],</span>
     <span class="p">)</span><span class="o">.</span><span class="n">ask</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">result</span> <span class="ow">or</span> <span class="p">[]</span>
@@ -3942,7 +3984,8 @@ instead of patching questionary directly.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/codex_django_cli/prompts.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">218</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">217</span>
+<span class="normal">218</span>
 <span class="normal">219</span>
 <span class="normal">220</span>
 <span class="normal">221</span>
@@ -3981,8 +4024,7 @@ instead of patching questionary directly.</p>
 <span class="normal">254</span>
 <span class="normal">255</span>
 <span class="normal">256</span>
-<span class="normal">257</span>
-<span class="normal">258</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ask_languages</span><span class="p">(</span><span class="n">enable_i18n</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="normal">257</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ask_languages</span><span class="p">(</span><span class="n">enable_i18n</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Ask which language codes should be included in the scaffold.</span>
 
 <span class="sd">    Args:</span>
@@ -4360,7 +4402,7 @@ instead of patching questionary directly.</p>
 
     <div class="doc doc-contents first">
 
-        <p>Shared helper functions for CLI command execution.</p>
+        <p>Shared helper functions for CLI command execution and bootstrap tasks.</p>
 
 
 
@@ -4381,6 +4423,64 @@ instead of patching questionary directly.</p>
 
 
 
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="codex_django_cli.utils.generate_field_encryption_key" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">generate_field_encryption_key</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Generate a Fernet-compatible key for encrypted model fields.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/codex_django_cli/utils.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">generate_field_encryption_key</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a Fernet-compatible key for encrypted model fields.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">base64</span><span class="o">.</span><span class="n">urlsafe_b64encode</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="mi">32</span><span class="p">))</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="codex_django_cli.utils.generate_secret_key" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">generate_secret_key</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Generate a Django-compatible SECRET_KEY value.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/codex_django_cli/utils.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">generate_secret_key</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a Django-compatible SECRET_KEY value.&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">secrets</span><span class="w"> </span><span class="kn">import</span> <span class="n">token_urlsafe</span>
+
+    <span class="k">return</span> <span class="n">token_urlsafe</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
 
 <div class="doc doc-object doc-function">
 
@@ -4429,25 +4529,25 @@ instead of patching questionary directly.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/codex_django_cli/utils.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span>
-<span class="normal">12</span>
-<span class="normal">13</span>
-<span class="normal">14</span>
-<span class="normal">15</span>
-<span class="normal">16</span>
-<span class="normal">17</span>
-<span class="normal">18</span>
-<span class="normal">19</span>
-<span class="normal">20</span>
-<span class="normal">21</span>
-<span class="normal">22</span>
-<span class="normal">23</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">23</span>
 <span class="normal">24</span>
-<span class="normal">25</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">run_django_command</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">run_django_command</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Execute a Django management command in-process.</span>
 
 <span class="sd">    Args:</span>
@@ -5494,21 +5594,21 @@ instead of patching questionary directly.</p>
 <p>Scaffolds a new Django project into ./src/<name>/:</p>
 <p>src/<name>/
     manage.py
-    core/             – settings, urls, wsgi, asgi, redis, sitemaps
-    system/           – SiteSettings, SEO, management commands
-    cabinet/          – user dashboard skeleton (theme.css only)
+    core/             - settings, urls, wsgi, asgi, redis, sitemaps
+    system/           - SiteSettings, SEO, notifications, management commands
+    cabinet/          - user dashboard skeleton (theme.css only)
     features/
-      main/           – home &amp; contacts views
-    templates/        – base.html, includes/, main/, errors/
+      main/           - home &amp; contacts views
+    templates/        - base.html, includes/, main/, errors/
     static/
-      css/            – @import chain + compiler_config.json
-      css/cabinet/    – theme.css (white-labeling overrides)
-      js/vendor/      – HTMX 2.x, Alpine.js placeholders
-      js/app/         – main.js</p>
+      css/            - @import chain + compiler_config.json
+      css/cabinet/    - theme.css (white-labeling overrides)
+      js/vendor/      - HTMX 2.x, Alpine.js placeholders
+      js/app/         - main.js</p>
 <p>Usage::</p>
 <pre><code>codex-django init myproject
 codex-django init myproject --dir sandbox   # custom output path
-# or via interactive menu: codex-django → Init new project
+# or via interactive menu: codex-django -&gt; Init new project
 </code></pre>
 
 
@@ -5535,7 +5635,7 @@ codex-django init myproject --dir sandbox   # custom output path
 
 
 <h3 id="codex_django_cli.commands.init.handle_init" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">handle_init</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">base_dir</span><span class="p">,</span> <span class="n">target_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">code_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dev_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">enable_i18n</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">languages</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">with_cabinet</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">with_booking</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">with_notifications</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">handle_init</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">base_dir</span><span class="p">,</span> <span class="n">target_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">code_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dev_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">enable_i18n</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">languages</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">with_cabinet</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">with_booking</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
 </h3>
 
@@ -5716,56 +5816,13 @@ codex-django init myproject --dir sandbox   # custom output path
                   <code>False</code>
             </td>
           </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>with_notifications</code>
-            </td>
-            <td>
-                  <code><span title="bool">bool</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Whether notifications support should be included.</p>
-              </div>
-            </td>
-            <td>
-                  <code>False</code>
-            </td>
-          </tr>
       </tbody>
     </table>
 
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/codex_django_cli/commands/init.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 51</span>
-<span class="normal"> 52</span>
-<span class="normal"> 53</span>
-<span class="normal"> 54</span>
-<span class="normal"> 55</span>
-<span class="normal"> 56</span>
-<span class="normal"> 57</span>
-<span class="normal"> 58</span>
-<span class="normal"> 59</span>
-<span class="normal"> 60</span>
-<span class="normal"> 61</span>
-<span class="normal"> 62</span>
-<span class="normal"> 63</span>
-<span class="normal"> 64</span>
-<span class="normal"> 65</span>
-<span class="normal"> 66</span>
-<span class="normal"> 67</span>
-<span class="normal"> 68</span>
-<span class="normal"> 69</span>
-<span class="normal"> 70</span>
-<span class="normal"> 71</span>
-<span class="normal"> 72</span>
-<span class="normal"> 73</span>
-<span class="normal"> 74</span>
-<span class="normal"> 75</span>
-<span class="normal"> 76</span>
-<span class="normal"> 77</span>
-<span class="normal"> 78</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 78</span>
 <span class="normal"> 79</span>
 <span class="normal"> 80</span>
 <span class="normal"> 81</span>
@@ -5903,7 +5960,47 @@ codex-django init myproject --dir sandbox   # custom output path
 <span class="normal">213</span>
 <span class="normal">214</span>
 <span class="normal">215</span>
-<span class="normal">216</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">handle_init</span><span class="p">(</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">handle_init</span><span class="p">(</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">base_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">target_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -5914,7 +6011,6 @@ codex-django init myproject --dir sandbox   # custom output path
     <span class="n">languages</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">with_cabinet</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">with_booking</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">with_notifications</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Scaffold a new codex-django project.</span>
 
@@ -5929,17 +6025,11 @@ codex-django init myproject --dir sandbox   # custom output path
 <span class="sd">        languages: Optional explicit list of language codes.</span>
 <span class="sd">        with_cabinet: Whether cabinet support should be included.</span>
 <span class="sd">        with_booking: Whether booking support should be included.</span>
-<span class="sd">        with_notifications: Whether notifications support should be included.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">secrets</span><span class="w"> </span><span class="kn">import</span> <span class="n">token_urlsafe</span>
-
     <span class="kn">from</span><span class="w"> </span><span class="nn">codex_django_cli.engine</span><span class="w"> </span><span class="kn">import</span> <span class="n">CLIEngine</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">codex_django_cli.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_field_encryption_key</span><span class="p">,</span> <span class="n">generate_secret_key</span>
 
-    <span class="c1"># 1. Determine project_root and backend_dir</span>
     <span class="k">if</span> <span class="n">dev_mode</span><span class="p">:</span>
-        <span class="c1"># Safety check: are we in the library&#39;s source?</span>
-        <span class="c1"># __file__ is in src/codex_django/cli/commands/init.py</span>
-        <span class="c1"># lib_root should be 4 levels up</span>
         <span class="n">lib_root</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">))</span>
         <span class="n">pyproject_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lib_root</span><span class="p">,</span> <span class="s2">&quot;pyproject.toml&quot;</span><span class="p">)</span>
         <span class="n">is_lib_source</span> <span class="o">=</span> <span class="kc">False</span>
@@ -5958,11 +6048,9 @@ codex-django init myproject --dir sandbox   # custom output path
         <span class="n">project_root</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">target_dir</span><span class="p">)</span>
         <span class="n">backend_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">project_root</span><span class="p">,</span> <span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="c1"># Default: create a new folder with the name</span>
         <span class="n">project_root</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_dir</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
         <span class="n">backend_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">project_root</span><span class="p">,</span> <span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
 
-    <span class="c1"># 2. Conflict check (look for manage.py)</span>
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">backend_dir</span><span class="p">,</span> <span class="s2">&quot;manage.py&quot;</span><span class="p">))</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">overwrite</span><span class="p">:</span>
         <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[yellow]⚠ Django project already exists in:[/yellow] [bold]</span><span class="si">{</span><span class="n">backend_dir</span><span class="si">}</span><span class="s2">[/bold]&quot;</span><span class="p">)</span>
         <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;[yellow]  Use --overwrite to re-scaffold.[/yellow]&quot;</span><span class="p">)</span>
@@ -5971,35 +6059,36 @@ codex-django init myproject --dir sandbox   # custom output path
     <span class="n">explicit_languages</span> <span class="o">=</span> <span class="n">languages</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
     <span class="n">languages</span> <span class="o">=</span> <span class="n">_normalize_languages</span><span class="p">(</span><span class="n">languages</span><span class="p">)</span>
 
-    <span class="c1"># Explicit languages mean the caller wants the i18n layer enabled,</span>
-    <span class="c1"># even if they only passed a single language code.</span>
     <span class="k">if</span> <span class="n">enable_i18n</span> <span class="ow">or</span> <span class="n">explicit_languages</span><span class="p">:</span>
         <span class="n">enable_i18n</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="n">secret_key</span> <span class="o">=</span> <span class="n">generate_secret_key</span><span class="p">()</span>
+    <span class="n">field_encryption_key</span> <span class="o">=</span> <span class="n">generate_field_encryption_key</span><span class="p">()</span>
 
     <span class="n">engine</span> <span class="o">=</span> <span class="n">CLIEngine</span><span class="p">()</span>
     <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;project_name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
-        <span class="s2">&quot;secret_key&quot;</span><span class="p">:</span> <span class="n">token_urlsafe</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span>
+        <span class="s2">&quot;secret_key&quot;</span><span class="p">:</span> <span class="n">secret_key</span><span class="p">,</span>
         <span class="s2">&quot;enable_i18n&quot;</span><span class="p">:</span> <span class="n">enable_i18n</span><span class="p">,</span>
         <span class="s2">&quot;languages&quot;</span><span class="p">:</span> <span class="n">languages</span><span class="p">,</span>
         <span class="s2">&quot;with_cabinet&quot;</span><span class="p">:</span> <span class="n">with_cabinet</span><span class="p">,</span>
         <span class="s2">&quot;with_booking&quot;</span><span class="p">:</span> <span class="n">with_booking</span><span class="p">,</span>
-        <span class="s2">&quot;with_notifications&quot;</span><span class="p">:</span> <span class="n">with_notifications</span><span class="p">,</span>
     <span class="p">}</span>
 
-    <span class="c1"># 3. Scaffolding logic</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">code_only</span><span class="p">:</span>
-        <span class="c1"># Repo-level files (.gitignore, pyproject, README, .env.example, etc.)</span>
         <span class="n">engine</span><span class="o">.</span><span class="n">scaffold</span><span class="p">(</span><span class="s2">&quot;repo&quot;</span><span class="p">,</span> <span class="n">target_dir</span><span class="o">=</span><span class="n">project_root</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">)</span>
-        <span class="c1"># Minimal deploy scaffold (shared Dockerfiles only).</span>
-        <span class="c1"># For full Docker + CI/CD run: codex-django → Deployment Setup</span>
         <span class="n">deploy_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">project_root</span><span class="p">,</span> <span class="s2">&quot;deploy&quot;</span><span class="p">)</span>
         <span class="n">engine</span><span class="o">.</span><span class="n">scaffold</span><span class="p">(</span><span class="s2">&quot;deploy/shared&quot;</span><span class="p">,</span> <span class="n">target_dir</span><span class="o">=</span><span class="n">deploy_dir</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">)</span>
+        <span class="n">_write_project_env</span><span class="p">(</span>
+            <span class="n">project_root</span><span class="p">,</span>
+            <span class="n">name</span><span class="p">,</span>
+            <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">,</span>
+            <span class="n">secret_key</span><span class="o">=</span><span class="n">secret_key</span><span class="p">,</span>
+            <span class="n">field_encryption_key</span><span class="o">=</span><span class="n">field_encryption_key</span><span class="p">,</span>
+        <span class="p">)</span>
 
-    <span class="c1"># Scaffolding the Django core (project blueprint) into backend_dir</span>
     <span class="n">engine</span><span class="o">.</span><span class="n">scaffold</span><span class="p">(</span><span class="s2">&quot;project&quot;</span><span class="p">,</span> <span class="n">target_dir</span><span class="o">=</span><span class="n">backend_dir</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">)</span>
 
-    <span class="c1"># 3b. Feature blueprints</span>
     <span class="k">if</span> <span class="n">with_cabinet</span><span class="p">:</span>
         <span class="n">engine</span><span class="o">.</span><span class="n">scaffold</span><span class="p">(</span><span class="s2">&quot;features/client_cabinet&quot;</span><span class="p">,</span> <span class="n">target_dir</span><span class="o">=</span><span class="n">backend_dir</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
         <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;[green]  ✓[/green] Client Cabinet scaffolded&quot;</span><span class="p">)</span>
@@ -6008,67 +6097,88 @@ codex-django init myproject --dir sandbox   # custom output path
         <span class="n">engine</span><span class="o">.</span><span class="n">scaffold</span><span class="p">(</span><span class="s2">&quot;features/booking&quot;</span><span class="p">,</span> <span class="n">target_dir</span><span class="o">=</span><span class="n">backend_dir</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
         <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;[green]  ✓[/green] Booking (Advanced) scaffolded&quot;</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">with_notifications</span><span class="p">:</span>
-        <span class="n">engine</span><span class="o">.</span><span class="n">scaffold</span><span class="p">(</span>
-            <span class="s2">&quot;features/notifications/feature&quot;</span><span class="p">,</span> <span class="n">target_dir</span><span class="o">=</span><span class="n">backend_dir</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="p">{</span><span class="o">**</span><span class="n">context</span><span class="p">,</span> <span class="s2">&quot;app_name&quot;</span><span class="p">:</span> <span class="s2">&quot;system&quot;</span><span class="p">}</span>
-        <span class="p">)</span>
-        <span class="n">engine</span><span class="o">.</span><span class="n">scaffold</span><span class="p">(</span><span class="s2">&quot;features/notifications/arq&quot;</span><span class="p">,</span> <span class="n">target_dir</span><span class="o">=</span><span class="n">backend_dir</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="p">{</span><span class="o">**</span><span class="n">context</span><span class="p">,</span> <span class="s2">&quot;app_name&quot;</span><span class="p">:</span> <span class="s2">&quot;system&quot;</span><span class="p">})</span>
-        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;[green]  ✓[/green] Notifications scaffolded&quot;</span><span class="p">)</span>
+    <span class="c1"># Notifications are part of the base system layer for every project.</span>
+    <span class="n">engine</span><span class="o">.</span><span class="n">scaffold</span><span class="p">(</span>
+        <span class="s2">&quot;features/notifications/feature/models&quot;</span><span class="p">,</span>
+        <span class="n">target_dir</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">backend_dir</span><span class="p">,</span> <span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="s2">&quot;models&quot;</span><span class="p">),</span>
+        <span class="n">context</span><span class="o">=</span><span class="p">{</span><span class="o">**</span><span class="n">context</span><span class="p">,</span> <span class="s2">&quot;app_name&quot;</span><span class="p">:</span> <span class="s2">&quot;system&quot;</span><span class="p">},</span>
+    <span class="p">)</span>
+    <span class="n">engine</span><span class="o">.</span><span class="n">scaffold</span><span class="p">(</span>
+        <span class="s2">&quot;features/notifications/feature/selectors&quot;</span><span class="p">,</span>
+        <span class="n">target_dir</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">backend_dir</span><span class="p">,</span> <span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="s2">&quot;selectors&quot;</span><span class="p">),</span>
+        <span class="n">context</span><span class="o">=</span><span class="p">{</span><span class="o">**</span><span class="n">context</span><span class="p">,</span> <span class="s2">&quot;app_name&quot;</span><span class="p">:</span> <span class="s2">&quot;system&quot;</span><span class="p">},</span>
+    <span class="p">)</span>
+    <span class="n">engine</span><span class="o">.</span><span class="n">scaffold</span><span class="p">(</span>
+        <span class="s2">&quot;features/notifications/feature/services&quot;</span><span class="p">,</span>
+        <span class="n">target_dir</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">backend_dir</span><span class="p">,</span> <span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="s2">&quot;services&quot;</span><span class="p">),</span>
+        <span class="n">context</span><span class="o">=</span><span class="p">{</span><span class="o">**</span><span class="n">context</span><span class="p">,</span> <span class="s2">&quot;app_name&quot;</span><span class="p">:</span> <span class="s2">&quot;system&quot;</span><span class="p">},</span>
+    <span class="p">)</span>
+    <span class="n">engine</span><span class="o">.</span><span class="n">scaffold</span><span class="p">(</span>
+        <span class="s2">&quot;features/notifications/arq&quot;</span><span class="p">,</span>
+        <span class="n">target_dir</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">backend_dir</span><span class="p">,</span> <span class="s2">&quot;core&quot;</span><span class="p">,</span> <span class="s2">&quot;arq&quot;</span><span class="p">),</span>
+        <span class="n">context</span><span class="o">=</span><span class="p">{</span><span class="o">**</span><span class="n">context</span><span class="p">,</span> <span class="s2">&quot;app_name&quot;</span><span class="p">:</span> <span class="s2">&quot;system&quot;</span><span class="p">},</span>
+    <span class="p">)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;[green]  ✓[/green] Notifications scaffolded into [bold]system/ + core/arq/[/bold]&quot;</span><span class="p">)</span>
 
-    <span class="c1"># 4. Success message and instructions</span>
     <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">dev_mode</span><span class="p">:</span>
         <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[green]✓[/green] [bold]DEV MODE:[/bold] Scaffolded into [bold]</span><span class="si">{</span><span class="n">project_root</span><span class="si">}</span><span class="s2">[/bold]&quot;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">code_only</span><span class="p">:</span>
         <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[green]✓[/green] Core code [bold]</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">[/bold] injected into [bold]</span><span class="si">{</span><span class="n">backend_dir</span><span class="si">}</span><span class="s2">[/bold]&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">modules</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;base project&quot;</span><span class="p">]</span>
+        <span class="n">modules</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;base project&quot;</span><span class="p">,</span> <span class="s2">&quot;notifications&quot;</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">with_cabinet</span><span class="p">:</span>
             <span class="n">modules</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;cabinet&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">with_booking</span><span class="p">:</span>
             <span class="n">modules</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;booking&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">with_notifications</span><span class="p">:</span>
-            <span class="n">modules</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;notifications&quot;</span><span class="p">)</span>
         <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[green]✓[/green] Project [bold]</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">[/bold] initialized in [bold]</span><span class="si">{</span><span class="n">project_root</span><span class="si">}</span><span class="s2">[/bold]&quot;</span><span class="p">)</span>
         <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Modules: [cyan]</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">modules</span><span class="p">)</span><span class="si">}</span><span class="s2">[/cyan]&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">enable_i18n</span><span class="p">:</span>
+            <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+                <span class="s2">&quot;  [dim]i18n is enabled; even a single selected language uses translation-aware settings.[/dim]&quot;</span>
+            <span class="p">)</span>
 
     <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">code_only</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">dev_mode</span><span class="p">:</span>
         <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
-            <span class="s2">&quot;[dim]💡 Run [cyan]codex-django[/cyan] → &quot;</span>
-            <span class="s2">&quot;[cyan]Deployment Setup[/cyan] to generate full Docker + CI/CD[/dim]&quot;</span>
+            <span class="s2">&quot;[dim]Optional: run [cyan]codex-django[/cyan] -&gt; &quot;</span>
+            <span class="s2">&quot;[cyan]Deployment Setup[/cyan] later if you want Docker or CI/CD scaffolding.[/dim]&quot;</span>
         <span class="p">)</span>
     <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
-    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;[bold]Next steps:[/bold]&quot;</span><span class="p">)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;[bold]Next steps for your new project:[/bold]&quot;</span><span class="p">)</span>
 
     <span class="n">step</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">curr_dir_abs</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
     <span class="n">proj_root_abs</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">project_root</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">dev_mode</span> <span class="ow">and</span> <span class="n">proj_root_abs</span> <span class="o">!=</span> <span class="n">curr_dir_abs</span><span class="p">:</span>
-        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">step</span><span class="si">}</span><span class="s2">. [cyan]cd </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">proj_root_abs</span><span class="p">)</span><span class="si">}</span><span class="s2">[/cyan]&quot;</span><span class="p">)</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">step</span><span class="si">}</span><span class="s2">. [cyan]Open the project folder: cd </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">proj_root_abs</span><span class="p">)</span><span class="si">}</span><span class="s2">[/cyan]&quot;</span><span class="p">)</span>
         <span class="n">step</span> <span class="o">+=</span> <span class="mi">1</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">code_only</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">dev_mode</span><span class="p">:</span>
-        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">step</span><span class="si">}</span><span class="s2">. [cyan]python -m venv .venv[/cyan]&quot;</span><span class="p">)</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">step</span><span class="si">}</span><span class="s2">. [cyan]Create a virtual environment for this project: python -m venv .venv[/cyan]&quot;</span><span class="p">)</span>
         <span class="n">step</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">step</span><span class="si">}</span><span class="s2">. [cyan]source .venv/bin/activate[/cyan] (or .venv</span><span class="se">\\</span><span class="s2">Scripts</span><span class="se">\\</span><span class="s2">activate)&quot;</span><span class="p">)</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">step</span><span class="si">}</span><span class="s2">. [cyan]Activate it:[/cyan] source .venv/bin/activate [dim](Linux/macOS)[/dim] &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;or [cyan].venv</span><span class="se">\\</span><span class="s2">Scripts</span><span class="se">\\</span><span class="s2">activate[/cyan] [dim](Windows)[/dim]&quot;</span>
+        <span class="p">)</span>
         <span class="n">step</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">step</span><span class="si">}</span><span class="s2">. [cyan]pip install -e .[/cyan]&quot;</span><span class="p">)</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">step</span><span class="si">}</span><span class="s2">. [cyan]Install this project&#39;s dependencies: pip install -e .[/cyan]&quot;</span><span class="p">)</span>
         <span class="n">step</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">step</span><span class="si">}</span><span class="s2">. [cyan]cp .env.example .env[/cyan]&quot;</span><span class="p">)</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">step</span><span class="si">}</span><span class="s2">. [cyan]Review the generated .env file and adjust values like &quot;</span>
+            <span class="s2">&quot;ALLOWED_HOSTS or DATABASE_URL if needed.[/cyan]&quot;</span>
+        <span class="p">)</span>
         <span class="n">step</span> <span class="o">+=</span> <span class="mi">1</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">dev_mode</span><span class="p">:</span>
-        <span class="c1"># Use relative path for manage.py if possible</span>
         <span class="n">target</span> <span class="o">=</span> <span class="n">project_root</span> <span class="k">if</span> <span class="n">proj_root_abs</span> <span class="o">!=</span> <span class="n">curr_dir_abs</span> <span class="k">else</span> <span class="s2">&quot;.&quot;</span>
         <span class="n">manage_py_rel</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">relpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">backend_dir</span><span class="p">,</span> <span class="s2">&quot;manage.py&quot;</span><span class="p">),</span> <span class="n">target</span><span class="p">)</span>
-        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">step</span><span class="si">}</span><span class="s2">. [cyan]python </span><span class="si">{</span><span class="n">manage_py_rel</span><span class="si">}</span><span class="s2"> migrate[/cyan]&quot;</span><span class="p">)</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">step</span><span class="si">}</span><span class="s2">. [cyan]Apply database migrations: python </span><span class="si">{</span><span class="n">manage_py_rel</span><span class="si">}</span><span class="s2"> migrate[/cyan]&quot;</span><span class="p">)</span>
         <span class="n">step</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">step</span><span class="si">}</span><span class="s2">. [cyan]python </span><span class="si">{</span><span class="n">manage_py_rel</span><span class="si">}</span><span class="s2"> runserver[/cyan]&quot;</span><span class="p">)</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">step</span><span class="si">}</span><span class="s2">. [cyan]Start the development server: python </span><span class="si">{</span><span class="n">manage_py_rel</span><span class="si">}</span><span class="s2"> runserver[/cyan]&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="c1"># Dev mode instructions are simpler</span>
-        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">step</span><span class="si">}</span><span class="s2">. Run tests or check the structures in [bold]sandbox/[/bold]&quot;</span><span class="p">)</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">step</span><span class="si">}</span><span class="s2">. Review the scaffolded files in [bold]sandbox/[/bold] or run the test suite there.&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -6098,15 +6208,15 @@ codex-django init myproject --dir sandbox   # custom output path
         <h3 id="codex_django_cli.commands.notifications--handle_add_notifications">handle_add_notifications</h3>
 <p>CLI handler for the <code>codex-django add-notifications</code> command.</p>
 <p>Scaffolds notification infrastructure into the target project:</p>
-<p>features/{app_name}/
+<p>system/
     models/email_content.py
     selectors/email_content.py
     services/notification.py
   core/arq/
     client.py</p>
 <p>Usage (from project root)::</p>
-<pre><code>codex-django add-notifications --app system
-codex-django add-notifications --app system --arq-dir myapp/arq
+<pre><code>codex-django add-notifications
+codex-django add-notifications --arq-dir myapp/arq
 </code></pre>
 
 
@@ -6140,7 +6250,7 @@ codex-django add-notifications --app system --arq-dir myapp/arq
 
     <div class="doc doc-contents ">
 
-        <p>Scaffold notification feature files and an ARQ client.</p>
+        <p>Scaffold notification infrastructure into the shared system layer.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -6163,7 +6273,7 @@ codex-django add-notifications --app system --arq-dir myapp/arq
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Feature app that should receive notification files.</p>
+                <p>Reserved for backward compatibility. Notifications always live in <code>system</code>.</p>
               </div>
             </td>
             <td>
@@ -6237,25 +6347,47 @@ codex-django add-notifications --app system --arq-dir myapp/arq
 <span class="normal">56</span>
 <span class="normal">57</span>
 <span class="normal">58</span>
-<span class="normal">59</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">handle_add_notifications</span><span class="p">(</span><span class="n">app_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">base_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">arq_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Scaffold notification feature files and an ARQ client.</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">handle_add_notifications</span><span class="p">(</span><span class="n">app_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">base_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">arq_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Scaffold notification infrastructure into the shared system layer.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        app_name: Feature app that should receive notification files.</span>
+<span class="sd">        app_name: Reserved for backward compatibility. Notifications always live in ``system``.</span>
 <span class="sd">        base_dir: Project root directory.</span>
 <span class="sd">        arq_dir: Optional relative directory for the ARQ client scaffold.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">codex_django_cli.engine</span><span class="w"> </span><span class="kn">import</span> <span class="n">CLIEngine</span>
 
     <span class="n">engine</span> <span class="o">=</span> <span class="n">CLIEngine</span><span class="p">()</span>
-    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;app_name&quot;</span><span class="p">:</span> <span class="n">app_name</span><span class="p">}</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;app_name&quot;</span><span class="p">:</span> <span class="s2">&quot;system&quot;</span><span class="p">}</span>
 
-    <span class="c1"># --- Feature files ---</span>
-    <span class="n">feature_target</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_dir</span><span class="p">,</span> <span class="s2">&quot;features&quot;</span><span class="p">,</span> <span class="n">app_name</span><span class="p">)</span>
-    <span class="n">engine</span><span class="o">.</span><span class="n">scaffold</span><span class="p">(</span><span class="s2">&quot;features/notifications/feature&quot;</span><span class="p">,</span> <span class="n">target_dir</span><span class="o">=</span><span class="n">feature_target</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
-    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[green]✓[/green] Notification feature scaffolded → [bold]features/</span><span class="si">{</span><span class="n">app_name</span><span class="si">}</span><span class="s2">/[/bold]&quot;</span><span class="p">)</span>
+    <span class="n">engine</span><span class="o">.</span><span class="n">scaffold</span><span class="p">(</span>
+        <span class="s2">&quot;features/notifications/feature/models&quot;</span><span class="p">,</span>
+        <span class="n">target_dir</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_dir</span><span class="p">,</span> <span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="s2">&quot;models&quot;</span><span class="p">),</span>
+        <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">engine</span><span class="o">.</span><span class="n">scaffold</span><span class="p">(</span>
+        <span class="s2">&quot;features/notifications/feature/selectors&quot;</span><span class="p">,</span>
+        <span class="n">target_dir</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_dir</span><span class="p">,</span> <span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="s2">&quot;selectors&quot;</span><span class="p">),</span>
+        <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">engine</span><span class="o">.</span><span class="n">scaffold</span><span class="p">(</span>
+        <span class="s2">&quot;features/notifications/feature/services&quot;</span><span class="p">,</span>
+        <span class="n">target_dir</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_dir</span><span class="p">,</span> <span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="s2">&quot;services&quot;</span><span class="p">),</span>
+        <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;[green]✓[/green] Notification layer scaffolded → [bold]system/[/bold]&quot;</span><span class="p">)</span>
 
-    <span class="c1"># --- ARQ client ---</span>
     <span class="n">arq_target</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_dir</span><span class="p">,</span> <span class="n">arq_dir</span><span class="p">)</span> <span class="k">if</span> <span class="n">arq_dir</span> <span class="k">else</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_dir</span><span class="p">,</span> <span class="s2">&quot;core&quot;</span><span class="p">,</span> <span class="s2">&quot;arq&quot;</span><span class="p">)</span>
     <span class="n">engine</span><span class="o">.</span><span class="n">scaffold</span><span class="p">(</span><span class="s2">&quot;features/notifications/arq&quot;</span><span class="p">,</span> <span class="n">target_dir</span><span class="o">=</span><span class="n">arq_target</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
     <span class="n">arq_rel</span> <span class="o">=</span> <span class="n">arq_dir</span> <span class="ow">or</span> <span class="s2">&quot;core/arq&quot;</span>
@@ -6263,10 +6395,10 @@ codex-django add-notifications --app system --arq-dir myapp/arq
 
     <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
     <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;[bold]Next steps:[/bold]&quot;</span><span class="p">)</span>
-    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  1. Add [cyan]EmailContent[/cyan] to your admin in features/</span><span class="si">{</span><span class="n">app_name</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;  1. Register [cyan]EmailContent[/cyan] in [cyan]system/admin[/cyan]&quot;</span><span class="p">)</span>
     <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;  2. Run [cyan]python manage.py makemigrations[/cyan]&quot;</span><span class="p">)</span>
-    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;  3. Set [cyan]ARQ_REDIS_URL[/cyan] in your Django settings&quot;</span><span class="p">)</span>
-    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;  4. Add event methods to [cyan]NotificationService[/cyan]&quot;</span><span class="p">)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;  3. Set [cyan]ARQ_REDIS_URL[/cyan] in your project settings&quot;</span><span class="p">)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;  4. Reuse [cyan]NotificationService[/cyan] from features like booking, forms, or other workflows&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
