@@ -121,8 +121,4 @@ That means the repository has two different architectural dimensions:
 
 This difference is strong enough that CLI should keep its own documentation tree from this point onward.
 
-## See Also
 
-- [cabinet overview](../cabinet.md)
-- [booking overview](../booking.md)
-- [system overview](../system.md)

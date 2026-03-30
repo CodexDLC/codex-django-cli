@@ -36,6 +36,15 @@ class TestHandleInitIntegration:
         assert (settings_dir / "dev.py").exists()
         assert (settings_dir / "prod.py").exists()
 
+    def test_i18n_init_adds_set_language_route_to_non_prefixed_urls(self, tmp_path: Path):
+        handle_init("myproject", str(tmp_path), enable_i18n=True, languages=["en", "ru"])
+
+        urls_file = tmp_path / "myproject" / "src" / "myproject" / "core" / "urls.py"
+        content = urls_file.read_text(encoding="utf-8")
+
+        assert 'path("i18n/", include("django.conf.urls.i18n"))' in content
+        assert "urlpatterns += i18n_patterns(" in content
+
     def test_renders_system_app_config(self, tmp_path: Path):
         handle_init("blog_platform", str(tmp_path))
 

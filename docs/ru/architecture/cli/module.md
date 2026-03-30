@@ -121,8 +121,4 @@ CLI это construction-layer внутри `codex-django`.
 
 Эта разница уже достаточно сильна, чтобы дальше вести документацию CLI отдельно.
 
-## См. Также
 
-- [обзор cabinet](../cabinet.md)
-- [обзор booking](../booking.md)
-- [обзор system](../system.md)

@@ -21,6 +21,9 @@ handler400 = "system.views.errors.handler400"
 # Non-prefixed patterns (API, technical files)
 urlpatterns: list[Any] = [
     path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="django.contrib.sitemaps.views.sitemap"),
+{%- if enable_i18n %}
+    path("i18n/", include("django.conf.urls.i18n")),
+{%- endif %}
     # System files in root
     path(
         "robots.txt",

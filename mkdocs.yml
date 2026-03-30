@@ -2,9 +2,36 @@ site_name: codex-django-cli
 site_description: CLI scaffolding and blueprint package for codex-django
 site_author: Codex Team
 docs_dir: docs
+site_url: https://codexdlc.github.io/codex-django-cli/
 
 theme:
   name: material
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.breadcrumbs
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: teal
+      accent: cyan
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: teal
+      accent: cyan
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
 
 extra:
   version:
@@ -22,6 +49,10 @@ plugins:
             docstring_style: google
             show_source: true
             show_root_heading: true
+            show_category_heading: true
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
+            members_order: source
 
 extra_css:
   - stylesheets/extra.css
@@ -29,12 +60,19 @@ extra_css:
 extra_javascript:
   - javascripts/mermaid.js
 
+markdown_extensions:
+  - admonition
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
 nav:
   - Home: index.md
   - Guide (EN):
+      - Overview: en/README.md
       - Getting Started: en/getting-started.md
-      - Installation Modes: en/guides/installation-modes.md
-      - Runtime vs CLI: en/guides/runtime-vs-cli.md
       - Blueprints: en/guides/blueprints-and-scaffolding.md
       - Architecture:
           - Overview: en/architecture/cli/README.md
@@ -44,13 +82,9 @@ nav:
           - Engine: en/architecture/cli/engine.md
           - Commands: en/architecture/cli/commands.md
           - Project Output: en/architecture/cli/project-output.md
-      - API:
-          - Public: en/api/cli.md
-          - Internal: en/api/internal/cli.md
-  - Guide (RU):
+  - Руководство (RU):
+      - Обзор: ru/README.md
       - Быстрый старт: ru/getting-started.md
-      - Режимы установки: ru/guides/installation-modes.md
-      - Runtime и CLI: ru/guides/runtime-vs-cli.md
       - Blueprints: ru/guides/blueprints-and-scaffolding.md
       - Архитектура:
           - Обзор: ru/architecture/cli/README.md
@@ -60,5 +94,7 @@ nav:
           - Engine: ru/architecture/cli/engine.md
           - Commands: ru/architecture/cli/commands.md
           - Project Output: ru/architecture/cli/project-output.md
+  - API Reference:
+      - Public API: en/api/cli.md
+      - Internal Modules: en/api/internal/cli.md
   - Changelog: changelog.md
-  - Roadmap: evolution/roadmap.md

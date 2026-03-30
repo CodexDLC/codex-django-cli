@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.4] - 2026-03-30
+
+### Changed
+- **Documentation**: Updated and reorganized the documentation in both English and Russian.
+- **Styling**: Minor updates to the documentation stylesheets.
+- **Templates**: Updated the `urls.py.j2` template.
+- **Tests**: Updated integration tests.
+
 ## [0.2.3] - 2026-03-30
 
 ### Changed

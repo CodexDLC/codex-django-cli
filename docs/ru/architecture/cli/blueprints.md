@@ -149,5 +149,3 @@ Menus, commands и prompts могут меняться, но именно bluepr
 ## См. Также
 
 - [CLI module](./module.md)
-- [обзор cabinet](../cabinet.md)
-- [обзор booking](../booking.md)

@@ -1,68 +1,70 @@
 <!-- DOC_TYPE: GUIDE -->
 
-> This repository documents the standalone `codex-django-cli` package. It installs `codex-django` as a runtime dependency.
+> This repository documents the standalone `codex-django-cli` package. It provides project scaffolding and blueprints.
 
 # Getting Started
 
-## Install The Library
+## Why not `django-admin startproject`?
 
-Choose the smallest dependency set that matches your project:
+Unlike Django's default utility which creates an entirely empty structure, `codex-django` generates a fully production-ready architecture:
+- **Modern Frontend Stack:** Comes pre-wired with **HTMX 2.x** and **Alpine.js**, modular CSS, and base themes.
+- **Ready-to-use Core/System:** Includes pre-configured ASGI, Redis, standard notifications, SEO mixins, and a generated `.env` file with Fernet encryption keys.
+- **Interactive Menu:** You don't need to memorize long CLI flags. Run `codex-django menu` to interactively launch wizards for initializing projects, adding features, or creating Docker/CI files.
+
+## Install The CLI
+
+Install the CLI globally using `uv` (recommended):
 
 ```bash
-pip install codex-django
-pip install "codex-django[notifications]"
-pip install "codex-django[django-redis]"
-pip install "codex-django[all]"
+uv tool install codex-django-cli
 ```
 
-`codex-django` requires Python 3.12+ and Django 5+.
+Or using classic `pip`:
+
+```bash
+pip install codex-django-cli
+```
+
+`codex-django-cli` requires Python 3.12+.
 
 ## Scaffold A New Project
 
-The fastest path is the CLI:
+The CLI registers the `codex-django` command. You can use the interactive menu or pass explicit flags for automation:
 
 ```bash
-codex-django init myproject
+# 1. Interactive wizard
+codex-django menu
+
+# 2. Fast path with explicit flags for power users:
+codex-django init myproject --i18n --languages en,ru --with-cabinet --with-booking
 cd myproject
-python -m venv .venv
-.venv\Scripts\activate
+# Make sure you are in a dedicated virtual environment
 pip install -e .
 python src/myproject/manage.py migrate
-python src/myproject/manage.py runserver
+python src/myproject/manage.py runserver_plus
 ```
 
-The interactive entrypoint is also available:
+> [!IMPORTANT]
+> **The `codex-django` Dependency**: The `pip install -e .` step is critical! It downloads and installs the core `codex-django` runtime library. The `codex-django-cli` only generates the scaffolding (the architectural wiring). The actual engine that powers HTMX responses, Cabinet templates, notifications, and SEO lives inside `codex-django`. **Without it, your scaffolded project will not work.**
+
+The interactive menu is also accessible simply by typing `codex-django`. It is incredibly useful when you want to choose i18n modes, set up specific language codes, or toggle optional modules without memorizing flags. But if you know what you want, the explicit flags are the fastest way.
+
+If you already have a scaffolded project, extend it incrementally using the CLI menu:
 
 ```bash
-codex-django
+codex-django menu
+# -> Choose "🧩  Scaffolding (Apps/Modules)"
+# -> Select project target
+# -> Choose "Basic app", "Client Cabinet", or "Booking"
 ```
 
-That menu is useful when you want to choose i18n mode, language codes, or optional modules without memorizing flags.
+The scaffolding engine generates files and prints the exact follow-up steps you need to wire them into the core `settings.py`, `urls.py`, and `admin.py`.
 
-## Add Optional Modules Later
+## Typical Development Loop for the CLI
 
-If you already have a scaffolded project, extend it incrementally:
-
-```bash
-codex-django add-client-cabinet --project myproject
-codex-django add-booking --project myproject
-codex-django add-notifications --app system --project myproject
-```
-
-Each command scaffolds files and then prints the project-specific follow-up steps you need to wire into settings, admin, migrations, and URLs.
-
-## Typical Development Loop
+If you are developing the CLI itself, use standard `uv` commands:
 
 ```bash
 uv sync --extra dev
-uv run pytest
-uv run mypy src/
-uv run python tools/dev/check.py --lint
-uv build --no-sources
+uv run python tools/dev/check.py
 ```
-
-## Where To Go Next
-
-- Read the architecture section if you need module boundaries and design rationale.
-- Read the module guides if you want practical setup checklists.
-- Read the API reference if you already know which package you need to import.

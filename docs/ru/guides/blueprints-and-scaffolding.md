@@ -8,7 +8,7 @@
 
 Типичный flow:
 
-1. Вы выбираете команду вроде `init`, `add-client-cabinet`, `add-booking` или `add-notifications`.
+1. Вы выбираете команду вроде `init`, `add-client-cabinet` или `add-booking`.
 2. Команда определяет нужное blueprint family.
 3. `CLIEngine` рендерит шаблоны и копирует static assets в target project.
 4. Команда печатает follow-up шаги, которые еще нужно применить вручную.
@@ -40,6 +40,5 @@ Blueprint tree в CLI организован по типу результата:
 ## Связанные Страницы
 
 - [Getting Started](../getting-started.md)
-- [Структура проекта](./project-structure.md)
 - [CLI Architecture](../architecture/cli/README.md)
 - [CLI Blueprints](../architecture/cli/blueprints.md)

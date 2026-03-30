@@ -81,11 +81,12 @@ Full docs with project structure, scaffold workflow, architecture, and API refer
 
 | Package | Role |
 | :--- | :--- |
-| [codex-core](https://github.com/CodexDLC/codex-core) | Foundation — DTOs, settings, logging, and shared developer tooling. |
-| [codex-platform](https://github.com/CodexDLC/codex-platform) | Infrastructure — Redis, streams, workers, notifications, and runtime platform services. |
-| [codex-services](https://github.com/CodexDLC/codex-services) | Business logic — reusable booking and service-layer engines. |
-| [codex-django](https://github.com/CodexDLC/codex-django) | Django runtime layer — reusable apps, mixins, i18n, SEO, and framework integrations. |
-| **codex-django-cli** | Project assembly layer — CLI scaffolding, blueprints, and bootstrap workflows for Codex Django projects. |
+| [codex-core](https://github.com/codexdlc/codex-core) | Foundation — immutable DTOs, PII masking, env settings |
+| [codex-platform](https://github.com/codexdlc/codex-platform) | Infrastructure — Redis, Streams, ARQ workers, Notifications |
+| [codex-ai](https://github.com/codexdlc/codex-ai) | LLM layer — unified async interface for OpenAI, Gemini, Anthropic |
+| [codex-services](https://github.com/codexdlc/codex-services) | Business logic — Booking engine, CRM, Calendar |
 
-Each library is fully standalone where appropriate.
-Together, `codex-django` and `codex-django-cli` provide the runtime layer and project assembly workflow for Codex-based Django applications.
+Each library is **fully standalone** — install only what your project needs.
+Together they form the backbone of **[codex-bot](https://github.com/codexdlc/codex-bot)**
+(Telegram AI-agent infrastructure built on aiogram) and
+**codex-django** (Django integration layer and scaffolding toolkit).

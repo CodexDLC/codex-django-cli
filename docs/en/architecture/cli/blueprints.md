@@ -146,8 +146,4 @@ Menus, commands, and prompts may evolve, but the blueprint families define the l
 That is why blueprint documentation is important even if the CLI later becomes its own package:
 the blueprints encode the actual shape of the generated ecosystem.
 
-## See Also
 
-- [CLI module](./module.md)
-- [cabinet overview](../cabinet.md)
-- [booking overview](../booking.md)

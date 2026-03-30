@@ -1,68 +1,70 @@
 <!-- DOC_TYPE: GUIDE -->
 
-> Этот репозиторий документирует отдельный пакет `codex-django-cli`. Runtime-пакет `codex-django` ставится как его зависимость.
+> Этот репозиторий документирует пакет `codex-django-cli`. Он предоставляет леса (scaffolding) и блюпринты для инициализации проектов.
 
 # Быстрый старт
 
-## Установка библиотеки
+## Почему не `django-admin startproject`?
 
-Выбирайте минимальный набор зависимостей под ваш проект:
+В отличие от стандартной утилиты Django, которая создает абсолютно пустую структуру, `codex-django` генерирует полноценную архитектуру, готовую к production:
+- **Современный Frontend:** Сразу подключены **HTMX 2.x** и **Alpine.js**, настроена компиляция CSS и модульная статика.
+- **Готовое Ядро (Core/System):** Преднастроенные ASGI, Redis, система нотификаций, базовые шаблоны кабинета и SEO.
+- **Интерактивное Меню:** Вам не нужно зубрить флаги. Основная работа идет через визуальное меню `codex-django menu`, включая `init`, добавление фичей и генерацию Docker/CI конфигураций.
+
+## Установка CLI
+
+Установите инструмент глобально через `uv` (рекомендуется):
 
 ```bash
-pip install codex-django
-pip install "codex-django[notifications]"
-pip install "codex-django[django-redis]"
-pip install "codex-django[all]"
+uv tool install codex-django-cli
 ```
 
-`codex-django` требует Python 3.12+ и Django 5+.
+Либо классическая установка через `pip`:
+
+```bash
+pip install codex-django-cli
+```
+
+`codex-django-cli` требует Python 3.12+.
 
 ## Создание нового проекта
 
-Самый быстрый путь это CLI:
+Пакет регистрирует команду `codex-django`. Вы можете запустить интерактивное меню или развернуть проект сразу со всеми флагами:
 
 ```bash
-codex-django init myproject
+# 1. Интерактивное меню (мастер настройки)
+codex-django menu
+
+# 2. Быстрый путь для опытных пользователей (с флагами):
+codex-django init myproject --i18n --languages en,ru --with-cabinet --with-booking
 cd myproject
-python -m venv .venv
-.venv\Scripts\activate
+# Убедитесь, что вы работаете в виртуальном окружении
 pip install -e .
 python src/myproject/manage.py migrate
-python src/myproject/manage.py runserver
+python src/myproject/manage.py runserver_plus
 ```
 
-Также можно зайти через интерактивное меню:
+> [!IMPORTANT]
+> **Связь с библиотекой `codex-django`**: Команда `pip install -e .` критически важна! Она скачивает и устанавливает основную библиотеку-рантайм `codex-django`. Сам `codex-django-cli` — это лишь генератор каркаса. Реальная логика (HTMX-ответы, шаблоны кабинета, нотификации, SEO-база) живет именно в `codex-django`. **Без неё ваш сгенерированный проект работать не будет.**
+
+Меню `codex-django menu` (или просто `codex-django`) особенно удобно, если вы хотите выбрать i18n-режим, коды языков и optional modules без запоминания флагов. Но если вы опытный пользователь, явные флаги — самый быстрый путь.
+
+Если проект уже создан, добавляйте новые модули интерактивно:
 
 ```bash
-codex-django
+codex-django menu
+# -> Выберите "🧩  Scaffolding (Apps/Modules)"
+# -> Выберите целевой проект
+# -> Выбирайте "Basic app", "Client Cabinet" или "Booking"
 ```
 
-Меню особенно удобно, если вы хотите выбрать i18n-режим, коды языков и optional modules без запоминания флагов.
+Генератор создаст нужные файлы и напечатает точные шаги по подключению в `settings.py`, `urls.py` и `admin.py`.
 
-## Подключение модулей позже
+## Разработка самого CLI
 
-Если scaffold проекта уже есть, добавляйте модули по одному:
-
-```bash
-codex-django add-client-cabinet --project myproject
-codex-django add-booking --project myproject
-codex-django add-notifications --app system --project myproject
-```
-
-Каждая команда создает файлы и затем печатает точные follow-up шаги для settings, admin, migrations и URLs.
-
-## Типичный цикл разработки
+При участии в разработке самого CLI (contributing):
 
 ```bash
 uv sync --extra dev
-uv run pytest
-uv run mypy src/
-uv run python tools/dev/check.py --lint
-uv build --no-sources
+uv run python tools/dev/check.py
 ```
-
-## Что читать дальше
-
-- Архитектурный раздел, если нужна карта модулей и их границ.
-- Гайды по модулям, если нужны практические шаги подключения.
-- API reference, если вы уже знаете, какой пакет хотите импортировать.

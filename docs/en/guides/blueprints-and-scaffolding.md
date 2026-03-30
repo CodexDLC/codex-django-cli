@@ -8,7 +8,7 @@ Every major CLI command translates a developer intention into one or more bluepr
 
 Typical flow:
 
-1. Choose a command such as `init`, `add-client-cabinet`, `add-booking`, or `add-notifications`.
+1. Choose a command such as `init`, `add-client-cabinet`, or `add-booking`.
 2. The command resolves the relevant blueprint family.
 3. `CLIEngine` renders templates and copies static assets into the target project.
 4. The command prints follow-up integration steps you still need to apply manually.
@@ -40,6 +40,5 @@ It is also a project-construction framework, so the blueprint workflow is part o
 ## Related Pages
 
 - [Getting Started](../getting-started.md)
-- [Project Structure](./project-structure.md)
 - [CLI Architecture](../architecture/cli/README.md)
 - [CLI Blueprints](../architecture/cli/blueprints.md)
