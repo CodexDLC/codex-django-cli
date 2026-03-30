@@ -31,7 +31,7 @@ def main(args: list[str] | None = None, forced_project: str | None = None) -> in
     if args is None:
         args = sys.argv[1:]
 
-    # Handle 'menu' subcommand (e.g. from manage.py menu)
+    # Handle explicit CLI menu alias.
     if args and args[0] == "menu":
         args = args[1:]
         if not args:
@@ -131,6 +131,9 @@ def _project_menu(forced_project: str | None = None) -> int:
 
     if not action or action == "❌  Exit":
         return 0
+
+    if action == "🆕  Init new project":
+        return _init_wizard()
 
     if action == "🚀  Standard Commands":
         return _handle_standard_commands()

@@ -53,6 +53,7 @@ def ask_project_action() -> str | None:
         questionary.select(
             "Codex Project Menu",
             choices=[
+                "🆕  Init new project",
                 "🚀  Standard Commands",
                 "🧩  Scaffolding (Apps/Modules)",
                 "🛡  Quality & Tools",

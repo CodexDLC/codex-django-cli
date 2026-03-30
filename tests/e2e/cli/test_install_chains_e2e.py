@@ -24,6 +24,11 @@ def _assert_generated_structure(project_root: Path) -> Path:
     assert (backend_root / "system").is_dir(), "system package missing"
     assert (backend_root / "cabinet").is_dir(), "cabinet package missing"
     assert (backend_root / "features" / "main" / "apps.py").exists(), "features.main app is missing"
+    manage_content = (backend_root / "manage.py").read_text(encoding="utf-8")
+    assert "codex_django.cli.main" not in manage_content
+    assert 'sys.argv[1] == "menu"' not in manage_content
+    assert "forced_project" not in manage_content
+    assert "execute_from_command_line(sys.argv)" in manage_content
 
     return backend_root
 

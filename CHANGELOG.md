@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.3] - 2026-03-30
+
+### Changed
+- **CLI/runtime boundary**: Removed the generated `manage.py` bridge into the CLI so scaffolded Django projects keep `python manage.py ...` as a pure runtime entrypoint, while `codex-django ...` remains the separate scaffolding tool.
+- **Project-local CLI flow**: Added an explicit `Init new project` action to the project-local CLI menu so creating another project instance no longer depends on any runtime menu coupling.
+- **Architecture docs alignment**: Updated English and Russian CLI architecture guides to document the hard separation between runtime management commands and scaffolding entrypoints.
+
+### Added
+- **E2E boundary checks**: Added end-to-end assertions that generated `manage.py` files do not import the CLI bridge and remain plain Django management entrypoints.
+
 ## [0.2.2] - 2026-03-30
 
 ### Added

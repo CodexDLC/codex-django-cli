@@ -7,12 +7,12 @@
 This page explains how users actually enter the CLI system.
 If `commands` define the semantic operations and `engine` performs generation, entrypoints define how control reaches those layers in the first place.
 
-In `codex_django.cli`, entrypoints are more important than they first appear because the tool supports multiple interaction modes:
+In `codex_django_cli`, entrypoints are more important than they first appear because the tool supports multiple interaction modes:
 
 - direct CLI invocation
 - interactive menu mode
 - scripted subcommand mode
-- project-local invocation through generated `manage.py`
+- project-local invocation through `codex-django` CLI while standing in a generated project directory
 
 So the entrypoint layer is not just a thin wrapper.
 It defines the CLI's operating modes.
@@ -79,22 +79,15 @@ Architecturally, this makes the tool hybrid:
 - human-friendly in interactive mode
 - automation-friendly in scripted mode
 
-## Project-Local Entry Through Generated `manage.py`
+## Runtime Boundary
 
-One of the most interesting entrypoints is not in the CLI package itself, but in the generated project output.
+Generated Django projects own runtime commands (`python manage.py ...`) and keep them inside Django management command modules.
+The CLI package remains a separate developer tool (`codex-django ...`) for scaffolding and maintenance automation.
 
-The scaffolded `manage.py` intercepts:
+This boundary keeps responsibilities clean:
 
-- empty invocation
-- `menu`
-
-and redirects those cases into `codex_django.cli.main`.
-
-This effectively embeds the CLI into the generated project lifecycle.
-The project is not only created by the CLI; it can continue to expose the CLI as a local maintenance surface after generation.
-
-That is a strong architectural choice.
-It turns the CLI into an ongoing project companion, not just a one-time bootstrap tool.
+- runtime commands execute in the app process
+- CLI commands assemble and evolve project structure
 
 ## Operating Model
 
@@ -111,7 +104,7 @@ This means entrypoints are responsible for mode selection, not for business logi
 
 ```mermaid
 flowchart TD
-    A["User runs codex-django or manage.py"] --> B["main.py or generated manage.py bridge"]
+    A["User runs codex-django"] --> B["codex_django_cli.main"]
     B --> C["detect args and context"]
     C --> D["interactive menu path"]
     C --> E["legacy subcommand path"]

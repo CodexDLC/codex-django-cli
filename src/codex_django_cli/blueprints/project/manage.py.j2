@@ -17,13 +17,6 @@ def main():
             sys.path.insert(0, path)
 
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "{{ project_name }}.core.settings.dev")
-    # Intercept 'menu' command or empty arguments for interactive experience
-    if len(sys.argv) == 1 or (len(sys.argv) > 1 and sys.argv[1] == "menu"):
-        try:
-            from codex_django.cli.main import main as cli_main
-            sys.exit(cli_main([], forced_project=os.path.basename(project_dir)))
-        except ImportError:
-            pass
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

@@ -29,10 +29,10 @@ Runtime-слой это то, что Django-приложение реально 
 
 CLI-слой это то, чем разработчик создает и развивает структуру проекта:
 
-- `codex_django.cli.main`
-- command handlers в `codex_django.cli.commands`
-- blueprint trees в `codex_django.cli.blueprints`
-- rendering logic в `codex_django.cli.engine`
+- `codex_django_cli.main`
+- command handlers в `codex_django_cli.commands`
+- blueprint trees в `codex_django_cli.blueprints`
+- rendering logic в `codex_django_cli.engine`
 
 Этот слой отвечает за generation, orchestration и project assembly.
 

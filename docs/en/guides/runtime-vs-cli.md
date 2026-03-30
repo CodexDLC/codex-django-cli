@@ -29,10 +29,10 @@ These modules define reusable models, mixins, selectors, adapters, Redis helpers
 
 The CLI layer is what developers use to create and evolve project structure:
 
-- `codex_django.cli.main`
-- command handlers under `codex_django.cli.commands`
-- blueprint trees under `codex_django.cli.blueprints`
-- rendering logic in `codex_django.cli.engine`
+- `codex_django_cli.main`
+- command handlers under `codex_django_cli.commands`
+- blueprint trees under `codex_django_cli.blueprints`
+- rendering logic in `codex_django_cli.engine`
 
 This layer is about generation, orchestration, and project assembly.
 

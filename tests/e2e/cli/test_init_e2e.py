@@ -26,6 +26,11 @@ def test_init_creates_project_structure(sterile_env: dict):
     project_dir = work_dir / "testproject" / "src" / "testproject"
     assert project_dir.is_dir()
     assert (project_dir / "manage.py").exists()
+    manage_content = (project_dir / "manage.py").read_text(encoding="utf-8")
+    assert "codex_django.cli.main" not in manage_content
+    assert 'sys.argv[1] == "menu"' not in manage_content
+    assert "forced_project" not in manage_content
+    assert "execute_from_command_line(sys.argv)" in manage_content
     assert (project_dir / "core").is_dir()
     assert (project_dir / "system").is_dir()
     assert (project_dir / "cabinet").is_dir()

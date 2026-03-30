@@ -315,6 +315,29 @@ def test_project_menu_standard_commands_back():
 
 
 @pytest.mark.unit
+def test_project_menu_init_new_project(tmp_path: Path):
+    with (
+        patch("codex_django_cli.main._is_in_project", return_value=True),
+        patch.object(prompts_module, "ask_project_action", return_value="🆕  Init new project"),
+        patch.object(prompts_module, "ask_project_name", return_value="project_two"),
+        patch.object(prompts_module, "ask_init_mode", return_value="⚡  Standard"),
+        patch.object(prompts_module, "ask_enable_i18n", return_value=False),
+        patch("codex_django_cli.main.os.getcwd", return_value=str(tmp_path)),
+        patch("codex_django_cli.commands.init.handle_init") as mock_handle,
+    ):
+        assert _interactive_menu() == 0
+        mock_handle.assert_called_once_with(
+            "project_two",
+            str(tmp_path),
+            target_dir=str(tmp_path),
+            overwrite=False,
+            enable_i18n=False,
+            with_cabinet=False,
+            with_booking=False,
+        )
+
+
+@pytest.mark.unit
 def test_project_menu_standard_commands_migrate():
     with (
         patch("codex_django_cli.main._is_in_project", return_value=True),
