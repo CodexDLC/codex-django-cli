@@ -616,10 +616,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#project-local-entry-through-generated-managepy" class="md-nav__link">
+  <a href="#runtime-boundary" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Project-Local Entry Through Generated manage.py
+        Runtime Boundary
       
     </span>
   </a>
@@ -1481,10 +1481,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#project-local-entry-through-generated-managepy" class="md-nav__link">
+  <a href="#runtime-boundary" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Project-Local Entry Through Generated manage.py
+        Runtime Boundary
       
     </span>
   </a>
@@ -1569,12 +1569,12 @@
 <h2 id="purpose">Purpose</h2>
 <p>This page explains how users actually enter the CLI system.
 If <code>commands</code> define the semantic operations and <code>engine</code> performs generation, entrypoints define how control reaches those layers in the first place.</p>
-<p>In <code>codex_django.cli</code>, entrypoints are more important than they first appear because the tool supports multiple interaction modes:</p>
+<p>In <code>codex_django_cli</code>, entrypoints are more important than they first appear because the tool supports multiple interaction modes:</p>
 <ul>
 <li>direct CLI invocation</li>
 <li>interactive menu mode</li>
 <li>scripted subcommand mode</li>
-<li>project-local invocation through generated <code>manage.py</code></li>
+<li>project-local invocation through <code>codex-django</code> CLI while standing in a generated project directory</li>
 </ul>
 <p>So the entrypoint layer is not just a thin wrapper.
 It defines the CLI's operating modes.</p>
@@ -1630,18 +1630,14 @@ It means the CLI is not locked into human-driven menu flows.</p>
 <li>human-friendly in interactive mode</li>
 <li>automation-friendly in scripted mode</li>
 </ul>
-<h2 id="project-local-entry-through-generated-managepy">Project-Local Entry Through Generated <code>manage.py</code></h2>
-<p>One of the most interesting entrypoints is not in the CLI package itself, but in the generated project output.</p>
-<p>The scaffolded <code>manage.py</code> intercepts:</p>
+<h2 id="runtime-boundary">Runtime Boundary</h2>
+<p>Generated Django projects own runtime commands (<code>python manage.py ...</code>) and keep them inside Django management command modules.
+The CLI package remains a separate developer tool (<code>codex-django ...</code>) for scaffolding and maintenance automation.</p>
+<p>This boundary keeps responsibilities clean:</p>
 <ul>
-<li>empty invocation</li>
-<li><code>menu</code></li>
+<li>runtime commands execute in the app process</li>
+<li>CLI commands assemble and evolve project structure</li>
 </ul>
-<p>and redirects those cases into <code>codex_django.cli.main</code>.</p>
-<p>This effectively embeds the CLI into the generated project lifecycle.
-The project is not only created by the CLI; it can continue to expose the CLI as a local maintenance surface after generation.</p>
-<p>That is a strong architectural choice.
-It turns the CLI into an ongoing project companion, not just a one-time bootstrap tool.</p>
 <h2 id="operating-model">Operating Model</h2>
 <p>Putting these pieces together, the entrypoint system follows this model:</p>
 <ol>
@@ -1653,7 +1649,7 @@ It turns the CLI into an ongoing project companion, not just a one-time bootstra
 <p>This means entrypoints are responsible for mode selection, not for business logic.</p>
 <h2 id="runtime-flow">Runtime Flow</h2>
 <pre><code class="language-mermaid">flowchart TD
-    A[&quot;User runs codex-django or manage.py&quot;] --&gt; B[&quot;main.py or generated manage.py bridge&quot;]
+    A[&quot;User runs codex-django&quot;] --&gt; B[&quot;codex_django_cli.main&quot;]
     B --&gt; C[&quot;detect args and context&quot;]
     C --&gt; D[&quot;interactive menu path&quot;]
     C --&gt; E[&quot;legacy subcommand path&quot;]
