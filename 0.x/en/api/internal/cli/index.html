@@ -12,11 +12,13 @@
         <meta name="author" content="Codex Team">
       
       
+        <link rel="canonical" href="https://codexdlc.github.io/codex-django-cli/0.x/en/api/internal/cli/">
+      
       
         <link rel="prev" href="../../cli/">
       
       
-        <link rel="next" href="../../../../ru/getting-started/">
+        <link rel="next" href="../../../../changelog/">
       
       
         
@@ -27,11 +29,14 @@
     
     
       
-        <title>Internal - codex-django-cli</title>
+        <title>Internal Modules - codex-django-cli</title>
       
     
     
       <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -63,7 +68,14 @@
   </head>
   
   
-    <body dir="ltr">
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="cyan">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -90,7 +102,7 @@
 
   
 
-<header class="md-header md-header--shadow" data-md-component="header">
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="../../../.." title="codex-django-cli" class="md-header__button md-logo" aria-label="codex-django-cli" data-md-component="logo">
       
@@ -112,12 +124,38 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Internal
+              Internal Modules
             
           </span>
         </div>
       </div>
     </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="cyan"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="cyan"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
     
     
       <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
@@ -149,6 +187,8 @@
         </button>
       </nav>
       
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
     </form>
     <div class="md-search__output">
       <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
@@ -167,13 +207,122 @@
     
   </nav>
   
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../" class="md-tabs__link">
+          
+  
+  
+  Guide (EN)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../ru/" class="md-tabs__link">
+          
+  
+  
+  Руководство (RU)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../cli/" class="md-tabs__link">
+          
+  
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../changelog/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Changelog
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
 </header>
     
     <div class="md-container" data-md-component="container">
       
       
-        
-          
         
       
       <main class="md-main" data-md-component="main">
@@ -187,8 +336,10 @@
                     
 
 
+  
 
-<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href="../../../.." title="codex-django-cli" class="md-nav__button md-logo" aria-label="codex-django-cli" data-md-component="logo">
       
@@ -232,20 +383,25 @@
       
   
   
-    
   
   
-  
     
     
     
     
+      
+      
+        
+      
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
         
           
           <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
@@ -266,7 +422,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -284,6 +440,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../getting-started/" class="md-nav__link">
         
   
@@ -292,62 +476,6 @@
     
   
     Getting Started
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../guides/installation-modes/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Installation Modes
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../guides/runtime-vs-cli/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Runtime vs CLI
   
 
     
@@ -399,15 +527,22 @@
     
     
     
+      
+      
+        
+      
+    
     
     <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_4" >
         
           
-          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
             
   
   
@@ -425,8 +560,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_2_5">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -640,788 +775,6 @@
 
               
             
-              
-                
-  
-  
-    
-  
-  
-  
-    
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    API
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_2_6">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    API
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../cli/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Public
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Internal
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Internal
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#codex_django_cli.main" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        main
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="main">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.main.main" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        main
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#codex_django_cli.engine" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        engine
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="engine">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.engine.CLIEngine" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        CLIEngine
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="CLIEngine">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.engine.CLIEngine.__init__" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        __init__
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.engine.CLIEngine.render_template" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        render_template
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.engine.CLIEngine.scaffold" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        scaffold
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#codex_django_cli.prompts" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        prompts
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="prompts">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.prompts.ask_app_name" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ask_app_name
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.prompts.ask_deploy_mode" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ask_deploy_mode
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.prompts.ask_deploy_option" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ask_deploy_option
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.prompts.ask_deploy_services" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ask_deploy_services
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.prompts.ask_domain_name" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ask_domain_name
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.prompts.ask_enable_i18n" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ask_enable_i18n
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.prompts.ask_feature" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ask_feature
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.prompts.ask_init_mode" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ask_init_mode
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.prompts.ask_init_modules" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ask_init_modules
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.prompts.ask_languages" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ask_languages
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.prompts.ask_main_action" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ask_main_action
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.prompts.ask_project_action" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ask_project_action
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.prompts.ask_project_name" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ask_project_name
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.prompts.ask_quality_tool" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ask_quality_tool
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.prompts.ask_standard_command" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ask_standard_command
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.prompts.ask_target_project" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ask_target_project
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.prompts.parse_language_codes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        parse_language_codes
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#codex_django_cli.utils" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        utils
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="utils">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.utils.generate_field_encryption_key" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        generate_field_encryption_key
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.utils.generate_secret_key" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        generate_secret_key
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.utils.run_django_command" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        run_django_command
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#codex_django_cli.commands.add_app" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        add_app
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="add_app">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.commands.add_app--handle_add_app" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        handle_add_app
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.commands.add_app.handle_add_app" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        handle_add_app
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#codex_django_cli.commands.booking" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        booking
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="booking">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.commands.booking--handle_add_booking" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        handle_add_booking
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.commands.booking.handle_add_booking" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        handle_add_booking
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#codex_django_cli.commands.client_cabinet" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        client_cabinet
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="client_cabinet">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.commands.client_cabinet--handle_add_client_cabinet" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        handle_add_client_cabinet
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.commands.client_cabinet.handle_add_client_cabinet" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        handle_add_client_cabinet
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#codex_django_cli.commands.deploy" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        deploy
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="deploy">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.commands.deploy--handle_generate_deploy" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        handle_generate_deploy
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.commands.deploy.handle_generate_deploy" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        handle_generate_deploy
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#codex_django_cli.commands.init" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        init
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="init">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.commands.init--handle_init" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        handle_init
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.commands.init.handle_init" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        handle_init
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#codex_django_cli.commands.notifications" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        notifications
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="notifications">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.commands.notifications--handle_add_notifications" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        handle_add_notifications
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.commands.notifications.handle_add_notifications" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        handle_add_notifications
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#codex_django_cli.commands.quality" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        quality
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="quality">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.commands.quality--handle_configure_precommit" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        handle_configure_precommit
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.commands.quality.handle_configure_precommit" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        handle_configure_precommit
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -1438,13 +791,20 @@
     
     
     
+    
+      
+      
+        
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
         
           
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
@@ -1454,7 +814,7 @@
   <span class="md-ellipsis">
     
   
-    Guide (RU)
+    Руководство (RU)
   
 
     
@@ -1470,11 +830,39 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Guide (RU)
+    Руководство (RU)
   
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../ru/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Обзор
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -1491,62 +879,6 @@
     
   
     Быстрый старт
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../../ru/guides/installation-modes/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Режимы установки
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../../ru/guides/runtime-vs-cli/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Runtime и CLI
   
 
     
@@ -1598,15 +930,22 @@
     
     
     
+      
+      
+        
+      
+    
     
     <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_4" >
         
           
-          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
             
   
   
@@ -1624,8 +963,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_5">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1850,17 +1189,74 @@
       
   
   
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
   
   
     <li class="md-nav__item">
-      <a href="../../../../changelog/" class="md-nav__link">
+      <a href="../../cli/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Changelog
+    Public API
   
 
     
@@ -1872,6 +1268,926 @@
     </li>
   
 
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Internal Modules
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Internal Modules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#codex_django_cli.main" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;main
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" main">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.main-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.main.main" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;main
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#codex_django_cli.engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;engine
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" engine">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.engine-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Classes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Classes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.engine.CLIEngine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;CLIEngine
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" CLIEngine">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.engine.CLIEngine-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.engine.CLIEngine.__init__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;__init__
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.engine.CLIEngine.render_template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;render_template
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.engine.CLIEngine.scaffold" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;scaffold
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#codex_django_cli.prompts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;prompts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" prompts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.prompts-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.prompts.parse_language_codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;parse_language_codes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.prompts.ask_main_action" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;ask_main_action
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.prompts.ask_project_action" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;ask_project_action
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.prompts.ask_standard_command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;ask_standard_command
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.prompts.ask_quality_tool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;ask_quality_tool
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.prompts.ask_deploy_option" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;ask_deploy_option
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.prompts.ask_deploy_mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;ask_deploy_mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.prompts.ask_domain_name" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;ask_domain_name
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.prompts.ask_deploy_services" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;ask_deploy_services
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.prompts.ask_project_name" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;ask_project_name
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.prompts.ask_target_project" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;ask_target_project
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.prompts.ask_feature" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;ask_feature
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.prompts.ask_app_name" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;ask_app_name
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.prompts.ask_init_mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;ask_init_mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.prompts.ask_init_modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;ask_init_modules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.prompts.ask_enable_i18n" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;ask_enable_i18n
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.prompts.ask_languages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;ask_languages
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#codex_django_cli.utils" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;utils
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" utils">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.utils-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.utils.generate_secret_key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;generate_secret_key
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.utils.generate_field_encryption_key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;generate_field_encryption_key
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.utils.run_django_command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;run_django_command
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#codex_django_cli.commands.add_app" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;add_app
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" add_app">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.commands.add_app--handle_add_app" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        handle_add_app
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.commands.add_app-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.commands.add_app.handle_add_app" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;handle_add_app
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#codex_django_cli.commands.booking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;booking
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" booking">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.commands.booking--handle_add_booking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        handle_add_booking
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.commands.booking-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.commands.booking.handle_add_booking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;handle_add_booking
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#codex_django_cli.commands.client_cabinet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;client_cabinet
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" client_cabinet">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.commands.client_cabinet--handle_add_client_cabinet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        handle_add_client_cabinet
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.commands.client_cabinet-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.commands.client_cabinet.handle_add_client_cabinet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;handle_add_client_cabinet
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#codex_django_cli.commands.deploy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;deploy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" deploy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.commands.deploy--handle_generate_deploy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        handle_generate_deploy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.commands.deploy-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Classes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.commands.deploy-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.commands.deploy.handle_generate_deploy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;handle_generate_deploy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#codex_django_cli.commands.init" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;init
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" init">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.commands.init--handle_init" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        handle_init
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.commands.init-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.commands.init.handle_init" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;handle_init
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#codex_django_cli.commands.notifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;notifications
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" notifications">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.commands.notifications--handle_add_notifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        handle_add_notifications
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.commands.notifications-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.commands.notifications.handle_add_notifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;handle_add_notifications
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#codex_django_cli.commands.quality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;quality
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" quality">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.commands.quality--handle_configure_precommit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        handle_configure_precommit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.commands.quality-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.commands.quality.handle_configure_precommit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;handle_configure_precommit
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
     
       
       
@@ -1880,14 +2196,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../evolution/roadmap/" class="md-nav__link">
+      <a href="../../../../changelog/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Roadmap
+    Changelog
   
 
     
@@ -1930,22 +2246,39 @@
   <a href="#codex_django_cli.main" class="md-nav__link">
     <span class="md-ellipsis">
       
-        main
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;main
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="main">
+    <nav class="md-nav" aria-label=" main">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.main-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#codex_django_cli.main.main" class="md-nav__link">
     <span class="md-ellipsis">
       
-        main
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;main
       
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -1958,31 +2291,55 @@
   <a href="#codex_django_cli.engine" class="md-nav__link">
     <span class="md-ellipsis">
       
-        engine
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;engine
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="engine">
+    <nav class="md-nav" aria-label=" engine">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.engine-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Classes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Classes">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#codex_django_cli.engine.CLIEngine" class="md-nav__link">
     <span class="md-ellipsis">
       
-        CLIEngine
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;CLIEngine
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="CLIEngine">
+    <nav class="md-nav" aria-label=" CLIEngine">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.engine.CLIEngine-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#codex_django_cli.engine.CLIEngine.__init__" class="md-nav__link">
     <span class="md-ellipsis">
       
-        __init__
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;__init__
       
     </span>
   </a>
@@ -1993,7 +2350,7 @@
   <a href="#codex_django_cli.engine.CLIEngine.render_template" class="md-nav__link">
     <span class="md-ellipsis">
       
-        render_template
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;render_template
       
     </span>
   </a>
@@ -2004,10 +2361,20 @@
   <a href="#codex_django_cli.engine.CLIEngine.scaffold" class="md-nav__link">
     <span class="md-ellipsis">
       
-        scaffold
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;scaffold
       
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -2025,118 +2392,31 @@
   <a href="#codex_django_cli.prompts" class="md-nav__link">
     <span class="md-ellipsis">
       
-        prompts
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;prompts
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="prompts">
+    <nav class="md-nav" aria-label=" prompts">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#codex_django_cli.prompts.ask_app_name" class="md-nav__link">
+  <a href="#codex_django_cli.prompts-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ask_app_name
+        Functions
       
     </span>
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#codex_django_cli.prompts.ask_deploy_mode" class="md-nav__link">
+  <a href="#codex_django_cli.prompts.parse_language_codes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ask_deploy_mode
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.prompts.ask_deploy_option" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ask_deploy_option
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.prompts.ask_deploy_services" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ask_deploy_services
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.prompts.ask_domain_name" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ask_domain_name
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.prompts.ask_enable_i18n" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ask_enable_i18n
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.prompts.ask_feature" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ask_feature
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.prompts.ask_init_mode" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ask_init_mode
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.prompts.ask_init_modules" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ask_init_modules
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.prompts.ask_languages" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ask_languages
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;parse_language_codes
       
     </span>
   </a>
@@ -2147,7 +2427,7 @@
   <a href="#codex_django_cli.prompts.ask_main_action" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ask_main_action
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;ask_main_action
       
     </span>
   </a>
@@ -2158,29 +2438,7 @@
   <a href="#codex_django_cli.prompts.ask_project_action" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ask_project_action
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.prompts.ask_project_name" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ask_project_name
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#codex_django_cli.prompts.ask_quality_tool" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ask_quality_tool
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;ask_project_action
       
     </span>
   </a>
@@ -2191,7 +2449,73 @@
   <a href="#codex_django_cli.prompts.ask_standard_command" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ask_standard_command
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;ask_standard_command
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.prompts.ask_quality_tool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;ask_quality_tool
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.prompts.ask_deploy_option" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;ask_deploy_option
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.prompts.ask_deploy_mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;ask_deploy_mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.prompts.ask_domain_name" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;ask_domain_name
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.prompts.ask_deploy_services" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;ask_deploy_services
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.prompts.ask_project_name" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;ask_project_name
       
     </span>
   </a>
@@ -2202,7 +2526,7 @@
   <a href="#codex_django_cli.prompts.ask_target_project" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ask_target_project
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;ask_target_project
       
     </span>
   </a>
@@ -2210,13 +2534,73 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#codex_django_cli.prompts.parse_language_codes" class="md-nav__link">
+  <a href="#codex_django_cli.prompts.ask_feature" class="md-nav__link">
     <span class="md-ellipsis">
       
-        parse_language_codes
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;ask_feature
       
     </span>
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.prompts.ask_app_name" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;ask_app_name
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.prompts.ask_init_mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;ask_init_mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.prompts.ask_init_modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;ask_init_modules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.prompts.ask_enable_i18n" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;ask_enable_i18n
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.prompts.ask_languages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;ask_languages
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -2229,19 +2613,31 @@
   <a href="#codex_django_cli.utils" class="md-nav__link">
     <span class="md-ellipsis">
       
-        utils
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;utils
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="utils">
+    <nav class="md-nav" aria-label=" utils">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#codex_django_cli.utils.generate_field_encryption_key" class="md-nav__link">
+  <a href="#codex_django_cli.utils-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        generate_field_encryption_key
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.utils.generate_secret_key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;generate_secret_key
       
     </span>
   </a>
@@ -2249,10 +2645,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#codex_django_cli.utils.generate_secret_key" class="md-nav__link">
+  <a href="#codex_django_cli.utils.generate_field_encryption_key" class="md-nav__link">
     <span class="md-ellipsis">
       
-        generate_secret_key
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;generate_field_encryption_key
       
     </span>
   </a>
@@ -2263,10 +2659,15 @@
   <a href="#codex_django_cli.utils.run_django_command" class="md-nav__link">
     <span class="md-ellipsis">
       
-        run_django_command
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;run_django_command
       
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -2279,12 +2680,12 @@
   <a href="#codex_django_cli.commands.add_app" class="md-nav__link">
     <span class="md-ellipsis">
       
-        add_app
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;add_app
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="add_app">
+    <nav class="md-nav" aria-label=" add_app">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2299,13 +2700,30 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#codex_django_cli.commands.add_app.handle_add_app" class="md-nav__link">
+  <a href="#codex_django_cli.commands.add_app-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        handle_add_app
+        Functions
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.commands.add_app.handle_add_app" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;handle_add_app
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -2318,12 +2736,12 @@
   <a href="#codex_django_cli.commands.booking" class="md-nav__link">
     <span class="md-ellipsis">
       
-        booking
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;booking
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="booking">
+    <nav class="md-nav" aria-label=" booking">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2338,13 +2756,30 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#codex_django_cli.commands.booking.handle_add_booking" class="md-nav__link">
+  <a href="#codex_django_cli.commands.booking-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        handle_add_booking
+        Functions
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.commands.booking.handle_add_booking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;handle_add_booking
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -2357,12 +2792,12 @@
   <a href="#codex_django_cli.commands.client_cabinet" class="md-nav__link">
     <span class="md-ellipsis">
       
-        client_cabinet
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;client_cabinet
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="client_cabinet">
+    <nav class="md-nav" aria-label=" client_cabinet">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2377,13 +2812,30 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#codex_django_cli.commands.client_cabinet.handle_add_client_cabinet" class="md-nav__link">
+  <a href="#codex_django_cli.commands.client_cabinet-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        handle_add_client_cabinet
+        Functions
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.commands.client_cabinet.handle_add_client_cabinet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;handle_add_client_cabinet
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -2396,12 +2848,12 @@
   <a href="#codex_django_cli.commands.deploy" class="md-nav__link">
     <span class="md-ellipsis">
       
-        deploy
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;deploy
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="deploy">
+    <nav class="md-nav" aria-label=" deploy">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2416,13 +2868,41 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#codex_django_cli.commands.deploy.handle_generate_deploy" class="md-nav__link">
+  <a href="#codex_django_cli.commands.deploy-classes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        handle_generate_deploy
+        Classes
       
     </span>
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.commands.deploy-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.commands.deploy.handle_generate_deploy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;handle_generate_deploy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -2435,12 +2915,12 @@
   <a href="#codex_django_cli.commands.init" class="md-nav__link">
     <span class="md-ellipsis">
       
-        init
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;init
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="init">
+    <nav class="md-nav" aria-label=" init">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2455,13 +2935,30 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#codex_django_cli.commands.init.handle_init" class="md-nav__link">
+  <a href="#codex_django_cli.commands.init-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        handle_init
+        Functions
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.commands.init.handle_init" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;handle_init
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -2474,12 +2971,12 @@
   <a href="#codex_django_cli.commands.notifications" class="md-nav__link">
     <span class="md-ellipsis">
       
-        notifications
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;notifications
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="notifications">
+    <nav class="md-nav" aria-label=" notifications">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2494,13 +2991,30 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#codex_django_cli.commands.notifications.handle_add_notifications" class="md-nav__link">
+  <a href="#codex_django_cli.commands.notifications-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        handle_add_notifications
+        Functions
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.commands.notifications.handle_add_notifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;handle_add_notifications
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -2513,12 +3027,12 @@
   <a href="#codex_django_cli.commands.quality" class="md-nav__link">
     <span class="md-ellipsis">
       
-        quality
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;quality
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="quality">
+    <nav class="md-nav" aria-label=" quality">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2533,13 +3047,30 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#codex_django_cli.commands.quality.handle_configure_precommit" class="md-nav__link">
+  <a href="#codex_django_cli.commands.quality-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        handle_configure_precommit
+        Functions
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#codex_django_cli.commands.quality.handle_configure_precommit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;handle_configure_precommit
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -2575,7 +3106,7 @@
 
 
 <h2 id="codex_django_cli.main" class="doc doc-heading">
-            <code>codex_django_cli.main</code>
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <code>codex_django_cli.main</code>
 
 
 </h2>
@@ -2605,15 +3136,15 @@ argument-based invocations.</p>
 
 
 
-
+<h3 id="codex_django_cli.main-functions">Functions</h3>
 
 <div class="doc doc-object doc-function">
 
 
-<h3 id="codex_django_cli.main.main" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">main</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">forced_project</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+<h4 id="codex_django_cli.main.main" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <code class="highlight language-python"><span class="n">main</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">forced_project</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
-</h3>
+</h4>
 
 
     <div class="doc doc-contents ">
@@ -2760,7 +3291,7 @@ project selection in scaffold flows.</p>
 
 
 <h2 id="codex_django_cli.engine" class="doc doc-heading">
-            <code>codex_django_cli.engine</code>
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <code>codex_django_cli.engine</code>
 
 
 </h2>
@@ -2795,17 +3326,17 @@ content = engine.render_template("repo/README.md.j2", {"project_name": "demo"})
 
 
 
-
+<h3 id="codex_django_cli.engine-classes">Classes</h3>
 
 <div class="doc doc-object doc-class">
 
 
 
-<h3 id="codex_django_cli.engine.CLIEngine" class="doc doc-heading">
-            <code>CLIEngine</code>
+<h4 id="codex_django_cli.engine.CLIEngine" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <code>CLIEngine</code>
 
 
-</h3>
+</h4>
 
 
     <div class="doc doc-contents ">
@@ -3024,15 +3555,15 @@ content = engine.render_template("repo/README.md.j2", {"project_name": "demo"})
 
 
 
-
+<h5 id="codex_django_cli.engine.CLIEngine-functions">Functions</h5>
 
 <div class="doc doc-object doc-function">
 
 
-<h4 id="codex_django_cli.engine.CLIEngine.__init__" class="doc doc-heading">
-            <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">blueprints_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+<h6 id="codex_django_cli.engine.CLIEngine.__init__" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">blueprints_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
-</h4>
+</h6>
 
 
     <div class="doc doc-contents ">
@@ -3116,10 +3647,10 @@ the bundled <code>blueprints</code> directory next to this module.</p>
 <div class="doc doc-object doc-function">
 
 
-<h4 id="codex_django_cli.engine.CLIEngine.render_template" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">render_template</span><span class="p">(</span><span class="n">template_name</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></code>
+<h6 id="codex_django_cli.engine.CLIEngine.render_template" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <code class="highlight language-python"><span class="n">render_template</span><span class="p">(</span><span class="n">template_name</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></code>
 
-</h4>
+</h6>
 
 
     <div class="doc doc-contents ">
@@ -3266,10 +3797,10 @@ the bundled <code>blueprints</code> directory next to this module.</p>
 <div class="doc doc-object doc-function">
 
 
-<h4 id="codex_django_cli.engine.CLIEngine.scaffold" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">scaffold</span><span class="p">(</span><span class="n">blueprint_name</span><span class="p">,</span> <span class="n">target_dir</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+<h6 id="codex_django_cli.engine.CLIEngine.scaffold" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <code class="highlight language-python"><span class="n">scaffold</span><span class="p">(</span><span class="n">blueprint_name</span><span class="p">,</span> <span class="n">target_dir</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
-</h4>
+</h6>
 
 
     <div class="doc doc-contents ">
@@ -3518,7 +4049,7 @@ files verbatim.</p>
 
 
 <h2 id="codex_django_cli.prompts" class="doc doc-heading">
-            <code>codex_django_cli.prompts</code>
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <code>codex_django_cli.prompts</code>
 
 
 </h2>
@@ -3547,29 +4078,45 @@ instead of patching questionary directly.</p>
 
 
 
-
+<h3 id="codex_django_cli.prompts-functions">Functions</h3>
 
 <div class="doc doc-object doc-function">
 
 
-<h3 id="codex_django_cli.prompts.ask_app_name" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">ask_app_name</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="s1">&#39;App name (snake_case):&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span></code>
+<h4 id="codex_django_cli.prompts.parse_language_codes" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <code class="highlight language-python"><span class="n">parse_language_codes</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span></code>
 
-</h3>
+</h4>
 
 
     <div class="doc doc-contents ">
 
-        <p>Ask for a feature or app name.</p>
+        <p>Parse a comma-separated list of language codes into a normalized list.</p>
 
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/codex_django_cli/prompts.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">173</span>
-<span class="normal">174</span>
-<span class="normal">175</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ask_app_name</span><span class="p">(</span><span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;App name (snake_case):&quot;</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ask for a feature or app name.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">questionary</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">default</span><span class="p">)</span><span class="o">.</span><span class="n">ask</span><span class="p">())</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">parse_language_codes</span><span class="p">(</span><span class="n">raw</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse a comma-separated list of language codes into a normalized list.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">raw</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
+    <span class="n">normalized</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">raw</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">):</span>
+        <span class="n">code</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">code</span> <span class="ow">and</span> <span class="n">code</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">normalized</span><span class="p">:</span>
+            <span class="n">normalized</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">normalized</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -3579,43 +4126,108 @@ instead of patching questionary directly.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="codex_django_cli.prompts.ask_deploy_mode" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">ask_deploy_mode</span><span class="p">()</span></code>
+<h4 id="codex_django_cli.prompts.ask_main_action" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <code class="highlight language-python"><span class="n">ask_main_action</span><span class="p">(</span><span class="n">is_project</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
-</h3>
+</h4>
 
 
     <div class="doc doc-contents ">
 
-        <p>Ask which deployment topology should be scaffolded.</p>
+        <p>Ask for the top-level action in the global CLI menu.</p>
 
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/codex_django_cli/prompts.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
-<span class="normal">121</span>
-<span class="normal">122</span>
-<span class="normal">123</span>
-<span class="normal">124</span>
-<span class="normal">125</span>
-<span class="normal">126</span>
-<span class="normal">127</span>
-<span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ask_deploy_mode</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ask which deployment topology should be scaffolded.&quot;&quot;&quot;</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ask_main_action</span><span class="p">(</span><span class="n">is_project</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ask for the top-level action in the global CLI menu.&quot;&quot;&quot;</span>
+    <span class="n">choices</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;🚀  Init new project&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;🧩  Add feature/extension&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;❌  Exit&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="k">if</span> <span class="n">is_project</span><span class="p">:</span>
+        <span class="c1"># In a project, we don&#39;t usually need to &#39;init&#39; a new one from the same root</span>
+        <span class="c1"># but we&#39;ll use a better sub-menu instead</span>
+        <span class="k">pass</span>
+
     <span class="k">return</span> <span class="n">cast</span><span class="p">(</span>
         <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">questionary</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
-            <span class="s2">&quot;Deploy mode:&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Codex Django CLI&quot;</span><span class="p">,</span>
+            <span class="n">choices</span><span class="o">=</span><span class="n">choices</span><span class="p">,</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">ask</span><span class="p">(),</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="codex_django_cli.prompts.ask_project_action" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <code class="highlight language-python"><span class="n">ask_project_action</span><span class="p">()</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Ask for the main action inside a scaffolded project.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/codex_django_cli/prompts.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ask_project_action</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ask for the main action inside a scaffolded project.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">cast</span><span class="p">(</span>
+        <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">questionary</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+            <span class="s2">&quot;Codex Project Menu&quot;</span><span class="p">,</span>
             <span class="n">choices</span><span class="o">=</span><span class="p">[</span>
-                <span class="n">questionary</span><span class="o">.</span><span class="n">Choice</span><span class="p">(</span>
-                    <span class="s2">&quot;Standalone  (one project = full stack: nginx, redis, postgres)&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;standalone&quot;</span>
-                <span class="p">),</span>
-                <span class="n">questionary</span><span class="o">.</span><span class="n">Choice</span><span class="p">(</span><span class="s2">&quot;Stack       (multiple projects share nginx, redis, worker)&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;stack&quot;</span><span class="p">),</span>
+                <span class="s2">&quot;🆕  Init new project&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;🚀  Standard Commands&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;🧩  Scaffolding (Apps/Modules)&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;🛡  Quality &amp; Tools&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;🏁  Deployment Setup&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;⚙️  Security&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;❌  Exit&quot;</span><span class="p">,</span>
             <span class="p">],</span>
         <span class="p">)</span><span class="o">.</span><span class="n">ask</span><span class="p">(),</span>
     <span class="p">)</span>
@@ -3628,10 +4240,112 @@ instead of patching questionary directly.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="codex_django_cli.prompts.ask_deploy_option" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">ask_deploy_option</span><span class="p">()</span></code>
+<h4 id="codex_django_cli.prompts.ask_standard_command" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <code class="highlight language-python"><span class="n">ask_standard_command</span><span class="p">()</span></code>
 
-</h3>
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Ask which standard Django command should be executed.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/codex_django_cli/prompts.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ask_standard_command</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ask which standard Django command should be executed.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">cast</span><span class="p">(</span>
+        <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">questionary</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+            <span class="s2">&quot;Standard Commands&quot;</span><span class="p">,</span>
+            <span class="n">choices</span><span class="o">=</span><span class="p">[</span>
+                <span class="s2">&quot;makemigrations&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;migrate&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;createsuperuser&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;shell&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;i18n: Generate locale domains&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;i18n: Compile&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;← Back&quot;</span><span class="p">,</span>
+            <span class="p">],</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">ask</span><span class="p">(),</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="codex_django_cli.prompts.ask_quality_tool" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <code class="highlight language-python"><span class="n">ask_quality_tool</span><span class="p">()</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Ask which quality helper should be executed.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/codex_django_cli/prompts.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span>
+<span class="normal">92</span>
+<span class="normal">93</span>
+<span class="normal">94</span>
+<span class="normal">95</span>
+<span class="normal">96</span>
+<span class="normal">97</span>
+<span class="normal">98</span>
+<span class="normal">99</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ask_quality_tool</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ask which quality helper should be executed.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">cast</span><span class="p">(</span>
+        <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">questionary</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+            <span class="s2">&quot;Quality &amp; Tools&quot;</span><span class="p">,</span>
+            <span class="n">choices</span><span class="o">=</span><span class="p">[</span>
+                <span class="s2">&quot;Configure pre-commit&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Run Project Checker&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;← Back&quot;</span><span class="p">,</span>
+            <span class="p">],</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">ask</span><span class="p">(),</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="codex_django_cli.prompts.ask_deploy_option" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <code class="highlight language-python"><span class="n">ask_deploy_option</span><span class="p">()</span></code>
+
+</h4>
 
 
     <div class="doc doc-contents ">
@@ -3677,10 +4391,86 @@ instead of patching questionary directly.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="codex_django_cli.prompts.ask_deploy_services" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">ask_deploy_services</span><span class="p">()</span></code>
+<h4 id="codex_django_cli.prompts.ask_deploy_mode" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <code class="highlight language-python"><span class="n">ask_deploy_mode</span><span class="p">()</span></code>
 
-</h3>
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Ask which deployment topology should be scaffolded.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/codex_django_cli/prompts.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ask_deploy_mode</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ask which deployment topology should be scaffolded.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">cast</span><span class="p">(</span>
+        <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">questionary</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+            <span class="s2">&quot;Deploy mode:&quot;</span><span class="p">,</span>
+            <span class="n">choices</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">questionary</span><span class="o">.</span><span class="n">Choice</span><span class="p">(</span>
+                    <span class="s2">&quot;Standalone  (one project = full stack: nginx, redis, postgres)&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;standalone&quot;</span>
+                <span class="p">),</span>
+                <span class="n">questionary</span><span class="o">.</span><span class="n">Choice</span><span class="p">(</span><span class="s2">&quot;Stack       (multiple projects share nginx, redis, worker)&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;stack&quot;</span><span class="p">),</span>
+            <span class="p">],</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">ask</span><span class="p">(),</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="codex_django_cli.prompts.ask_domain_name" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <code class="highlight language-python"><span class="n">ask_domain_name</span><span class="p">()</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Ask for the deployment domain name.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/codex_django_cli/prompts.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ask_domain_name</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ask for the deployment domain name.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">questionary</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s2">&quot;Domain name:&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;example.com&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">ask</span><span class="p">())</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="codex_django_cli.prompts.ask_deploy_services" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <code class="highlight language-python"><span class="n">ask_deploy_services</span><span class="p">()</span></code>
+
+</h4>
 
 
     <div class="doc doc-contents ">
@@ -3720,24 +4510,24 @@ instead of patching questionary directly.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="codex_django_cli.prompts.ask_domain_name" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">ask_domain_name</span><span class="p">()</span></code>
+<h4 id="codex_django_cli.prompts.ask_project_name" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <code class="highlight language-python"><span class="n">ask_project_name</span><span class="p">()</span></code>
 
-</h3>
+</h4>
 
 
     <div class="doc doc-contents ">
 
-        <p>Ask for the deployment domain name.</p>
+        <p>Ask for the new project name.</p>
 
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/codex_django_cli/prompts.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">134</span>
-<span class="normal">135</span>
-<span class="normal">136</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ask_domain_name</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ask for the deployment domain name.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">questionary</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s2">&quot;Domain name:&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;example.com&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">ask</span><span class="p">())</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ask_project_name</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ask for the new project name.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">questionary</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s2">&quot;Project name (snake_case):&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">ask</span><span class="p">())</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -3747,32 +4537,24 @@ instead of patching questionary directly.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="codex_django_cli.prompts.ask_enable_i18n" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">ask_enable_i18n</span><span class="p">()</span></code>
+<h4 id="codex_django_cli.prompts.ask_target_project" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <code class="highlight language-python"><span class="n">ask_target_project</span><span class="p">(</span><span class="n">projects</span><span class="p">)</span></code>
 
-</h3>
+</h4>
 
 
     <div class="doc doc-contents ">
 
-        <p>Ask whether the project should enable i18n / modular locale support.</p>
+        <p>Ask which project under <code>src/</code> should receive the scaffold.</p>
 
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/codex_django_cli/prompts.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">209</span>
-<span class="normal">210</span>
-<span class="normal">211</span>
-<span class="normal">212</span>
-<span class="normal">213</span>
-<span class="normal">214</span>
-<span class="normal">215</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ask_enable_i18n</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ask whether the project should enable i18n / modular locale support.&quot;&quot;&quot;</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">questionary</span><span class="o">.</span><span class="n">confirm</span><span class="p">(</span>
-        <span class="s2">&quot;Enable i18n / modular locale support? Useful even with one language.&quot;</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">ask</span><span class="p">()</span>
-    <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ask_target_project</span><span class="p">(</span><span class="n">projects</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ask which project under ``src/`` should receive the scaffold.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">questionary</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;Select target project:&quot;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">projects</span><span class="p">)</span><span class="o">.</span><span class="n">ask</span><span class="p">())</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -3782,10 +4564,10 @@ instead of patching questionary directly.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="codex_django_cli.prompts.ask_feature" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">ask_feature</span><span class="p">()</span></code>
+<h4 id="codex_django_cli.prompts.ask_feature" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <code class="highlight language-python"><span class="n">ask_feature</span><span class="p">()</span></code>
 
-</h3>
+</h4>
 
 
     <div class="doc doc-contents ">
@@ -3821,10 +4603,37 @@ instead of patching questionary directly.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="codex_django_cli.prompts.ask_init_mode" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">ask_init_mode</span><span class="p">()</span></code>
+<h4 id="codex_django_cli.prompts.ask_app_name" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <code class="highlight language-python"><span class="n">ask_app_name</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="s1">&#39;App name (snake_case):&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span></code>
 
-</h3>
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Ask for a feature or app name.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/codex_django_cli/prompts.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ask_app_name</span><span class="p">(</span><span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;App name (snake_case):&quot;</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ask for a feature or app name.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">questionary</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">default</span><span class="p">)</span><span class="o">.</span><span class="n">ask</span><span class="p">())</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="codex_django_cli.prompts.ask_init_mode" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <code class="highlight language-python"><span class="n">ask_init_mode</span><span class="p">()</span></code>
+
+</h4>
 
 
     <div class="doc doc-contents ">
@@ -3876,10 +4685,10 @@ instead of patching questionary directly.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="codex_django_cli.prompts.ask_init_modules" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">ask_init_modules</span><span class="p">()</span></code>
+<h4 id="codex_django_cli.prompts.ask_init_modules" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <code class="highlight language-python"><span class="n">ask_init_modules</span><span class="p">()</span></code>
 
-</h3>
+</h4>
 
 
     <div class="doc doc-contents ">
@@ -3917,10 +4726,45 @@ instead of patching questionary directly.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="codex_django_cli.prompts.ask_languages" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">ask_languages</span><span class="p">(</span><span class="n">enable_i18n</span><span class="p">)</span></code>
+<h4 id="codex_django_cli.prompts.ask_enable_i18n" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <code class="highlight language-python"><span class="n">ask_enable_i18n</span><span class="p">()</span></code>
 
-</h3>
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Ask whether the project should enable i18n / modular locale support.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/codex_django_cli/prompts.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ask_enable_i18n</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ask whether the project should enable i18n / modular locale support.&quot;&quot;&quot;</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">questionary</span><span class="o">.</span><span class="n">confirm</span><span class="p">(</span>
+        <span class="s2">&quot;Enable i18n / modular locale support? Useful even with one language.&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">ask</span><span class="p">()</span>
+    <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="codex_django_cli.prompts.ask_languages" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <code class="highlight language-python"><span class="n">ask_languages</span><span class="p">(</span><span class="n">enable_i18n</span><span class="p">)</span></code>
+
+</h4>
 
 
     <div class="doc doc-contents ">
@@ -4071,319 +4915,6 @@ instead of patching questionary directly.</p>
 
 </div>
 
-<div class="doc doc-object doc-function">
-
-
-<h3 id="codex_django_cli.prompts.ask_main_action" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">ask_main_action</span><span class="p">(</span><span class="n">is_project</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
-
-</h3>
-
-
-    <div class="doc doc-contents ">
-
-        <p>Ask for the top-level action in the global CLI menu.</p>
-
-
-            <details class="mkdocstrings-source">
-              <summary>Source code in <code>src/codex_django_cli/prompts.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span>
-<span class="normal">36</span>
-<span class="normal">37</span>
-<span class="normal">38</span>
-<span class="normal">39</span>
-<span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ask_main_action</span><span class="p">(</span><span class="n">is_project</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ask for the top-level action in the global CLI menu.&quot;&quot;&quot;</span>
-    <span class="n">choices</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="s2">&quot;🚀  Init new project&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;🧩  Add feature/extension&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;❌  Exit&quot;</span><span class="p">,</span>
-    <span class="p">]</span>
-    <span class="k">if</span> <span class="n">is_project</span><span class="p">:</span>
-        <span class="c1"># In a project, we don&#39;t usually need to &#39;init&#39; a new one from the same root</span>
-        <span class="c1"># but we&#39;ll use a better sub-menu instead</span>
-        <span class="k">pass</span>
-
-    <span class="k">return</span> <span class="n">cast</span><span class="p">(</span>
-        <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">questionary</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
-            <span class="s2">&quot;Codex Django CLI&quot;</span><span class="p">,</span>
-            <span class="n">choices</span><span class="o">=</span><span class="n">choices</span><span class="p">,</span>
-        <span class="p">)</span><span class="o">.</span><span class="n">ask</span><span class="p">(),</span>
-    <span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h3 id="codex_django_cli.prompts.ask_project_action" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">ask_project_action</span><span class="p">()</span></code>
-
-</h3>
-
-
-    <div class="doc doc-contents ">
-
-        <p>Ask for the main action inside a scaffolded project.</p>
-
-
-            <details class="mkdocstrings-source">
-              <summary>Source code in <code>src/codex_django_cli/prompts.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ask_project_action</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ask for the main action inside a scaffolded project.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">cast</span><span class="p">(</span>
-        <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">questionary</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
-            <span class="s2">&quot;Codex Project Menu&quot;</span><span class="p">,</span>
-            <span class="n">choices</span><span class="o">=</span><span class="p">[</span>
-                <span class="s2">&quot;🆕  Init new project&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;🚀  Standard Commands&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;🧩  Scaffolding (Apps/Modules)&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;🛡  Quality &amp; Tools&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;🏁  Deployment Setup&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;⚙️  Security&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;❌  Exit&quot;</span><span class="p">,</span>
-            <span class="p">],</span>
-        <span class="p">)</span><span class="o">.</span><span class="n">ask</span><span class="p">(),</span>
-    <span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h3 id="codex_django_cli.prompts.ask_project_name" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">ask_project_name</span><span class="p">()</span></code>
-
-</h3>
-
-
-    <div class="doc doc-contents ">
-
-        <p>Ask for the new project name.</p>
-
-
-            <details class="mkdocstrings-source">
-              <summary>Source code in <code>src/codex_django_cli/prompts.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">152</span>
-<span class="normal">153</span>
-<span class="normal">154</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ask_project_name</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ask for the new project name.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">questionary</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s2">&quot;Project name (snake_case):&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">ask</span><span class="p">())</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h3 id="codex_django_cli.prompts.ask_quality_tool" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">ask_quality_tool</span><span class="p">()</span></code>
-
-</h3>
-
-
-    <div class="doc doc-contents ">
-
-        <p>Ask which quality helper should be executed.</p>
-
-
-            <details class="mkdocstrings-source">
-              <summary>Source code in <code>src/codex_django_cli/prompts.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">87</span>
-<span class="normal">88</span>
-<span class="normal">89</span>
-<span class="normal">90</span>
-<span class="normal">91</span>
-<span class="normal">92</span>
-<span class="normal">93</span>
-<span class="normal">94</span>
-<span class="normal">95</span>
-<span class="normal">96</span>
-<span class="normal">97</span>
-<span class="normal">98</span>
-<span class="normal">99</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ask_quality_tool</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ask which quality helper should be executed.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">cast</span><span class="p">(</span>
-        <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">questionary</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
-            <span class="s2">&quot;Quality &amp; Tools&quot;</span><span class="p">,</span>
-            <span class="n">choices</span><span class="o">=</span><span class="p">[</span>
-                <span class="s2">&quot;Configure pre-commit&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;Run Project Checker&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;← Back&quot;</span><span class="p">,</span>
-            <span class="p">],</span>
-        <span class="p">)</span><span class="o">.</span><span class="n">ask</span><span class="p">(),</span>
-    <span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h3 id="codex_django_cli.prompts.ask_standard_command" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">ask_standard_command</span><span class="p">()</span></code>
-
-</h3>
-
-
-    <div class="doc doc-contents ">
-
-        <p>Ask which standard Django command should be executed.</p>
-
-
-            <details class="mkdocstrings-source">
-              <summary>Source code in <code>src/codex_django_cli/prompts.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span>
-<span class="normal">71</span>
-<span class="normal">72</span>
-<span class="normal">73</span>
-<span class="normal">74</span>
-<span class="normal">75</span>
-<span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span>
-<span class="normal">79</span>
-<span class="normal">80</span>
-<span class="normal">81</span>
-<span class="normal">82</span>
-<span class="normal">83</span>
-<span class="normal">84</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ask_standard_command</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ask which standard Django command should be executed.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">cast</span><span class="p">(</span>
-        <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">questionary</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
-            <span class="s2">&quot;Standard Commands&quot;</span><span class="p">,</span>
-            <span class="n">choices</span><span class="o">=</span><span class="p">[</span>
-                <span class="s2">&quot;makemigrations&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;migrate&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;createsuperuser&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;shell&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;i18n: Generate locale domains&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;i18n: Compile&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;← Back&quot;</span><span class="p">,</span>
-            <span class="p">],</span>
-        <span class="p">)</span><span class="o">.</span><span class="n">ask</span><span class="p">(),</span>
-    <span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h3 id="codex_django_cli.prompts.ask_target_project" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">ask_target_project</span><span class="p">(</span><span class="n">projects</span><span class="p">)</span></code>
-
-</h3>
-
-
-    <div class="doc doc-contents ">
-
-        <p>Ask which project under <code>src/</code> should receive the scaffold.</p>
-
-
-            <details class="mkdocstrings-source">
-              <summary>Source code in <code>src/codex_django_cli/prompts.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">157</span>
-<span class="normal">158</span>
-<span class="normal">159</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ask_target_project</span><span class="p">(</span><span class="n">projects</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ask which project under ``src/`` should receive the scaffold.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">questionary</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;Select target project:&quot;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">projects</span><span class="p">)</span><span class="o">.</span><span class="n">ask</span><span class="p">())</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h3 id="codex_django_cli.prompts.parse_language_codes" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">parse_language_codes</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span></code>
-
-</h3>
-
-
-    <div class="doc doc-contents ">
-
-        <p>Parse a comma-separated list of language codes into a normalized list.</p>
-
-
-            <details class="mkdocstrings-source">
-              <summary>Source code in <code>src/codex_django_cli/prompts.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">15</span>
-<span class="normal">16</span>
-<span class="normal">17</span>
-<span class="normal">18</span>
-<span class="normal">19</span>
-<span class="normal">20</span>
-<span class="normal">21</span>
-<span class="normal">22</span>
-<span class="normal">23</span>
-<span class="normal">24</span>
-<span class="normal">25</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">parse_language_codes</span><span class="p">(</span><span class="n">raw</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse a comma-separated list of language codes into a normalized list.&quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">raw</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">[]</span>
-
-    <span class="n">normalized</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">raw</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">):</span>
-        <span class="n">code</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">code</span> <span class="ow">and</span> <span class="n">code</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">normalized</span><span class="p">:</span>
-            <span class="n">normalized</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">normalized</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
 
 
   </div>
@@ -4397,7 +4928,7 @@ instead of patching questionary directly.</p>
 
 
 <h2 id="codex_django_cli.utils" class="doc doc-heading">
-            <code>codex_django_cli.utils</code>
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <code>codex_django_cli.utils</code>
 
 
 </h2>
@@ -4424,42 +4955,15 @@ instead of patching questionary directly.</p>
 
 
 
-
-
-<div class="doc doc-object doc-function">
-
-
-<h3 id="codex_django_cli.utils.generate_field_encryption_key" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">generate_field_encryption_key</span><span class="p">()</span></code>
-
-</h3>
-
-
-    <div class="doc doc-contents ">
-
-        <p>Generate a Fernet-compatible key for encrypted model fields.</p>
-
-
-            <details class="mkdocstrings-source">
-              <summary>Source code in <code>src/codex_django_cli/utils.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">18</span>
-<span class="normal">19</span>
-<span class="normal">20</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">generate_field_encryption_key</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a Fernet-compatible key for encrypted model fields.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">base64</span><span class="o">.</span><span class="n">urlsafe_b64encode</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="mi">32</span><span class="p">))</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
+<h3 id="codex_django_cli.utils-functions">Functions</h3>
 
 <div class="doc doc-object doc-function">
 
 
-<h3 id="codex_django_cli.utils.generate_secret_key" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">generate_secret_key</span><span class="p">()</span></code>
+<h4 id="codex_django_cli.utils.generate_secret_key" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <code class="highlight language-python"><span class="n">generate_secret_key</span><span class="p">()</span></code>
 
-</h3>
+</h4>
 
 
     <div class="doc doc-contents ">
@@ -4487,10 +4991,37 @@ instead of patching questionary directly.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="codex_django_cli.utils.run_django_command" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">run_django_command</span><span class="p">(</span><span class="n">args</span><span class="p">)</span></code>
+<h4 id="codex_django_cli.utils.generate_field_encryption_key" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <code class="highlight language-python"><span class="n">generate_field_encryption_key</span><span class="p">()</span></code>
 
-</h3>
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Generate a Fernet-compatible key for encrypted model fields.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/codex_django_cli/utils.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">generate_field_encryption_key</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a Fernet-compatible key for encrypted model fields.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">base64</span><span class="o">.</span><span class="n">urlsafe_b64encode</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="mi">32</span><span class="p">))</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="codex_django_cli.utils.run_django_command" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <code class="highlight language-python"><span class="n">run_django_command</span><span class="p">(</span><span class="n">args</span><span class="p">)</span></code>
+
+</h4>
 
 
     <div class="doc doc-contents ">
@@ -4587,7 +5118,7 @@ instead of patching questionary directly.</p>
 
 
 <h2 id="codex_django_cli.commands.add_app" class="doc doc-heading">
-            <code>codex_django_cli.commands.add_app</code>
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <code>codex_django_cli.commands.add_app</code>
 
 
 </h2>
@@ -4621,15 +5152,15 @@ instead of patching questionary directly.</p>
 
 
 
-
+<h3 id="codex_django_cli.commands.add_app-functions">Functions</h3>
 
 <div class="doc doc-object doc-function">
 
 
-<h3 id="codex_django_cli.commands.add_app.handle_add_app" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">handle_add_app</span><span class="p">(</span><span class="n">app_name</span><span class="p">,</span> <span class="n">project_dir</span><span class="p">)</span></code>
+<h4 id="codex_django_cli.commands.add_app.handle_add_app" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <code class="highlight language-python"><span class="n">handle_add_app</span><span class="p">(</span><span class="n">app_name</span><span class="p">,</span> <span class="n">project_dir</span><span class="p">)</span></code>
 
-</h3>
+</h4>
 
 
     <div class="doc doc-contents ">
@@ -4768,7 +5299,7 @@ instead of patching questionary directly.</p>
 
 
 <h2 id="codex_django_cli.commands.booking" class="doc doc-heading">
-            <code>codex_django_cli.commands.booking</code>
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <code>codex_django_cli.commands.booking</code>
 
 
 </h2>
@@ -4822,15 +5353,15 @@ instead of patching questionary directly.</p>
 
 
 
-
+<h3 id="codex_django_cli.commands.booking-functions">Functions</h3>
 
 <div class="doc doc-object doc-function">
 
 
-<h3 id="codex_django_cli.commands.booking.handle_add_booking" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">handle_add_booking</span><span class="p">(</span><span class="n">project_dir</span><span class="p">)</span></code>
+<h4 id="codex_django_cli.commands.booking.handle_add_booking" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <code class="highlight language-python"><span class="n">handle_add_booking</span><span class="p">(</span><span class="n">project_dir</span><span class="p">)</span></code>
 
-</h3>
+</h4>
 
 
     <div class="doc doc-contents ">
@@ -4979,7 +5510,7 @@ instead of patching questionary directly.</p>
 
 
 <h2 id="codex_django_cli.commands.client_cabinet" class="doc doc-heading">
-            <code>codex_django_cli.commands.client_cabinet</code>
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <code>codex_django_cli.commands.client_cabinet</code>
 
 
 </h2>
@@ -5022,15 +5553,15 @@ instead of patching questionary directly.</p>
 
 
 
-
+<h3 id="codex_django_cli.commands.client_cabinet-functions">Functions</h3>
 
 <div class="doc doc-object doc-function">
 
 
-<h3 id="codex_django_cli.commands.client_cabinet.handle_add_client_cabinet" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">handle_add_client_cabinet</span><span class="p">(</span><span class="n">project_dir</span><span class="p">)</span></code>
+<h4 id="codex_django_cli.commands.client_cabinet.handle_add_client_cabinet" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <code class="highlight language-python"><span class="n">handle_add_client_cabinet</span><span class="p">(</span><span class="n">project_dir</span><span class="p">)</span></code>
 
-</h3>
+</h4>
 
 
     <div class="doc doc-contents ">
@@ -5153,7 +5684,7 @@ instead of patching questionary directly.</p>
 
 
 <h2 id="codex_django_cli.commands.deploy" class="doc doc-heading">
-            <code>codex_django_cli.commands.deploy</code>
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <code>codex_django_cli.commands.deploy</code>
 
 
 </h2>
@@ -5188,16 +5719,16 @@ instead of patching questionary directly.</p>
 
 
 
-
-
+<h3 id="codex_django_cli.commands.deploy-classes">Classes</h3>
+<h3 id="codex_django_cli.commands.deploy-functions">Functions</h3>
 
 <div class="doc doc-object doc-function">
 
 
-<h3 id="codex_django_cli.commands.deploy.handle_generate_deploy" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">handle_generate_deploy</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">project_root</span><span class="p">,</span> <span class="n">deploy_mode</span><span class="o">=</span><span class="s1">&#39;standalone&#39;</span><span class="p">,</span> <span class="n">domain_name</span><span class="o">=</span><span class="s1">&#39;example.com&#39;</span><span class="p">,</span> <span class="n">with_bot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">with_worker</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">with_notifications</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">enable_i18n</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cluster_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">python_version</span><span class="o">=</span><span class="s1">&#39;3.13&#39;</span><span class="p">,</span> <span class="n">generate_docker</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">generate_cicd</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
+<h4 id="codex_django_cli.commands.deploy.handle_generate_deploy" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <code class="highlight language-python"><span class="n">handle_generate_deploy</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">project_root</span><span class="p">,</span> <span class="n">deploy_mode</span><span class="o">=</span><span class="s1">&#39;standalone&#39;</span><span class="p">,</span> <span class="n">domain_name</span><span class="o">=</span><span class="s1">&#39;example.com&#39;</span><span class="p">,</span> <span class="n">with_bot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">with_worker</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">with_notifications</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">enable_i18n</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cluster_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">python_version</span><span class="o">=</span><span class="s1">&#39;3.13&#39;</span><span class="p">,</span> <span class="n">generate_docker</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">generate_cicd</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
 
-</h3>
+</h4>
 
 
     <div class="doc doc-contents ">
@@ -5584,7 +6115,7 @@ instead of patching questionary directly.</p>
 
 
 <h2 id="codex_django_cli.commands.init" class="doc doc-heading">
-            <code>codex_django_cli.commands.init</code>
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <code>codex_django_cli.commands.init</code>
 
 
 </h2>
@@ -5631,15 +6162,15 @@ codex-django init myproject --dir sandbox   # custom output path
 
 
 
-
+<h3 id="codex_django_cli.commands.init-functions">Functions</h3>
 
 <div class="doc doc-object doc-function">
 
 
-<h3 id="codex_django_cli.commands.init.handle_init" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">handle_init</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">base_dir</span><span class="p">,</span> <span class="n">target_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">code_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dev_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">enable_i18n</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">languages</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">with_cabinet</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">with_booking</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+<h4 id="codex_django_cli.commands.init.handle_init" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <code class="highlight language-python"><span class="n">handle_init</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">base_dir</span><span class="p">,</span> <span class="n">target_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">code_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dev_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">enable_i18n</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">languages</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">with_cabinet</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">with_booking</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
-</h3>
+</h4>
 
 
     <div class="doc doc-contents ">
@@ -6200,7 +6731,7 @@ codex-django init myproject --dir sandbox   # custom output path
 
 
 <h2 id="codex_django_cli.commands.notifications" class="doc doc-heading">
-            <code>codex_django_cli.commands.notifications</code>
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <code>codex_django_cli.commands.notifications</code>
 
 
 </h2>
@@ -6239,15 +6770,15 @@ codex-django add-notifications --arq-dir myapp/arq
 
 
 
-
+<h3 id="codex_django_cli.commands.notifications-functions">Functions</h3>
 
 <div class="doc doc-object doc-function">
 
 
-<h3 id="codex_django_cli.commands.notifications.handle_add_notifications" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">handle_add_notifications</span><span class="p">(</span><span class="n">app_name</span><span class="p">,</span> <span class="n">base_dir</span><span class="p">,</span> <span class="n">arq_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+<h4 id="codex_django_cli.commands.notifications.handle_add_notifications" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <code class="highlight language-python"><span class="n">handle_add_notifications</span><span class="p">(</span><span class="n">app_name</span><span class="p">,</span> <span class="n">base_dir</span><span class="p">,</span> <span class="n">arq_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
-</h3>
+</h4>
 
 
     <div class="doc doc-contents ">
@@ -6420,7 +6951,7 @@ codex-django add-notifications --arq-dir myapp/arq
 
 
 <h2 id="codex_django_cli.commands.quality" class="doc doc-heading">
-            <code>codex_django_cli.commands.quality</code>
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <code>codex_django_cli.commands.quality</code>
 
 
 </h2>
@@ -6448,15 +6979,15 @@ codex-django add-notifications --arq-dir myapp/arq
 
 
 
-
+<h3 id="codex_django_cli.commands.quality-functions">Functions</h3>
 
 <div class="doc doc-object doc-function">
 
 
-<h3 id="codex_django_cli.commands.quality.handle_configure_precommit" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">handle_configure_precommit</span><span class="p">(</span><span class="n">project_root</span><span class="p">)</span></code>
+<h4 id="codex_django_cli.commands.quality.handle_configure_precommit" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <code class="highlight language-python"><span class="n">handle_configure_precommit</span><span class="p">(</span><span class="n">project_root</span><span class="p">)</span></code>
 
-</h3>
+</h4>
 
 
     <div class="doc doc-contents ">
@@ -6623,6 +7154,12 @@ codex-django add-notifications --arq-dir myapp/arq
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
       </main>
       
         <footer class="md-footer">
@@ -6652,7 +7189,7 @@ codex-django add-notifications --arq-dir myapp/arq
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": [], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "navigation.breadcrumbs", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
       <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>

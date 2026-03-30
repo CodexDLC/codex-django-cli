@@ -12,26 +12,31 @@
         <meta name="author" content="Codex Team">
       
       
+        <link rel="canonical" href="https://codexdlc.github.io/codex-django-cli/0.x/en/">
       
-        <link rel="prev" href="../installation-modes/">
+      
+        <link rel="prev" href="..">
       
       
-        <link rel="next" href="../blueprints-and-scaffolding/">
+        <link rel="next" href="getting-started/">
       
       
         
       
       
-      <link rel="icon" href="../../../assets/images/favicon.png">
+      <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
-        <title>Runtime vs CLI - codex-django-cli</title>
+        <title>Overview - codex-django-cli</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -50,11 +55,11 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
     
-      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+      <link rel="stylesheet" href="../stylesheets/extra.css">
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -63,7 +68,14 @@
   </head>
   
   
-    <body dir="ltr">
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="cyan">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -72,7 +84,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#runtime-vs-cli" class="md-skip">
+        <a href="#english-guide" class="md-skip">
           Skip to content
         </a>
       
@@ -90,9 +102,9 @@
 
   
 
-<header class="md-header md-header--shadow" data-md-component="header">
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="codex-django-cli" class="md-header__button md-logo" aria-label="codex-django-cli" data-md-component="logo">
+    <a href=".." title="codex-django-cli" class="md-header__button md-logo" aria-label="codex-django-cli" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -112,12 +124,38 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Runtime vs CLI
+              Overview
             
           </span>
         </div>
       </div>
     </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="cyan"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="cyan"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
     
     
       <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
@@ -149,6 +187,8 @@
         </button>
       </nav>
       
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
     </form>
     <div class="md-search__output">
       <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
@@ -167,13 +207,122 @@
     
   </nav>
   
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  Guide (EN)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../ru/" class="md-tabs__link">
+          
+  
+  
+  Руководство (RU)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="api/cli/" class="md-tabs__link">
+          
+  
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../changelog/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Changelog
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
 </header>
     
     <div class="md-container" data-md-component="container">
       
       
-        
-          
         
       
       <main class="md-main" data-md-component="main">
@@ -187,10 +336,12 @@
                     
 
 
+  
 
-<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="codex-django-cli" class="md-nav__button md-logo" aria-label="codex-django-cli" data-md-component="logo">
+    <a href=".." title="codex-django-cli" class="md-nav__button md-logo" aria-label="codex-django-cli" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -208,7 +359,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
+      <a href=".." class="md-nav__link">
         
   
   
@@ -240,15 +391,23 @@
     
     
     
+      
+        
+        
+      
+      
+        
+      
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
             
   
   
@@ -281,10 +440,107 @@
                 
   
   
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#sections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sections
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/" class="md-nav__link">
+      <a href="getting-started/" class="md-nav__link">
         
   
   
@@ -312,176 +568,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../installation-modes/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Installation Modes
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Runtime vs CLI
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Runtime vs CLI
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#the-two-layers-of-codex-django" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        The Two Layers Of codex-django
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#runtime-layer" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Runtime Layer
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#cli-layer" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        CLI Layer
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#how-to-think-about-the-boundary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        How To Think About The Boundary
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#practical-rule" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Practical Rule
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#related-pages" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Related Pages
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../blueprints-and-scaffolding/" class="md-nav__link">
+      <a href="guides/blueprints-and-scaffolding/" class="md-nav__link">
         
   
   
@@ -512,15 +599,25 @@
     
     
     
+      
+      
+        
+          
+          
+        
+      
     
-    <li class="md-nav__item md-nav__item--nested">
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_4" >
         
           
-          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="">
             
   
   
@@ -538,8 +635,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_2_5">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -556,7 +653,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/cli/" class="md-nav__link">
+      <a href="architecture/cli/" class="md-nav__link">
         
   
   
@@ -584,7 +681,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/cli/module/" class="md-nav__link">
+      <a href="architecture/cli/module/" class="md-nav__link">
         
   
   
@@ -612,7 +709,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/cli/entrypoints/" class="md-nav__link">
+      <a href="architecture/cli/entrypoints/" class="md-nav__link">
         
   
   
@@ -640,7 +737,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/cli/blueprints/" class="md-nav__link">
+      <a href="architecture/cli/blueprints/" class="md-nav__link">
         
   
   
@@ -668,7 +765,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/cli/engine/" class="md-nav__link">
+      <a href="architecture/cli/engine/" class="md-nav__link">
         
   
   
@@ -696,7 +793,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/cli/commands/" class="md-nav__link">
+      <a href="architecture/cli/commands/" class="md-nav__link">
         
   
   
@@ -724,7 +821,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/cli/project-output/" class="md-nav__link">
+      <a href="architecture/cli/project-output/" class="md-nav__link">
         
   
   
@@ -753,8 +850,15 @@
 
               
             
-              
-                
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
   
   
   
@@ -762,131 +866,20 @@
     
     
     
+    
+      
+      
+        
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
       
         
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" >
         
           
-          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    API
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_2_6">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    API
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../api/cli/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Public
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../api/internal/cli/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Internal
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
         
           
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
@@ -896,7 +889,7 @@
   <span class="md-ellipsis">
     
   
-    Guide (RU)
+    Руководство (RU)
   
 
     
@@ -912,7 +905,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Guide (RU)
+    Руководство (RU)
   
 
           </label>
@@ -925,166 +918,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../ru/getting-started/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Быстрый старт
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../ru/guides/installation-modes/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Режимы установки
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../ru/guides/runtime-vs-cli/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Runtime и CLI
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../ru/guides/blueprints-and-scaffolding/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Blueprints
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
-        
-          
-          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Архитектура
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_5">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Архитектура
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../ru/architecture/cli/" class="md-nav__link">
+      <a href="../ru/" class="md-nav__link">
         
   
   
@@ -1112,7 +946,145 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../ru/architecture/cli/module/" class="md-nav__link">
+      <a href="../ru/getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Быстрый старт
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ru/guides/blueprints-and-scaffolding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blueprints
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Архитектура
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Архитектура
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ru/architecture/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Обзор
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ru/architecture/cli/module/" class="md-nav__link">
         
   
   
@@ -1140,7 +1112,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../ru/architecture/cli/entrypoints/" class="md-nav__link">
+      <a href="../ru/architecture/cli/entrypoints/" class="md-nav__link">
         
   
   
@@ -1168,7 +1140,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../ru/architecture/cli/blueprints/" class="md-nav__link">
+      <a href="../ru/architecture/cli/blueprints/" class="md-nav__link">
         
   
   
@@ -1196,7 +1168,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../ru/architecture/cli/engine/" class="md-nav__link">
+      <a href="../ru/architecture/cli/engine/" class="md-nav__link">
         
   
   
@@ -1224,7 +1196,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../ru/architecture/cli/commands/" class="md-nav__link">
+      <a href="../ru/architecture/cli/commands/" class="md-nav__link">
         
   
   
@@ -1252,7 +1224,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../ru/architecture/cli/project-output/" class="md-nav__link">
+      <a href="../ru/architecture/cli/project-output/" class="md-nav__link">
         
   
   
@@ -1294,15 +1266,69 @@
   
   
   
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
-      <a href="../../../changelog/" class="md-nav__link">
+      <a href="api/cli/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Changelog
+    Public API
   
 
     
@@ -1314,6 +1340,42 @@
     </li>
   
 
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api/internal/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Internal Modules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
     
       
       
@@ -1322,14 +1384,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../evolution/roadmap/" class="md-nav__link">
+      <a href="../changelog/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Roadmap
+    Changelog
   
 
     
@@ -1369,10 +1431,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#the-two-layers-of-codex-django" class="md-nav__link">
+  <a href="#sections" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The Two Layers Of codex-django
+        Sections
       
     </span>
   </a>
@@ -1380,54 +1442,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#runtime-layer" class="md-nav__link">
+  <a href="#notes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Runtime Layer
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#cli-layer" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        CLI Layer
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#how-to-think-about-the-boundary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        How To Think About The Boundary
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#practical-rule" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Practical Rule
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#related-pages" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Related Pages
+        Notes
       
     </span>
   </a>
@@ -1451,53 +1469,25 @@
 
 
 
-<!-- DOC_TYPE: GUIDE -->
+<!-- DOC_TYPE: INDEX -->
 
-<h1 id="runtime-vs-cli">Runtime vs CLI</h1>
-<blockquote>
-<p>After the package split, the CLI layer lives in <code>codex-django-cli</code> while the runtime layer stays in <code>codex-django</code>.</p>
-</blockquote>
-<h2 id="the-two-layers-of-codex-django">The Two Layers Of codex-django</h2>
-<p><code>codex-django</code> contains two related but different layers:</p>
+<h1 id="english-guide">English Guide</h1>
+<h2 id="sections">Sections</h2>
 <ul>
-<li>Runtime modules that are imported by Django projects after installation.</li>
-<li>CLI/scaffolding tooling that creates or extends those projects.</li>
+<li><a href="getting-started/">Getting Started</a></li>
+<li><a href="guides/blueprints-and-scaffolding/">Blueprint Workflow</a></li>
+<li><a href="architecture/cli/">Architecture Overview</a></li>
+<li><a href="architecture/cli/module/">Module</a></li>
+<li><a href="architecture/cli/entrypoints/">Entrypoints</a></li>
+<li><a href="architecture/cli/blueprints/">Blueprints</a></li>
+<li><a href="architecture/cli/engine/">Engine</a></li>
+<li><a href="architecture/cli/commands/">Commands</a></li>
+<li><a href="architecture/cli/project-output/">Project Output</a></li>
 </ul>
-<p>Understanding that split keeps the documentation easier to navigate and helps teams decide what belongs in production.</p>
-<h2 id="runtime-layer">Runtime Layer</h2>
-<p>The runtime layer is what your Django app imports and executes:</p>
+<h2 id="notes">Notes</h2>
 <ul>
-<li><code>codex_django.core</code></li>
-<li><code>codex_django.system</code></li>
-<li><code>codex_django.notifications</code></li>
-<li><code>codex_django.booking</code></li>
-<li><code>codex_django.cabinet</code></li>
-</ul>
-<p>These modules define reusable models, mixins, selectors, adapters, Redis helpers, templates, and integration points.</p>
-<h2 id="cli-layer">CLI Layer</h2>
-<p>The CLI layer is what developers use to create and evolve project structure:</p>
-<ul>
-<li><code>codex_django_cli.main</code></li>
-<li>command handlers under <code>codex_django_cli.commands</code></li>
-<li>blueprint trees under <code>codex_django_cli.blueprints</code></li>
-<li>rendering logic in <code>codex_django_cli.engine</code></li>
-</ul>
-<p>This layer is about generation, orchestration, and project assembly.</p>
-<h2 id="how-to-think-about-the-boundary">How To Think About The Boundary</h2>
-<ul>
-<li>Runtime code stays in the long-lived application path of the generated project.</li>
-<li>CLI code runs before or around that runtime path to create files, wiring, and defaults.</li>
-<li>Generated output becomes your project's codebase and can then evolve independently.</li>
-</ul>
-<h2 id="practical-rule">Practical Rule</h2>
-<p>If the question is "what does my Django app import at runtime?", stay in the runtime modules.
-If the question is "what command creates or extends this structure?", move into the CLI guides and architecture pages.</p>
-<h2 id="related-pages">Related Pages</h2>
-<ul>
-<li><a href="../../getting-started/">Getting Started</a></li>
-<li><a href="../installation-modes/">Installation Modes</a></li>
-<li><a href="./project-structure.md">Project Structure</a></li>
-<li><a href="../../architecture/cli/">CLI Architecture</a></li>
+<li>This guide dictates how to use the interactive CLI and engine features for project construction.</li>
+<li>Make sure you check out the runtime guides inside <code>codex-django</code> for actual framework usage after initialization.</li>
 </ul>
 
 
@@ -1518,6 +1508,12 @@ If the question is "what command creates or extends this structure?", move into 
           
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
         
       </main>
       
@@ -1548,12 +1544,12 @@ If the question is "what command creates or extends this structure?", move into 
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": [], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "navigation.breadcrumbs", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
       
-        <script src="../../../javascripts/mermaid.js"></script>
+        <script src="../javascripts/mermaid.js"></script>
       
     
   </body>
