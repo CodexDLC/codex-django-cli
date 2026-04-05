@@ -1,7 +1,9 @@
 import os
 from pathlib import Path
 
+{%- if enable_i18n %}
 from codex_django.core.i18n.discovery import discover_locale_paths
+{%- endif %}
 
 # Root of Django project: src/backend_django
 BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
@@ -34,6 +36,7 @@ LANGUAGES = [
 
 try:
     import modeltranslation  # noqa
+
     MODELTRANSLATION_DEFAULT_LANGUAGE = LANGUAGE_CODE.split("-")[0]
     MODELTRANSLATION_LANGUAGES = ({% for lang in languages %}"{{ lang }}", {% endfor %})
 except ImportError:

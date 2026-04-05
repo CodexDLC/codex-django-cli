@@ -1,0 +1,41 @@
+"""Compatibility wrapper for booking bridge access inside the sandbox cabinet."""
+
+{%- if with_booking %}
+from codex_django.booking import (
+    BookingActionResult,
+    BookingBridge,
+    BookingCalendarPrefillState,
+    BookingFormFieldState,
+    BookingFormState,
+    BookingModalActionState,
+    BookingModalState,
+    BookingProfileState,
+    BookingQuickCreateState,
+    BookingSlotOptionState,
+    BookingSlotPickerState,
+    BookingSummaryItemState,
+)
+from features.booking.services.cabinet import get_booking_bridge
+
+__all__ = [
+    "BookingActionResult",
+    "BookingBridge",
+    "BookingCalendarPrefillState",
+    "BookingFormFieldState",
+    "BookingFormState",
+    "BookingModalActionState",
+    "BookingModalState",
+    "BookingProfileState",
+    "BookingQuickCreateState",
+    "BookingSlotOptionState",
+    "BookingSlotPickerState",
+    "BookingSummaryItemState",
+    "get_booking_bridge",
+]
+{%- else %}
+__all__: list[str] = []
+
+
+def get_booking_bridge() -> None:
+    raise RuntimeError("Booking module is not installed in this scaffold.")
+{%- endif %}

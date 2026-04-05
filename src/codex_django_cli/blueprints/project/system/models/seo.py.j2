@@ -2,7 +2,12 @@ from typing import Any, ClassVar
 
 from codex_django.system.mixins.seo import AbstractStaticPageSeo
 from django.db import models
+{%- if enable_i18n %}
 from django.utils.translation import gettext_lazy as _
+{%- else %}
+def _(message: str) -> str:
+    return message
+{%- endif %}
 
 
 class StaticPageSeo(AbstractStaticPageSeo):

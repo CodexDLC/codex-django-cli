@@ -62,7 +62,7 @@ cd myproject
 # Make sure you are in a dedicated virtual environment
 pip install -e .
 python src/myproject/manage.py migrate
-python src/myproject/manage.py runserver_plus
+python src/myproject/manage.py startserver
 ```
 
 Add modular features incrementally to an existing project:

@@ -3,12 +3,16 @@ from codex_django.system.mixins.settings import (
     SiteContactSettingsMixin,
     SiteEmailSettingsMixin,
     SiteGeoSettingsMixin,
-    SiteLegalSettingsMixin,
     SiteMarketingSettingsMixin,
     SiteSocialSettingsMixin,
     SiteTechnicalSettingsMixin,
 )
+{%- if enable_i18n %}
 from django.utils.translation import gettext_lazy as _
+{%- else %}
+def _(message: str) -> str:
+    return message
+{%- endif %}
 
 
 class SiteSettings(
@@ -19,7 +23,6 @@ class SiteSettings(
     SiteMarketingSettingsMixin,
     SiteTechnicalSettingsMixin,
     SiteEmailSettingsMixin,
-    SiteLegalSettingsMixin
 ):
     """
     Global site settings.

@@ -1,0 +1,34 @@
+"""Scaffold-owned cabinet registration for resource-slot booking."""
+
+from codex_django.cabinet import SidebarItem, TopbarEntry, declare
+from django.urls import reverse_lazy
+{%- if enable_i18n %}
+from django.utils.translation import gettext_lazy as _
+{%- else %}
+def _(message: str) -> str:
+    return message
+{%- endif %}
+
+declare(
+    module="booking",
+    space="staff",
+    settings_url="cabinet:booking_settings",
+    topbar=TopbarEntry(
+        group="services",
+        label=str(_("Booking")),
+        icon="bi-calendar-check",
+        url=reverse_lazy("cabinet:booking_schedule"),
+    ),
+    sidebar=[
+        SidebarItem(label=str(_("Schedule")), url=reverse_lazy("cabinet:booking_schedule"), icon="bi-calendar3"),
+        SidebarItem(label=str(_("New booking")), url=reverse_lazy("cabinet:booking_new"), icon="bi-plus-circle"),
+        SidebarItem(label=str(_("Appointments")), url=reverse_lazy("cabinet:booking_list"), icon="bi-list-ul"),
+    ],
+)
+
+
+
+
+
+
+

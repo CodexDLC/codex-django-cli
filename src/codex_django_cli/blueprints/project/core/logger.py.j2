@@ -50,8 +50,10 @@ def init_logging() -> None:
         log_levels={
             "django.db.backends": logging.WARNING,
             "django.utils.autoreload": logging.WARNING,
+            "django_lifecycle": logging.WARNING,
         },
     )
 
     if not isinstance(logger, logging.Logger):
         logger.info(f"Loguru initialized via codex-core for {service_name}")
+

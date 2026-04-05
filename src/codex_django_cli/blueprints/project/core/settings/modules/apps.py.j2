@@ -54,10 +54,15 @@ CODEX_STATIC_PAGE_SEO_MODEL = "system.StaticPageSeo"
 LOCAL_APPS = [
     "core",
     "system",
-    "cabinet",
     "features.main",
+{%- if with_cabinet %}
+    "cabinet",
+{%- endif %}
+{%- if with_conversations %}
+    "features.conversations",
+{%- endif %}
 {%- if with_booking %}
-    "booking",
+    "features.booking",
 {%- endif %}
 ]
 

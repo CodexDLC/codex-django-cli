@@ -22,18 +22,15 @@ SOCIALACCOUNT_PROVIDERS = {
     "google": {
         "APP": {
             "client_id": os.environ.get("GOOGLE_CLIENT_ID", ""),
-            "secret":    os.environ.get("GOOGLE_CLIENT_SECRET", ""),
+            "secret": os.environ.get("GOOGLE_CLIENT_SECRET", ""),
         },
         "SCOPE": ["profile", "email"],
         "AUTH_PARAMS": {"access_type": "online"},
     }
 }
 
-# ═══════════════════════════════════════════
-# Client Cabinet  [codex-django add client-cabinet]
-# Uncomment after running the scaffold command
-# ═══════════════════════════════════════════
-
+# Cabinet adapter hooks are scaffold-owned now.
+# Keep commented defaults as extension points for project-specific redirects.
 # ACCOUNT_ADAPTER = "cabinet.adapters.CabinetAccountAdapter"
 # CABINET_DEFAULT_URL = "/cabinet/"
-# CABINET_CLIENT_URL  = "/cabinet/my/"
+# CABINET_CLIENT_URL = "/cabinet/my/"

@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-04-05
+
+### Added
+- **Cabinet blueprint package**: Extracted a dedicated top-level `cabinet` blueprint family with templates, services, views, assets, and cabinet routing for richer scaffold generation.
+- **Booking scaffolding layers**: Added `booking_core`, `booking_public`, and expanded booking feature templates for providers, runtime services, public flow steps, and cabinet booking builders.
+- **Conversations scaffolding**: Added the `features/conversations` blueprint set with models, migrations, services, selectors, cabinet integration, and contact flow templates.
+- **System/project templates**: Added scaffold templates for `startserver`, `compile_assets`, client profile selectors/services, site settings services, user profile model, manifest/robots/sw assets, and LLM-facing text templates.
+- **CLI utilities**: Added `install` and `repo` commands plus project-tree generation helpers and dedicated unit coverage for the new command surface.
+
+### Changed
+- **CLI command architecture**: Refactored the main command registry and prompts, consolidating legacy command flows into the new install/repo oriented structure.
+- **Cabinet layout organization**: Moved cabinet scaffold assets out of `blueprints/project/cabinet` into a reusable top-level blueprint package and aligned dependent project templates accordingly.
+- **Developer quality gates**: Updated `pyproject.toml`, `tools/dev/check.py`, and scaffolded repo tooling to use the shared `codex-core>=0.3.0,<0.4.0` check flow and restored default unit coverage settings.
+- **Documentation**: Updated English and Russian CLI architecture/getting-started pages to reflect the new scaffold layout and the `python ... manage.py startserver` workflow.
+- **Release hygiene**: Ignored local sandbox and generated overview artifacts so exploratory audit output does not leak into future release commits.
+
+### Removed
+- **Legacy CLI entrypoints**: Removed the old `add_app`, `booking`, `client_cabinet`, and `notifications` command modules from the standalone CLI package.
+- **Obsolete scaffold pieces**: Removed legacy cabinet mock/selector/users templates and replaced the old `runserver_plus` management command template with `startserver`.
+
+
 ## [0.2.4] - 2026-03-30
 
 ### Changed

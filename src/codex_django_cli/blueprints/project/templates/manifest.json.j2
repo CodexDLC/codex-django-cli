@@ -1,0 +1,27 @@
+{
+    "name": "{% if site_settings is defined and site_settings.company_name is defined %}{{ site_settings.company_name }}{% else %}Codex Project{% endif %}",
+    "short_name": "{% if site_settings is defined and site_settings.project_name is defined %}{{ site_settings.project_name }}{% else %}Codex{% endif %}",
+    "description": "{% if site_settings is defined and site_settings.site_description is defined %}{{ site_settings.site_description }}{% else %}Powered by Codex{% endif %}",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#ffffff",
+    "theme_color": "#000000",
+    "lang": "{{ LANGUAGE_CODE|default('en') }}",
+    "icons": [
+        {
+            "src": "/static/img/favicon/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/static/img/favicon/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}
+

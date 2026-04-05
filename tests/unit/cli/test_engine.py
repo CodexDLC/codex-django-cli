@@ -111,6 +111,18 @@ class TestScaffold:
 
         assert (target / "file.txt").read_text() == "new content"
 
+    def test_prefers_j2_when_raw_and_template_share_output_name(self, tmp_path: Path):
+        bp_dir = tmp_path / "blueprints"
+        bp = self._make_blueprint(bp_dir, "myblueprint")
+        (bp / "home.html").write_text("raw")
+        (bp / "home.html.j2").write_text("rendered {{ value }}")
+
+        engine = CLIEngine(blueprints_dir=str(bp_dir))
+        target = tmp_path / "output"
+        engine.scaffold("myblueprint", str(target), {"value": "template"})
+
+        assert (target / "home.html").read_text() == "rendered template"
+
     def test_raises_on_missing_blueprint(self, tmp_path: Path):
         bp_dir = tmp_path / "blueprints"
         bp_dir.mkdir()

@@ -1,0 +1,18 @@
+from django.apps import AppConfig
+{%- if enable_i18n %}
+from django.utils.translation import gettext_lazy as _
+{%- else %}
+def _(message: str) -> str:
+    return message
+{%- endif %}
+
+
+class ConversationsConfig(AppConfig):
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "features.conversations"
+    verbose_name = _("Conversations")
+
+
+
+
+

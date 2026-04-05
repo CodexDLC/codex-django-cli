@@ -6,10 +6,10 @@
 
 {% block sidebar_nav %}
 <li>
-  <a href="{% url 'cabinet:my_appointments' %}"
+  <a href="{% url 'cabinet:my_bookings' %}"
      class="cab-nav__item d-flex align-items-center px-3 py-2 rounded mx-2
-            {% if active_section == 'my' %}cab-nav__item--active{% endif %}"
-     hx-get="{% url 'cabinet:my_appointments' %}"
+            {% if active_section == 'my_bookings' %}cab-nav__item--active{% endif %}"
+     hx-get="{% url 'cabinet:my_bookings' %}"
      hx-target="#cab-content"
      hx-push-url="true"
      style="color: var(--cab-sidebar-text); transition: background 0.15s;">

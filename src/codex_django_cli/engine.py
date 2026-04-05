@@ -84,16 +84,20 @@ class CLIEngine:
             dest_dir = os.path.normpath(os.path.join(target_dir, rel_path))
             os.makedirs(dest_dir, exist_ok=True)
 
-            for file in files:
+            # Prefer templated sources when both `foo` and `foo.j2` exist.
+            # This keeps scaffold output deterministic and renders the variant.
+            preferred_files: dict[str, str] = {}
+            for file in sorted(files):
+                output_name = file[:-3] if file.endswith(".j2") else file
+                current = preferred_files.get(output_name)
+                if current is None or file.endswith(".j2"):
+                    preferred_files[output_name] = file
+
+            for dest_file_name, file in preferred_files.items():
                 source_file = os.path.join(root, file)
 
                 # Determine destination filename
-                if file.endswith(".j2"):
-                    dest_file_name = file[:-3]
-                    is_template = True
-                else:
-                    dest_file_name = file
-                    is_template = False
+                is_template = bool(file.endswith(".j2"))
 
                 dest_file_path = os.path.join(dest_dir, dest_file_name)
 

@@ -1,0 +1,220 @@
+{%- if with_booking %}
+# CODEX_DJANGO_CLI BLUEPRINT STATUS: MOVE_TO_CLI_BLUEPRINT. Reason: generated app-layer or scaffold-owned file for codex-django-cli blueprints.
+
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Any
+
+from django import forms
+from django.contrib import messages
+from django.db import OperationalError, ProgrammingError
+from django.http import HttpResponse
+from django.shortcuts import redirect
+from django.views.generic import TemplateView
+from features.booking.booking_settings import BookingSettings
+
+from ..services.booking import BookingService
+
+if TYPE_CHECKING:
+    _BaseForm = forms.ModelForm[BookingSettings]
+else:
+    _BaseForm = forms.ModelForm
+
+
+class BookingSettingsForm(_BaseForm):
+    class Meta:
+        model = BookingSettings
+        fields = [
+            "step_minutes",
+            "default_buffer_between_minutes",
+            "min_advance_minutes",
+            "max_advance_days",
+            "work_start_weekdays",
+            "work_end_weekdays",
+            "work_start_saturday",
+            "work_end_saturday",
+        ]
+        widgets = {
+            "work_start_weekdays": forms.TimeInput(attrs={"type": "time"}),
+            "work_end_weekdays": forms.TimeInput(attrs={"type": "time"}),
+            "work_start_saturday": forms.TimeInput(attrs={"type": "time"}),
+            "work_end_saturday": forms.TimeInput(attrs={"type": "time"}),
+        }
+
+
+class BaseBookingView(TemplateView):
+    """Base class to inject 'booking' module state into requests."""
+
+    def dispatch(self, request: Any, *args: Any, **kwargs: Any) -> Any:
+        request.cabinet_module = "booking"
+        return super().dispatch(request, *args, **kwargs)
+
+
+class BookingScheduleView(BaseBookingView):
+    """Renders the calendar/schedule."""
+
+    template_name = "cabinet/booking/schedule.html"
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context.update(BookingService.get_schedule_context(self.request))
+        return context
+
+
+class NewBookingView(BaseBookingView):
+    """Renders the form/dashboard for creating a new booking."""
+
+    template_name = "cabinet/booking/new.html"
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context.update(BookingService.get_new_booking_context(self.request))
+        return context
+
+
+class BookingCreateView(BaseBookingView):
+    """POST endpoint for the cabinet full booking builder."""
+
+    def post(self, request: Any, *args: Any, **kwargs: Any) -> HttpResponse:
+        result = BookingService.create_new_booking(request)
+        return redirect(result["target_url"])
+
+
+class BookingListView(BaseBookingView):
+    """Renders appointment lists with status filtering."""
+
+    template_name = "cabinet/booking/list.html"
+
+    def get_template_names(self) -> list[str]:
+        if self.request.headers.get("HX-Request"):
+            return ["cabinet/booking/partials/_appointments_table.html"]
+        return [self.template_name]
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        status = self.kwargs.get("status") or self.request.GET.get("status", "all")
+
+        list_context = BookingService.get_list_context(self.request, status=status)
+        context.update(list_context)
+        context["current_status"] = status
+        return context
+
+
+class BookingModalView(BaseBookingView):
+    """Renders modular modals for a specific booking."""
+
+    template_name = "cabinet/components/generic_modal.html"
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        booking_id = self.kwargs.get("pk")
+        context.update(BookingService.get_booking_modal_context(self.request, booking_id))
+        return context
+
+
+class BookingActionView(BaseBookingView):
+    """Thin POST endpoint for demo booking actions."""
+
+    def post(self, request: Any, *args: Any, **kwargs: Any) -> HttpResponse:
+        result = BookingService.perform_action(
+            request,
+            booking_id=self.kwargs["pk"],
+            action=self.kwargs["action"],
+        )
+        return redirect(result["target_url"])
+
+
+class BookingSettingsView(BaseBookingView):
+    """Render and save resource-slot booking settings for the booking module."""
+
+    template_name = "cabinet/booking/settings.html"
+
+    def _load_settings(self) -> tuple[BookingSettings, str | None]:
+        # TODO(architecture): This view still owns persistence for booking settings.
+        # Per the cabinet regulation, ORM access and save flows should move into a
+        # dedicated service-layer contract before this pattern is used in blueprints.
+        try:
+            instance, _ = BookingSettings.objects.get_or_create(pk=1)
+            return instance, None
+        except (OperationalError, ProgrammingError):
+            return BookingSettings(), "Booking settings storage is not available yet."  # type: ignore[no-untyped-call]
+
+    def _get_context(self, *, form: BookingSettingsForm, storage_warning: str | None) -> dict[str, Any]:
+        context = self.get_context_data()
+        context.update(
+            {
+                "title": "Booking settings",
+                "form": form,
+                "storage_warning": storage_warning,
+            }
+        )
+        return context
+
+    def get(self, request: Any, *args: Any, **kwargs: Any) -> HttpResponse:
+        instance, storage_warning = self._load_settings()
+        form = BookingSettingsForm(instance=instance)
+        return self.render_to_response(self._get_context(form=form, storage_warning=storage_warning))
+
+    def post(self, request: Any, *args: Any, **kwargs: Any) -> HttpResponse:
+        instance, storage_warning = self._load_settings()
+        if storage_warning:
+            messages.error(request, storage_warning)
+            form = BookingSettingsForm(instance=instance)
+            return self.render_to_response(self._get_context(form=form, storage_warning=storage_warning))
+
+        form = BookingSettingsForm(request.POST, instance=instance)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Booking settings saved.")
+            return redirect("cabinet:booking_settings")
+
+        return self.render_to_response(self._get_context(form=form, storage_warning=storage_warning))
+
+{%- else %}
+from typing import Any
+
+from django.http import HttpResponseNotFound
+from django.views import View
+
+
+class BookingSettingsForm:  # pragma: no cover - scaffold fallback
+    pass
+
+
+class _BookingDisabledView(View):
+    def dispatch(self, request: Any, *args: Any, **kwargs: Any) -> HttpResponseNotFound:
+        return HttpResponseNotFound("Booking module is disabled in this scaffold.")
+
+
+class BaseBookingView(_BookingDisabledView):
+    pass
+
+
+class BookingScheduleView(_BookingDisabledView):
+    pass
+
+
+class NewBookingView(_BookingDisabledView):
+    pass
+
+
+class BookingCreateView(_BookingDisabledView):
+    pass
+
+
+class BookingListView(_BookingDisabledView):
+    pass
+
+
+class BookingModalView(_BookingDisabledView):
+    pass
+
+
+class BookingActionView(_BookingDisabledView):
+    pass
+
+
+class BookingSettingsView(_BookingDisabledView):
+    pass
+{%- endif %}
+

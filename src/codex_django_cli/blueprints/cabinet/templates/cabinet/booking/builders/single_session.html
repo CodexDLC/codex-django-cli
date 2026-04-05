@@ -1,0 +1,225 @@
+{# CODEX_DJANGO_CLI BLUEPRINT STATUS: MOVE_TO_CLI_BLUEPRINT. Reason: generated app-layer or scaffold-owned template for codex-django-cli blueprints. #}
+<div x-data="bookingApp()"
+     x-init="init()"
+     @client-selected.window="onClientSelected($event.detail)"
+     @client-input.window="clientFName = $event.detail.fname; clientLName = $event.detail.lname; clientPhone = $event.detail.phone; clientEmail = $event.detail.email">
+  <div class="row g-4">
+    <div class="col-xl-8 col-lg-7">
+      {% include "cabinet/components/widgets/service_selector.html" with selector=selector %}
+      {% include "cabinet/components/widgets/date_time_picker.html" with picker=picker %}
+      {% include "cabinet/components/widgets/client_selector.html" with obj=client_selector %}
+    </div>
+
+    <div class="col-xl-4 col-lg-5">
+      {% include "cabinet/components/widgets/summary_panel.html" with summary=summary %}
+    </div>
+  </div>
+</div>
+
+<script>
+function bookingApp() {
+    return {
+        selectedServices: [],
+        selectedDate: '{{ picker.default_date|escapejs }}',
+        selectedTime: '',
+        selectedClient: null,
+        clientFName: '',
+        clientLName: '',
+        clientPhone: '',
+        clientEmail: '',
+        activeCategory: 'all',
+        slotMatrix: {{ picker.slot_matrix_json|safe }},
+        dayLabels: {
+          {% for day in picker.available_days %}
+          '{{ day.iso }}': '{{ day.label|escapejs }}'{% if not forloop.last %},{% endif %}
+          {% endfor %}
+        },
+        dayMonthKeys: {
+          {% for day in picker.available_days %}
+          '{{ day.iso }}': '{{ day.month_key|escapejs }}'{% if not forloop.last %},{% endif %}
+          {% endfor %}
+        },
+        monthLabels: {
+          {% for day in picker.available_days %}
+          {% ifchanged day.month_key %}
+          '{{ day.month_key }}': '{{ day.month_label|escapejs }}',
+          {% endifchanged %}
+          {% endfor %}
+        },
+        monthKeys: [
+          {% for day in picker.available_days %}
+          {% ifchanged day.month_key %}
+          '{{ day.month_key|escapejs }}'{% if not forloop.last %},{% endif %}
+          {% endifchanged %}
+          {% endfor %}
+        ],
+        currentMonthKey: '{{ picker.available_days.0.month_key|default:"" }}',
+        masters: {{ summary.masters|safe }},
+
+        init() {
+            const slots = this.visibleTimeSlots();
+            if (slots.length) {
+                this.selectedTime = slots[0];
+            }
+        },
+
+        hasService(id) {
+            return this.selectedServices.some(s => s.id === id);
+        },
+
+        isServiceConflict(existingService, nextService) {
+            if (!existingService || !nextService) return false;
+            const explicitConflict = (existingService.conflictsWith || []).includes(String(nextService.id))
+                || (nextService.conflictsWith || []).includes(String(existingService.id));
+            const sharedExclusiveGroup = Boolean(existingService.exclusiveGroup)
+                && existingService.exclusiveGroup === nextService.exclusiveGroup;
+            return explicitConflict || sharedExclusiveGroup;
+        },
+
+        toggleService(id, name, price, duration, masterIds, exclusiveGroup, conflictsWith, replacementMode) {
+            const index = this.selectedServices.findIndex(s => s.id === id);
+            if (index > -1) {
+                this.selectedServices.splice(index, 1);
+            } else {
+                const nextService = {
+                    id: id,
+                    name: name,
+                    price: price,
+                    duration: duration,
+                    masterId: '',
+                    masterIds: masterIds || [],
+                    exclusiveGroup: exclusiveGroup || '',
+                    conflictsWith: conflictsWith || [],
+                    replacementMode: replacementMode || 'replace'
+                };
+                const hasConflictMetadata = Boolean(nextService.exclusiveGroup) || nextService.conflictsWith.length > 0;
+                if (hasConflictMetadata && nextService.replacementMode === 'replace') {
+                    this.selectedServices = this.selectedServices.filter((service) => !this.isServiceConflict(service, nextService));
+                }
+                this.selectedServices.push(nextService);
+            }
+            this.ensureValidSelectedTime();
+        },
+
+        totalPrice() {
+            return this.selectedServices.reduce((sum, s) => sum + parseFloat(s.price), 0);
+        },
+
+        totalDuration() {
+            return this.selectedServices.reduce((sum, s) => sum + parseInt(s.duration), 0);
+        },
+
+        selectedDateText() {
+            if (!this.selectedDate) return '';
+            return this.dayLabels[this.selectedDate] || this.selectedDate;
+        },
+
+        selectDate(iso) {
+            this.selectedDate = iso;
+            this.currentMonthKey = this.dayMonthKeys[iso] || this.currentMonthKey;
+            this.ensureValidSelectedTime();
+        },
+
+        isDayInCurrentMonth(iso) {
+            return (this.dayMonthKeys[iso] || '') === this.currentMonthKey;
+        },
+
+        currentMonthLabel() {
+            return this.monthLabels[this.currentMonthKey] || '{{ picker.current_month|escapejs }}';
+        },
+
+        goMonth(step) {
+            const index = this.monthKeys.indexOf(this.currentMonthKey);
+            if (index === -1) return;
+            const nextIndex = index + step;
+            if (nextIndex < 0 || nextIndex >= this.monthKeys.length) return;
+            this.currentMonthKey = this.monthKeys[nextIndex];
+            if (!this.isDayInCurrentMonth(this.selectedDate)) {
+                const firstDay = Object.keys(this.dayMonthKeys).find((iso) => this.dayMonthKeys[iso] === this.currentMonthKey);
+                if (firstDay) {
+                    this.selectDate(firstDay);
+                }
+            }
+        },
+
+        visibleTimeSlots() {
+            const daySlots = this.slotMatrix[this.selectedDate] || {};
+            const selectedMasterIds = this.selectedServices
+                .map((service) => service.masterId)
+                .filter((value) => value !== '' && value !== null && value !== undefined)
+                .map((value) => String(value));
+            const candidateIds = selectedMasterIds.length
+                ? selectedMasterIds
+                : Object.keys(daySlots);
+            const collected = new Set();
+            candidateIds.forEach((masterId) => {
+                (daySlots[String(masterId)] || []).forEach((slot) => collected.add(slot));
+            });
+            return Array.from(collected).sort();
+        },
+
+        ensureValidSelectedTime() {
+            const slots = this.visibleTimeSlots();
+            if (!slots.includes(this.selectedTime)) {
+                this.selectedTime = slots[0] || '';
+            }
+        },
+
+        resolveMasterName(masterId) {
+            if (!masterId) return '';
+            const match = this.masters.find((master) => String(master.id) === String(masterId));
+            return match ? match.name : '';
+        },
+
+        chainPreview() {
+            if (!this.selectedTime) return [];
+            const preview = [];
+            let [hours, minutes] = this.selectedTime.split(':').map((value) => parseInt(value, 10));
+            let total = hours * 60 + minutes;
+            this.selectedServices.forEach((service) => {
+                const start = `${String(Math.floor(total / 60)).padStart(2, '0')}:${String(total % 60).padStart(2, '0')}`;
+                total += parseInt(service.duration, 10);
+                const end = `${String(Math.floor(total / 60)).padStart(2, '0')}:${String(total % 60).padStart(2, '0')}`;
+                preview.push({
+                    id: service.id,
+                    name: service.name,
+                    start: start,
+                    end: end,
+                    masterName: this.resolveMasterName(service.masterId),
+                });
+            });
+            return preview;
+        },
+
+        onClientSelected(client) {
+            this.selectedClient = client;
+            if (client) {
+                this.clientFName = client.name.split(' ')[0] || '';
+                this.clientLName = client.name.split(' ').slice(1).join(' ') || '';
+                this.clientPhone = client.phone || '';
+                this.clientEmail = client.email || '';
+            } else {
+                this.clientFName = '';
+                this.clientLName = '';
+                this.clientPhone = '';
+                this.clientEmail = '';
+            }
+        },
+
+        resetAll() {
+            this.selectedServices = [];
+            this.selectedDate = '{{ picker.default_date|escapejs }}';
+            this.currentMonthKey = this.dayMonthKeys[this.selectedDate] || this.currentMonthKey;
+            this.selectedTime = this.visibleTimeSlots()[0] || '';
+            this.selectedClient = null;
+            this.clientFName = '';
+            this.clientLName = '';
+            this.clientPhone = '';
+            this.clientEmail = '';
+        }
+    }
+}
+</script>
+
+
+

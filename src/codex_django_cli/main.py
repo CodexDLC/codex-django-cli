@@ -1,311 +1,242 @@
-"""Top-level entrypoint for the interactive codex-django CLI.
-
-The module decides whether to show the global scaffold menu or the
-project-local command menu and also keeps compatibility with legacy
-argument-based invocations.
-"""
+"""Top-level entrypoint for the interactive codex-django CLI."""
 
 from __future__ import annotations
 
 import os
 import sys
+from typing import TYPE_CHECKING, Literal
 
 from rich.console import Console
 
 from codex_django_cli import prompts
 
+if TYPE_CHECKING:
+    from codex_django_cli.commands.install import InstallSelection
+
 console = Console()
+MenuResult = Literal["done", "back", "exit"]
 
 
 def main(args: list[str] | None = None, forced_project: str | None = None) -> int:
-    """Run the interactive or legacy codex-django CLI flow.
-
-    Args:
-        args: Optional CLI arguments. Defaults to ``sys.argv[1:]``.
-        forced_project: Optional project name used to bypass interactive
-            project selection in scaffold flows.
-
-    Returns:
-        Process-style exit code.
-    """
     if args is None:
         args = sys.argv[1:]
-
-    # Handle explicit CLI menu alias.
     if args and args[0] == "menu":
         args = args[1:]
         if not args:
             return _interactive_menu(forced_project=forced_project)
-
     if args:
-        return _handle_legacy_args(args)
-
+        return _handle_cli_args(args)
     return _interactive_menu(forced_project=forced_project)
 
 
-def _is_in_project() -> bool:
-    """Check if the current directory is a codex-django scaffolded project root.
-
-    Requires both pyproject.toml and a Django manage.py inside src/<project>/.
-    This distinguishes a real user project from the library's own source tree.
-    """
-    if not os.path.exists("pyproject.toml") or not os.path.isdir("src"):
-        return False
-    src_path = os.path.join(os.getcwd(), "src")
-    try:
-        for item in os.listdir(src_path):
-            if os.path.isfile(os.path.join(src_path, item, "manage.py")):
-                return True
-    except OSError:
-        pass
-    return False
-
-
 def _interactive_menu(forced_project: str | None = None) -> int:
-    """Dispatch to the global or project-local interactive menu."""
-    if _is_in_project():
-        return _project_menu(forced_project=forced_project)
-    return _global_menu()
+    return _global_menu(forced_project=forced_project)
 
 
-def _global_menu() -> int:
-    """Handle the top-level menu shown outside a scaffolded project."""
-    action = prompts.ask_main_action(is_project=False)
-    if action == "🚀  Init new project":
-        return _init_wizard()
-    return 0
+def _global_menu(forced_project: str | None = None) -> int:
+    while True:
+        action = prompts.ask_main_action()
+        if not action or action == "❌  Exit":
+            return 0
+        if action == "🚀  Init Django project":
+            result = _init_wizard()
+        elif action == "🧩  Extend existing Django project":
+            result = _extend_wizard(forced_project=forced_project)
+        elif action == "🏗  Generate deployment files":
+            result = _deploy_wizard(generate_docker=True, generate_cicd=False, forced_project=forced_project)
+        elif action == "🔁  Generate CI/CD workflows":
+            result = _deploy_wizard(generate_docker=False, generate_cicd=True, forced_project=forced_project)
+        elif action == "🪝  Configure pre-commit":
+            result = _precommit_wizard()
+        elif action == "📦  Generate repo config files":
+            result = _repo_config_wizard(forced_project=forced_project)
+        else:
+            result = "back"
+        if result == "exit":
+            return 0
 
 
-def _init_wizard() -> int:
-    """Interactive project init wizard."""
+def _list_projects(src_path: str) -> list[str]:
+    if not os.path.isdir(src_path):
+        return []
+    projects: list[str] = []
+    for item in sorted(os.listdir(src_path)):
+        if item.startswith("."):
+            continue
+        project_dir = os.path.join(src_path, item)
+        manage_py = os.path.join(project_dir, "manage.py")
+        if os.path.isdir(project_dir) and os.path.isfile(manage_py):
+            projects.append(item)
+    return projects
+
+
+def _resolve_project_dir(forced_project: str | None = None) -> str | None:
+    src_path = os.path.join(os.getcwd(), "src")
+    if forced_project:
+        return os.path.join(src_path, forced_project)
+    projects = _list_projects(src_path)
+    if not os.path.isdir(src_path):
+        console.print("[red]❌ No src/ directory found.[/red]")
+        return None
+    if not projects:
+        console.print("[red]❌ No Django projects found in src/[/red]")
+        return None
+    if len(projects) == 1:
+        return os.path.join(src_path, projects[0])
+    selected_target = prompts.ask_target_project(projects)
+    if not selected_target or selected_target == "← Back":
+        return None
+    return os.path.join(src_path, selected_target)
+
+
+def _resolve_project_name(forced_project: str | None = None) -> str | None:
+    if forced_project:
+        return forced_project
+    project_dir = _resolve_project_dir(forced_project=forced_project)
+    if project_dir:
+        return os.path.basename(project_dir)
+    return prompts.ask_project_name()
+
+
+def _build_selection_from_modules(modules: list[str], *, overwrite: bool, enable_i18n: bool, with_cloud_db: bool) -> InstallSelection:
+    from codex_django_cli.commands.install import InstallSelection
+    return InstallSelection(
+        cabinet="cabinet" in modules,
+        booking="booking" in modules or "booking_engine" in modules or "booking_cabinet" in modules,
+        booking_cabinet="booking_cabinet" in modules,
+        conversations="conversations" in modules,
+        public_booking="public_booking" in modules,
+        sw="sw" in modules,
+        overwrite=overwrite,
+        i18n=enable_i18n,
+        cloud_db=with_cloud_db,
+    )
+
+
+def _init_wizard() -> MenuResult:
     name = prompts.ask_project_name()
     if not name:
-        return 0
+        return "back"
     name = name.strip()
-
     mode = prompts.ask_init_mode()
     if not mode or mode == "← Back":
-        return 0
-
+        return "back"
     overwrite = "Force" in mode
     is_custom = "Custom" in mode
-
-    with_cabinet = False
-    with_booking = False
+    modules = ["cabinet", "conversations"]
     if is_custom:
-        modules = prompts.ask_init_modules()
-        with_cabinet = "cabinet" in modules
-        with_booking = "booking" in modules
+        selected_modules = prompts.ask_init_modules()
+        if selected_modules is None:
+            return "back"
+        modules = selected_modules
+    with_cloud_db = prompts.ask_with_cloud_db()
     enable_i18n = prompts.ask_enable_i18n()
     languages = prompts.ask_languages(enable_i18n) if enable_i18n else None
-
+    from codex_django_cli.commands.install import describe_plan, resolve_install_selection
+    selection = _build_selection_from_modules(modules, overwrite=overwrite, enable_i18n=enable_i18n, with_cloud_db=with_cloud_db)
+    resolved = resolve_install_selection(selection, base_mode=True)
+    if not prompts.ask_confirm_plan(describe_plan(resolved)):
+        return "back"
     from codex_django_cli.commands.init import handle_init
-
-    if languages is None:
-        handle_init(
-            name,
-            os.getcwd(),
-            target_dir=os.getcwd(),
-            overwrite=overwrite,
-            enable_i18n=enable_i18n,
-            with_cabinet=with_cabinet,
-            with_booking=with_booking,
-        )
-    else:
-        handle_init(
-            name,
-            os.getcwd(),
-            target_dir=os.getcwd(),
-            overwrite=overwrite,
-            enable_i18n=enable_i18n,
-            languages=languages,
-            with_cabinet=with_cabinet,
-            with_booking=with_booking,
-        )
-    return 0
+    handle_init(
+        name=name,
+        base_dir=os.getcwd(),
+        target_dir=os.getcwd(),
+        overwrite=overwrite,
+        enable_i18n=enable_i18n,
+        languages=languages,
+        with_cabinet=selection.cabinet,
+        with_booking=selection.booking,
+        with_conversations=selection.conversations,
+        with_public_booking=selection.public_booking,
+        with_sw=selection.sw,
+        with_cloud_db=with_cloud_db,
+    )
+    return "done"
 
 
-def _project_menu(forced_project: str | None = None) -> int:
-    """Handle the project-local menu shown inside a scaffolded project."""
-    action = prompts.ask_project_action()
+def _extend_wizard(forced_project: str | None = None) -> MenuResult:
+    project_dir = _resolve_project_dir(forced_project=forced_project)
+    if not project_dir:
+        return "back"
+    from codex_django_cli.commands.install import (
+        InstallSelection,
+        describe_plan,
+        detect_project_modules,
+        resolve_install_selection,
+        scaffold_compare_copy,
+        scaffold_existing_project,
+    )
+    detected_modules = detect_project_modules(project_dir)
+    modules = prompts.ask_extension_modules(installed_modules=detected_modules)
+    if modules is None:
+        return "back"
+    if not modules:
+        return "back"
 
-    if not action or action == "❌  Exit":
-        return 0
-
-    if action == "🆕  Init new project":
-        return _init_wizard()
-
-    if action == "🚀  Standard Commands":
-        return _handle_standard_commands()
-
-    elif action == "🧩  Scaffolding (Apps/Modules)":
-        return _handle_scaffolding(forced_project=forced_project)
-
-    elif action == "🛡  Quality & Tools":
-        return _handle_quality_tools()
-
-    elif action == "🏁  Deployment Setup":
-        return _handle_deployment_setup(forced_project=forced_project)
-
-    elif action == "⚙️  Security":
-        from codex_django_cli.utils import generate_field_encryption_key, generate_secret_key
-
-        secret_key = generate_secret_key()
-        field_encryption_key = generate_field_encryption_key()
-        console.print(f"\n[green]Generated new Django SECRET_KEY:[/green]\n[bold]{secret_key}[/bold]\n")
-        console.print(
-            f"[green]Generated new FIELD_ENCRYPTION_KEY (Fernet):[/green]\n[bold]{field_encryption_key}[/bold]\n"
-        )
-
-    return 0
-
-
-def _handle_standard_commands() -> int:
-    """Execute common Django management commands from the interactive menu."""
-    cmd = prompts.ask_standard_command()
-    if not cmd or cmd == "← Back":
-        return 0
-
-    from codex_django_cli.utils import run_django_command
-
-    if cmd == "makemigrations":
-        run_django_command(["makemigrations"])
-    elif cmd == "migrate":
-        run_django_command(["migrate"])
-    elif cmd == "createsuperuser":
-        run_django_command(["createsuperuser"])
-    elif cmd == "shell":
-        run_django_command(["shell"])
-    elif cmd == "i18n: Generate locale domains":
-        run_django_command(["codex_makemessages"])
-    elif cmd == "i18n: Compile":
-        run_django_command(["compilemessages"])
-
-    return 0
-
-
-def _handle_scaffolding(forced_project: str | None = None) -> int:
-    """Handle interactive feature scaffolding for an existing project.
-
-    Args:
-        forced_project: Optional project name used to bypass the target picker.
-
-    Returns:
-        Process-style exit code.
-    """
-    src_path = os.path.join(os.getcwd(), "src")
-
-    if forced_project:
-        target = forced_project
-    else:
-        projects = [d for d in os.listdir(src_path) if os.path.isdir(os.path.join(src_path, d))]
-        if not projects:
-            console.print("[red]❌ No projects found in src/[/red]")
-            return 1
-
-        if len(projects) == 1:
-            target = projects[0]
+    install_modules: list[str] = []
+    compare_modules: list[str] = []
+    for module_name in modules:
+        if not detected_modules.get(module_name):
+            install_modules.append(module_name)
+            continue
+        action = prompts.ask_existing_module_action(module_name.replace("_", " "))
+        if not action or action == "← Back":
+            return "back"
+        if action == "compare":
+            compare_modules.append(module_name)
         else:
-            selected_target = prompts.ask_target_project(projects)
-            if not selected_target:
-                return 0
-            target = selected_target
+            install_modules.append(module_name)
 
-    feature = prompts.ask_feature()
-    if not feature or feature == "← Back":
-        return 0
-
-    if feature == "Basic app":
-        app_name = prompts.ask_app_name()
-        if not app_name:
-            return 0
-        from codex_django_cli.commands.add_app import handle_add_app
-
-        handle_add_app(app_name.strip(), os.path.join(src_path, target))
-
-    elif feature == "Notifications":
-        app_name = prompts.ask_app_name("App name for notifications (default: system):", default="system")
-        if not app_name:
-            return 0
-        from codex_django_cli.commands.notifications import handle_add_notifications
-
-        handle_add_notifications(
-            app_name.strip(),
-            os.path.join(src_path, target),
+    if install_modules:
+        install_selection = InstallSelection(
+            cabinet="cabinet" in install_modules,
+            booking="booking" in install_modules or "booking_engine" in install_modules or "booking_cabinet" in install_modules,
+            booking_cabinet="booking_cabinet" in install_modules,
+            conversations="conversations" in install_modules,
+            public_booking="public_booking" in install_modules,
+            sw="sw" in install_modules,
         )
+        resolved_install = resolve_install_selection(install_selection, base_mode=False)
+        if not prompts.ask_confirm_plan(f"install: {describe_plan(resolved_install)}"):
+            return "back"
+        scaffold_existing_project(project_dir=project_dir, selection=install_selection)
 
-    elif feature == "Client Cabinet":
-        from codex_django_cli.commands.client_cabinet import handle_add_client_cabinet
-
-        handle_add_client_cabinet(os.path.join(src_path, target))
-
-    elif feature == "Booking (Advanced)":
-        from codex_django_cli.commands.booking import handle_add_booking
-
-        handle_add_booking(os.path.join(src_path, target))
-
-    return 0
-
-
-def _handle_quality_tools() -> int:
-    """Run quality helpers chosen from the interactive menu."""
-    opt = prompts.ask_quality_tool()
-    if not opt or opt == "← Back":
-        return 0
-
-    if opt == "Configure pre-commit":
-        from codex_django_cli.commands.quality import handle_configure_precommit
-
-        handle_configure_precommit(os.getcwd())
-    elif opt == "Run Project Checker":
-        console.print("[yellow]Running Project Checker...[/yellow]")
-        import subprocess
-
-        # Using --all as it's a developer-friendly interactive default in BaseCheckRunner
-        subprocess.run([sys.executable, "tools/dev/check.py", "--all"])  # nosec B603
-    return 0
+    if compare_modules:
+        compare_selection = InstallSelection(
+            cabinet="cabinet" in compare_modules,
+            booking="booking" in compare_modules or "booking_engine" in compare_modules or "booking_cabinet" in compare_modules,
+            booking_cabinet="booking_cabinet" in compare_modules,
+            conversations="conversations" in compare_modules,
+            public_booking="public_booking" in compare_modules,
+            sw="sw" in compare_modules,
+        )
+        resolved_compare = resolve_install_selection(compare_selection, base_mode=False)
+        if not prompts.ask_confirm_plan(f"compare copy: {describe_plan(resolved_compare)}"):
+            return "back"
+        scaffold_compare_copy(project_dir=project_dir, selection=compare_selection)
+    return "done"
 
 
-def _handle_deployment_setup(forced_project: str | None = None) -> int:
-    """Collect deployment options and generate deploy scaffolding."""
-    opt = prompts.ask_deploy_option()
-    if not opt or opt == "← Back":
-        return 0
-
-    generate_docker = "Docker" in opt
-    generate_cicd = "CI/CD" in opt
-
-    src_path = os.path.join(os.getcwd(), "src")
-
-    if forced_project:
-        target = forced_project
-    else:
-        projects = [d for d in os.listdir(src_path) if os.path.isdir(os.path.join(src_path, d))]
-        if not projects:
-            console.print("[red]No projects found in src/ directory.[/red]")
-            return 0
-        if len(projects) == 1:
-            target = projects[0]
-        else:
-            selected_target = prompts.ask_target_project(projects)
-            if not selected_target:
-                return 0
-            target = selected_target
-
+def _deploy_wizard(*, generate_docker: bool, generate_cicd: bool, forced_project: str | None = None) -> MenuResult:
+    project_dir = _resolve_project_dir(forced_project=forced_project)
+    if not project_dir:
+        return "back"
     deploy_mode = prompts.ask_deploy_mode()
-    if not deploy_mode:
-        return 0
-
+    if not deploy_mode or deploy_mode == "← Back":
+        return "back"
     domain_name = prompts.ask_domain_name()
     if not domain_name:
-        return 0
-
+        return "back"
     services = prompts.ask_deploy_services()
-
+    if services is None:
+        return "back"
+    action_label = "deployment files under deploy/" if generate_docker and not generate_cicd else "CI/CD workflows under .github/workflows/"
+    if not prompts.ask_confirm_action(f"Generate {action_label} for project '{os.path.basename(project_dir)}'?"):
+        return "back"
     from codex_django_cli.commands.deploy import handle_generate_deploy
-
     handle_generate_deploy(
-        name=target,
+        name=os.path.basename(project_dir),
         project_root=os.getcwd(),
         deploy_mode=deploy_mode,
         domain_name=domain_name,
@@ -314,128 +245,63 @@ def _handle_deployment_setup(forced_project: str | None = None) -> int:
         generate_docker=generate_docker,
         generate_cicd=generate_cicd,
     )
-    return 0
+    return "done"
 
 
-def _handle_legacy_args(args: list[str]) -> int:
-    """Handle legacy argparse-style invocation for scripting and CI.
+def _precommit_wizard() -> MenuResult:
+    if not prompts.ask_confirm_action("Create .pre-commit-config.yaml and .secrets.baseline in the current repo root?"):
+        return "back"
+    from codex_django_cli.commands.quality import handle_configure_precommit
+    handle_configure_precommit(os.getcwd())
+    return "done"
 
-    Args:
-        args: Raw argument vector without the program name.
 
-    Returns:
-        Process-style exit code.
-    """
+def _repo_config_wizard(forced_project: str | None = None) -> MenuResult:
+    action = prompts.ask_repo_config_action()
+    if not action or action == "← Back":
+        return "back"
+    project_name = _resolve_project_name(forced_project=forced_project)
+    if not project_name:
+        return "back"
+    include_pyproject = action in {"Generate pyproject.toml + .env.example", "Generate pyproject.toml only"}
+    include_env_example = action in {"Generate pyproject.toml + .env.example", "Generate .env.example only"}
+    if not prompts.ask_confirm_action(f"Generate repo config files for project '{project_name}' in the current repo root?"):
+        return "back"
+    from codex_django_cli.commands.repo import handle_generate_repo_config
+    handle_generate_repo_config(
+        name=project_name,
+        project_root=os.getcwd(),
+        include_pyproject=include_pyproject,
+        include_env_example=include_env_example,
+    )
+    return "done"
+
+
+def _handle_cli_args(args: list[str]) -> int:
     import argparse
-
-    from codex_django_cli.commands.add_app import handle_add_app
-    from codex_django_cli.commands.booking import handle_add_booking
-    from codex_django_cli.commands.client_cabinet import handle_add_client_cabinet
+    from codex_django_cli.commands.deploy import handle_generate_deploy
     from codex_django_cli.commands.init import handle_init
-    from codex_django_cli.commands.notifications import handle_add_notifications
-
     parser = argparse.ArgumentParser(prog="codex-django")
     subparsers = parser.add_subparsers(dest="command")
-
     init_parser = subparsers.add_parser("init", help="Initialize a new project.")
-    subparsers.add_parser("menu", help="Launch interactive menu.")
+    menu_parser = subparsers.add_parser("menu", help="Launch interactive scaffold menu.")
     init_parser.add_argument("name", help="Name of the project (folder inside src/)")
-    init_parser.add_argument(
-        "target_dir",
-        nargs="?",
-        default=None,
-        help="Target directory for the project (default: <name>)",
-    )
-    init_parser.add_argument(
-        "--code",
-        action="store_true",
-        help="Only scaffold the core code (no repo/wrapper files)",
-    )
-    init_parser.add_argument(
-        "--dev",
-        action="store_true",
-        help="Dev mode: scaffold into sandbox/ inside the library",
-    )
-    init_parser.add_argument(
-        "--overwrite",
-        action="store_true",
-        help="Overwrite existing files",
-    )
-    init_parser.add_argument(
-        "--i18n",
-        dest="enable_i18n",
-        action="store_true",
-        default=False,
-        help="Enable i18n / modular locale support",
-    )
-    init_parser.add_argument(
-        "--no-i18n",
-        dest="enable_i18n",
-        action="store_false",
-        help="Disable i18n / modular locale support (default)",
-    )
-    init_parser.add_argument(
-        "--languages",
-        default=None,
-        help="Comma-separated language codes for i18n mode, e.g. en, ru, de-at, ja",
-    )
-    init_parser.add_argument("--with-cabinet", action="store_true", default=False)
+    init_parser.add_argument("target_dir", nargs="?", default=None)
+    init_parser.add_argument("--code", action="store_true", help="Only scaffold core code (no repo wrappers)")
+    init_parser.add_argument("--dev", action="store_true", help="Dev mode scaffold into local sandbox")
+    init_parser.add_argument("--overwrite", action="store_true", help="Overwrite existing files")
+    init_parser.add_argument("--i18n", dest="enable_i18n", action="store_true", default=False)
+    init_parser.add_argument("--no-i18n", dest="enable_i18n", action="store_false")
+    init_parser.add_argument("--languages", default=None)
     init_parser.add_argument("--with-booking", action="store_true", default=False)
-    init_parser.set_defaults(
-        func=lambda args: handle_init(
-            name=args.name,
-            base_dir=os.getcwd(),
-            target_dir=args.target_dir,
-            code_only=args.code,
-            dev_mode=args.dev,
-            overwrite=args.overwrite,
-            enable_i18n=args.enable_i18n,
-            languages=prompts.parse_language_codes(args.languages) if args.languages else None,
-            with_cabinet=args.with_cabinet,
-            with_booking=args.with_booking,
-        )
-    )
-
-    app_parser = subparsers.add_parser("add-app")
-    app_parser.add_argument("name")
-    app_parser.add_argument("--project", default=None)
-    app_parser.set_defaults(
-        func=lambda args: handle_add_app(
-            args.name,
-            os.path.join(os.getcwd(), "src", args.project) if args.project else os.getcwd(),
-        )
-    )
-
-    notif_parser = subparsers.add_parser("add-notifications")
-    notif_parser.add_argument("--app", default="system")
-    notif_parser.add_argument("--arq-dir", default=None, dest="arq_dir")
-    notif_parser.add_argument("--project", default=None)
-    notif_parser.set_defaults(
-        func=lambda args: handle_add_notifications(
-            args.app,
-            os.path.join(os.getcwd(), "src", args.project) if args.project else os.getcwd(),
-            arq_dir=args.arq_dir,
-        )
-    )
-
-    cab_parser = subparsers.add_parser("add-client-cabinet")
-    cab_parser.add_argument("--project", default=None)
-    cab_parser.set_defaults(
-        func=lambda args: handle_add_client_cabinet(
-            os.path.join(os.getcwd(), "src", args.project) if args.project else os.getcwd(),
-        )
-    )
-
-    booking_parser = subparsers.add_parser("add-booking")
-    booking_parser.add_argument("--project", default=None)
-    booking_parser.set_defaults(
-        func=lambda args: handle_add_booking(
-            os.path.join(os.getcwd(), "src", args.project) if args.project else os.getcwd(),
-        )
-    )
-
-    from codex_django_cli.commands.deploy import handle_generate_deploy
-
+    init_parser.add_argument("--with-public-booking", action="store_true", default=False)
+    init_parser.add_argument("--without-cabinet", dest="with_cabinet", action="store_false")
+    init_parser.add_argument("--without-conversations", dest="with_conversations", action="store_false")
+    init_parser.add_argument("--with-sw", action="store_true", default=False)
+    init_parser.add_argument("--with-cloud-db", action="store_true", default=False)
+    init_parser.set_defaults(with_cabinet=True, with_conversations=True)
+    init_parser.set_defaults(func=lambda parsed: handle_init(name=parsed.name, base_dir=os.getcwd(), target_dir=parsed.target_dir, code_only=parsed.code, dev_mode=parsed.dev, overwrite=parsed.overwrite, enable_i18n=parsed.enable_i18n, languages=prompts.parse_language_codes(parsed.languages) if parsed.languages else None, with_cabinet=parsed.with_cabinet, with_booking=parsed.with_booking, with_conversations=parsed.with_conversations, with_public_booking=parsed.with_public_booking, with_sw=parsed.with_sw, with_cloud_db=parsed.with_cloud_db))
+    menu_parser.set_defaults(func=lambda parsed: _interactive_menu())
     deploy_parser = subparsers.add_parser("deploy", help="Generate Docker + CI/CD deployment files.")
     deploy_parser.add_argument("name", help="Project name (folder inside src/)")
     deploy_parser.add_argument("--mode", choices=["standalone", "stack"], default="standalone")
@@ -444,28 +310,20 @@ def _handle_legacy_args(args: list[str]) -> int:
     deploy_parser.add_argument("--with-worker", action="store_true", default=False)
     deploy_parser.add_argument("--no-docker", action="store_true", default=False)
     deploy_parser.add_argument("--no-cicd", action="store_true", default=False)
-    deploy_parser.set_defaults(
-        func=lambda args: handle_generate_deploy(
-            name=args.name,
-            project_root=os.getcwd(),
-            deploy_mode=args.mode,
-            domain_name=args.domain,
-            with_bot=args.with_bot,
-            with_worker=args.with_worker,
-            generate_docker=not args.no_docker,
-            generate_cicd=not args.no_cicd,
-        )
-    )
-
+    deploy_parser.set_defaults(func=lambda parsed: handle_generate_deploy(name=parsed.name, project_root=os.getcwd(), deploy_mode=parsed.mode, domain_name=parsed.domain, with_bot=parsed.with_bot, with_worker=parsed.with_worker, generate_docker=not parsed.no_docker, generate_cicd=not parsed.no_cicd))
     parsed = parser.parse_args(args)
-
     if hasattr(parsed, "func"):
         parsed.func(parsed)
     else:
         parser.print_help()
-
     return 0
 
 
-if __name__ == "__main__":  # pragma: no cover
+if __name__ == "__main__":
     sys.exit(main())
+
+
+
+
+
+

@@ -24,11 +24,11 @@ urlpatterns: list[Any] = [
 {%- if enable_i18n %}
     path("i18n/", include("django.conf.urls.i18n")),
 {%- endif %}
-    # System files in root
     path(
         "robots.txt",
         TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),
     ),
+{%- if with_sw %}
     path(
         "sw.js",
         TemplateView.as_view(template_name="sw.js", content_type="application/javascript"),
@@ -37,38 +37,47 @@ urlpatterns: list[Any] = [
         "manifest.json",
         TemplateView.as_view(template_name="manifest.json", content_type="application/json"),
     ),
-    # LLM Context files
+{%- endif %}
     path("llms_de.txt", TemplateView.as_view(template_name="llms_de.txt", content_type="text/plain")),
     path("llms_en.txt", TemplateView.as_view(template_name="llms_en.txt", content_type="text/plain")),
 ]
 
 {%- if enable_i18n %}
-# Multilingual patterns
 urlpatterns += i18n_patterns(
     path("admin/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
+{%- if with_cabinet %}
     path("cabinet/", include("cabinet.urls")),
+{%- endif %}
+    path("system/", include("system.urls")),
     path("showcase/", include("codex_django.showcase.urls")),
-{%- if with_booking %}
-    path("booking/", include("booking.urls")),
+{%- if with_public_booking %}
+    path("booking/", include("features.booking.urls")),
+{%- endif %}
+{%- if with_conversations %}
+    path("conversations/", include("features.conversations.urls")),
 {%- endif %}
     path("", include("features.main.urls")),
     prefix_default_language=True,
 )
 {%- else %}
-# Standard patterns
 urlpatterns += [
     path("admin/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
+{%- if with_cabinet %}
     path("cabinet/", include("cabinet.urls")),
+{%- endif %}
+    path("system/", include("system.urls")),
     path("showcase/", include("codex_django.showcase.urls")),
-{%- if with_booking %}
-    path("booking/", include("booking.urls")),
+{%- if with_public_booking %}
+    path("booking/", include("features.booking.urls")),
+{%- endif %}
+{%- if with_conversations %}
+    path("conversations/", include("features.conversations.urls")),
 {%- endif %}
     path("", include("features.main.urls")),
 ]
 {%- endif %}
 
-# Static & Media in development
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

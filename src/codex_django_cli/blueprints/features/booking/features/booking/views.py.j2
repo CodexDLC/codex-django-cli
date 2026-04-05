@@ -1,0 +1,196 @@
+# selectors.py.j2
+"""
+Booking selectors — thin wrappers around codex_django.booking.selectors.
+
+These wire the project's concrete models into the library's adapter
+and delegate all logic to the engine.
+"""
+
+from __future__ import annotations
+
+from datetime import date
+from typing import Any
+
+from codex_django.booking.adapters import BookingCacheAdapter, DjangoAvailabilityAdapter
+from codex_django.booking.selectors import (
+    BookingPersistenceHook,
+    create_booking as _create_booking,
+    get_available_slots as _get_available_slots,
+    get_calendar_data,
+    get_nearest_slots as _get_nearest_slots,
+)
+from codex_services.booking.slot_master.modes import BookingMode
+
+from .models import Appointment, Master, MasterDayOff, MasterWorkingDay, Service
+
+
+def _get_settings_models():
+    """Import project-level settings models (avoids circular imports)."""
+    from system.models import BookingSettings, SiteSettings
+
+    return BookingSettings, SiteSettings
+
+
+def _make_adapter(**kwargs) -> DjangoAvailabilityAdapter:
+    BookingSettings, SiteSettings = _get_settings_models()
+    return DjangoAvailabilityAdapter(
+        master_model=Master,
+        appointment_model=Appointment,
+        service_model=Service,
+        working_day_model=MasterWorkingDay,
+        day_off_model=MasterDayOff,
+        booking_settings_model=BookingSettings,
+        site_settings_model=SiteSettings,
+        **kwargs,
+    )
+
+
+def get_available_slots(
+    service_ids: list[int],
+    target_date: date,
+    **kwargs,
+) -> Any:
+    return _get_available_slots(_make_adapter(), service_ids, target_date, **kwargs)
+
+
+def get_nearest_slots(
+    service_ids: list[int],
+    search_from: date,
+    **kwargs,
+) -> Any:
+    return _get_nearest_slots(_make_adapter(), service_ids, search_from, **kwargs)
+
+
+def create_booking(
+    *,
+    service_ids: list[int],
+    target_date: date,
+    selected_time: str,
+    master_id: int,
+    client: Any,
+    extra_fields: dict[str, Any] | None = None,
+    master_selections: dict[str, str] | dict[int, int | None] | None = None,
+    mode: BookingMode = BookingMode.SINGLE_DAY,
+    overlap_allowed: bool = False,
+    parallel_groups: dict[int, str] | None = None,
+    persistence_hook: BookingPersistenceHook | None = None,
+) -> Any:
+    adapter = _make_adapter()
+    cache = BookingCacheAdapter()
+    return _create_booking(
+        adapter,
+        cache,
+        Appointment,
+        service_ids=service_ids,
+        target_date=target_date,
+        selected_time=selected_time,
+        master_id=master_id,
+        client=client,
+        extra_fields=extra_fields,
+        master_selections=master_selections,
+        mode=mode,
+        overlap_allowed=overlap_allowed,
+        parallel_groups=parallel_groups,
+        persistence_hook=persistence_hook,
+    )
+
+
+__all__ = [
+    "get_available_slots",
+    "get_calendar_data",
+    "get_nearest_slots",
+    "create_booking",
+]
+
+# urls.py.j2
+from django.urls import path
+
+from .views import (
+    AppointmentCreateView,
+    AvailableSlotsView,
+    CalendarDataView,
+    NearestSlotsView,
+)
+
+app_name = "booking"
+
+urlpatterns = [
+    path("slots/available/", AvailableSlotsView.as_view(), name="available_slots"),
+    path("slots/nearest/", NearestSlotsView.as_view(), name="nearest_slots"),
+    path("calendar/", CalendarDataView.as_view(), name="calendar_data"),
+    path("create/", AppointmentCreateView.as_view(), name="appointment_create"),
+]
+
+# views.py.j2
+from datetime import datetime
+
+from django.utils.dateparse import parse_date
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from .selectors import create_booking, get_available_slots, get_calendar_data, get_nearest_slots
+
+
+class AvailableSlotsView(APIView):
+    def get(self, request):
+        service_ids = request.query_params.getlist("service_ids[]")
+        target_date_str = request.query_params.get("date")
+
+        if not service_ids or not target_date_str:
+            return Response(
+                {"error": "service_ids[] and date are required"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        target_date = parse_date(target_date_str)
+        if not target_date:
+            return Response(
+                {"error": "Invalid date format"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        slots = get_available_slots(
+            service_ids=[int(s) for s in service_ids], target_date=target_date
+        )
+        return Response(slots)
+
+
+class NearestSlotsView(APIView):
+    def get(self, request):
+        service_ids = request.query_params.getlist("service_ids[]")
+        search_from_str = request.query_params.get("search_from")
+
+        if not service_ids:
+            return Response(
+                {"error": "service_ids[] is required"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        search_from = parse_date(search_from_str) if search_from_str else datetime.now().date()
+
+        slots = get_nearest_slots(
+            service_ids=[int(s) for s in service_ids], search_from=search_from
+        )
+        return Response(slots)
+
+
+class CalendarDataView(APIView):
+    def get(self, request):
+        # Implementation via get_calendar_data
+        return Response({"detail": "Not implemented in blueprint teaser"})
+
+
+class AppointmentCreateView(APIView):
+    def post(self, request):
+        data = request.data
+        try:
+            appointment = create_booking(
+                service_ids=data.get("service_ids"),
+                target_date=parse_date(data.get("date")),
+                selected_time=data.get("time"),
+                master_id=data.get("master_id"),
+                client=request.user,
+            )
+            return Response({"id": appointment.id}, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)

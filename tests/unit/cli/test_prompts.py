@@ -9,10 +9,7 @@ import pytest
 
 @pytest.mark.unit
 class TestPromptWrappers:
-    """Verify that each prompt function delegates to questionary and returns its result."""
-
     def _make_select(self, return_value):
-        """Helper: creates a mock for questionary.select(...).ask() → return_value."""
         mock_q = MagicMock()
         mock_q.ask.return_value = return_value
         return mock_q
@@ -43,6 +40,23 @@ class TestPromptWrappers:
             mock_q.select.return_value = self._make_select("❌  Exit")
             result = prompts.ask_project_action()
             assert result == "❌  Exit"
+
+    def test_ask_project_action_does_not_offer_old_scaffolding_menu(self):
+        from codex_django_cli import prompts
+
+        with patch("codex_django_cli.prompts.questionary") as mock_q:
+            mock_q.select.return_value = self._make_select("❌  Exit")
+            prompts.ask_project_action()
+            _, kwargs = mock_q.select.call_args
+            assert kwargs["choices"] == [
+                "🆕  Init new project",
+                "🧩  Extend Existing Project",
+                "🚀  Standard Commands",
+                "🛡  Quality & Tools",
+                "🏁  Deployment Setup",
+                "⚙️  Security",
+                "❌  Exit",
+            ]
 
     def test_ask_standard_command_returns_selection(self):
         from codex_django_cli import prompts
@@ -118,14 +132,6 @@ class TestPromptWrappers:
             result = prompts.ask_target_project(["myproject", "other"])
             assert result == "myproject"
 
-    def test_ask_feature_returns_selection(self):
-        from codex_django_cli import prompts
-
-        with patch("codex_django_cli.prompts.questionary") as mock_q:
-            mock_q.select.return_value = self._make_select("Basic app")
-            result = prompts.ask_feature()
-            assert result == "Basic app"
-
     def test_ask_app_name_returns_text(self):
         from codex_django_cli import prompts
 
@@ -192,3 +198,59 @@ class TestPromptWrappers:
             mock_q.text.return_value = self._make_text("  ")
             result = prompts.ask_languages(enable_i18n=True)
             assert result == ["en"]
+
+    def test_ask_install_modules_init_mode(self):
+        from codex_django_cli import prompts
+
+        with patch("codex_django_cli.prompts.questionary") as mock_q:
+            mock_q.checkbox.return_value = self._make_checkbox(["cabinet", "booking"])
+            result = prompts.ask_install_modules(mode="init")
+            assert result == ["cabinet", "booking"]
+
+    def test_ask_install_modules_extend_mode_empty(self):
+        from codex_django_cli import prompts
+
+        with patch("codex_django_cli.prompts.questionary") as mock_q:
+            mock_q.checkbox.return_value = self._make_checkbox(None)
+            result = prompts.ask_install_modules(mode="extend")
+            assert result == []
+
+    def test_ask_confirm_plan_false(self):
+        from codex_django_cli import prompts
+
+        with patch("codex_django_cli.prompts.questionary") as mock_q:
+            mock_q.confirm.return_value = self._make_select(False)
+            result = prompts.ask_confirm_plan("base, cabinet")
+            assert result is False
+
+    def test_ask_init_mode_returns_selection(self):
+        from codex_django_cli import prompts
+
+        with patch("codex_django_cli.prompts.questionary") as mock_q:
+            mock_q.select.return_value = self._make_select("🧩  Custom (choose modules)")
+            result = prompts.ask_init_mode()
+            assert result == "🧩  Custom (choose modules)"
+
+    def test_ask_init_modules_alias(self):
+        from codex_django_cli import prompts
+
+        with patch("codex_django_cli.prompts.ask_install_modules", return_value=["cabinet"]) as mock_install:
+            result = prompts.ask_init_modules()
+            mock_install.assert_called_once_with(mode="init")
+            assert result == ["cabinet"]
+
+    def test_ask_extension_modules_alias(self):
+        from codex_django_cli import prompts
+
+        with patch("codex_django_cli.prompts.ask_install_modules", return_value=["booking"]) as mock_install:
+            result = prompts.ask_extension_modules()
+            mock_install.assert_called_once_with(mode="extend")
+            assert result == ["booking"]
+
+    def test_ask_with_cloud_db(self):
+        from codex_django_cli import prompts
+
+        with patch("codex_django_cli.prompts.questionary") as mock_q:
+            mock_q.confirm.return_value = self._make_select(True)
+            result = prompts.ask_with_cloud_db()
+            assert result is True

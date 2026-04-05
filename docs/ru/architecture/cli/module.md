@@ -120,5 +120,3 @@ CLI это construction-layer внутри `codex-django`.
 - build/scaffolding module: `cli`
 
 Эта разница уже достаточно сильна, чтобы дальше вести документацию CLI отдельно.
-
-

@@ -121,4 +121,4 @@ def test_install_chains_smoke(scenario: str, install_chain_env: dict[str, Path],
 
     manage_py = backend_root / "manage.py"
     run_checked_subprocess([python_bin, str(manage_py), "check"], cwd=generated_project_root)
-    run_checked_subprocess([python_bin, str(manage_py), "runserver_plus", "--help"], cwd=generated_project_root)
+    run_checked_subprocess([python_bin, str(manage_py), "startserver", "--help"], cwd=generated_project_root)

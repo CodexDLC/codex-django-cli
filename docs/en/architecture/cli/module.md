@@ -120,5 +120,3 @@ That means the repository has two different architectural dimensions:
 - build/scaffolding module `cli`
 
 This difference is strong enough that CLI should keep its own documentation tree from this point onward.
-
-

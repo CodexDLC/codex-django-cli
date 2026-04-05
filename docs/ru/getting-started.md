@@ -41,7 +41,7 @@ cd myproject
 # Убедитесь, что вы работаете в виртуальном окружении
 pip install -e .
 python src/myproject/manage.py migrate
-python src/myproject/manage.py runserver_plus
+python src/myproject/manage.py startserver
 ```
 
 > [!IMPORTANT]

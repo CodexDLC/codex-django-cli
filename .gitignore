@@ -8,6 +8,9 @@ dist-local/
 build/
 dist/
 site/
+sandbox/
+GRAPH_NAVIGATOR.md
+project_structure.txt
 coverage.xml
 .coverage
 __pycache__/

@@ -11,7 +11,7 @@
             <div class="hero-content">
                 <span class="home-eyebrow">{% trans "Codex Django Starter" %}</span>
                 <h1 class="hero-title">
-                    {{ site_settings.company_name|default:_("Build your service platform faster") }}
+                    {{ site_settings.company_name|default:"Build your service platform faster" }}
                 </h1>
                 <p class="hero-subtitle">
                     {% trans "A clean foundation for public pages, cabinet flows, notifications, and operational features that grow with your project." %}

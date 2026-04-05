@@ -1,0 +1,133 @@
+from datetime import timedelta
+from urllib.parse import urlencode
+
+from codex_django.cabinet import (
+    DashboardWidget,
+    MetricWidgetData,
+    SidebarItem,
+    TopbarEntry,
+    cabinet_registry,
+    declare,
+)
+from codex_django.cabinet.selector.dashboard import DashboardSelector
+from django.contrib.auth.models import User
+from django.http import HttpRequest
+from django.urls import reverse_lazy
+from django.utils import timezone
+from django.utils.text import format_lazy
+{%- if enable_i18n %}
+from django.utils.translation import gettext_lazy as _
+{%- else %}
+def _(message: str) -> str:
+    return message
+{%- endif %}
+
+
+def _with_query(url: object, **params: str) -> object:
+    return format_lazy("{}?{}", url, urlencode(params))
+
+
+@DashboardSelector.extend(cache_key="user_summary", cache_ttl=0)  # type: ignore[untyped-decorator]
+def provide_user_summary_kpi(request: HttpRequest) -> dict[str, MetricWidgetData]:
+    total_count = User.objects.count()
+    last_week = timezone.now() - timedelta(days=7)
+    new_count = User.objects.filter(date_joined__gte=last_week).count()
+
+    topbar = cabinet_registry.get_module_topbar("users")
+    base_label = str(topbar.label) if topbar else str(_("Users"))
+    display_label = str(_("Total {label}")).format(label=base_label).upper()
+
+    return {
+        "user_summary_kpi": MetricWidgetData(
+            label=display_label,
+            value=str(total_count),
+            trend_value=f"+{new_count}",
+            trend_direction="up",
+            trend_label=str(_("this week")),
+            icon="bi-people",
+            url=reverse_lazy("cabinet:users_list"),
+        )
+    }
+
+
+declare(
+    module="analytics",
+    space="staff",
+    topbar=TopbarEntry(
+        group="admin",
+        label=str(_("Analytics")),
+        icon="bi-graph-up",
+        url=reverse_lazy("cabinet:analytics_dashboard"),
+        order=10,
+    ),
+    sidebar=[
+        SidebarItem(
+            label=str(_("Dashboard")),
+            url=reverse_lazy("cabinet:analytics_dashboard"),
+            icon="bi-speedometer2",
+            order=1,
+        ),
+    ],
+)
+
+
+declare(
+    module="users",
+    space="staff",
+    topbar=TopbarEntry(
+        group="admin",
+        label=str(_("Users")),
+        icon="bi-people",
+        url=reverse_lazy("cabinet:users_list"),
+        order=20,
+    ),
+    sidebar=[
+        SidebarItem(
+            label=str(_("All Users")),
+            url=reverse_lazy("cabinet:users_list"),
+            icon="bi-person-lines-fill",
+            order=1,
+        ),
+        SidebarItem(
+            label=str(_("Only Users")),
+            url=_with_query(reverse_lazy("cabinet:users_list"), segment="clients"),
+            icon="bi-person-check",
+            order=2,
+        ),
+        SidebarItem(
+            label=str(_("Staff Only")),
+            url=_with_query(reverse_lazy("cabinet:users_list"), segment="staff"),
+            icon="bi-shield-lock",
+            order=3,
+        ),
+    ],
+    dashboard_widgets=[
+        DashboardWidget(
+            template="cabinet/widgets/kpi.html",
+            context_key="user_summary_kpi",
+            col="col-lg-3",
+            order=10,
+        )
+    ],
+)
+
+
+declare(
+    module="client",
+    space="client",
+    sidebar=[
+        SidebarItem(
+            label=str(_("My Appointments")),
+            url=reverse_lazy("cabinet:client_appointments"),
+            icon="bi-calendar2-check",
+            order=1,
+        ),
+        SidebarItem(
+            label=str(_("My Corner")),
+            url=reverse_lazy("cabinet:client_home"),
+            icon="bi-person",
+            order=2,
+        ),
+    ],
+)
+

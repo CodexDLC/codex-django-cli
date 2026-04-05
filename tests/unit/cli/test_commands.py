@@ -21,21 +21,22 @@ class TestHandleInit:
 
             handle_init("myproject", str(tmp_path))
 
-            assert mock_engine.scaffold.call_count == 7
+            assert mock_engine.scaffold.call_count == 5
             calls = mock_engine.scaffold.call_args_list
             base_context = {
                 "project_name": "myproject",
                 "secret_key": ANY,
                 "enable_i18n": False,
                 "languages": ["en"],
-                "with_cabinet": False,
+                "with_cabinet": True,
                 "with_booking": False,
+                "with_conversations": True,
+                "with_public_booking": False,
+                "with_sw": False,
+                "with_cloud_db": False,
             }
             assert calls[0] == call(
-                "repo",
-                target_dir=str(tmp_path / "myproject"),
-                context=base_context,
-                overwrite=False,
+                "repo", target_dir=str(tmp_path / "myproject"), context=base_context, overwrite=False
             )
             assert calls[1] == call(
                 "deploy/shared",
@@ -50,24 +51,16 @@ class TestHandleInit:
                 overwrite=False,
             )
             assert calls[3] == call(
-                "features/notifications/feature/models",
-                target_dir=str(tmp_path / "myproject" / "src" / "myproject" / "system" / "models"),
-                context={**base_context, "app_name": "system"},
+                "cabinet",
+                target_dir=str(tmp_path / "myproject" / "src" / "myproject"),
+                context=base_context,
+                overwrite=False,
             )
             assert calls[4] == call(
-                "features/notifications/feature/selectors",
-                target_dir=str(tmp_path / "myproject" / "src" / "myproject" / "system" / "selectors"),
-                context={**base_context, "app_name": "system"},
-            )
-            assert calls[5] == call(
-                "features/notifications/feature/services",
-                target_dir=str(tmp_path / "myproject" / "src" / "myproject" / "system" / "services"),
-                context={**base_context, "app_name": "system"},
-            )
-            assert calls[6] == call(
-                "features/notifications/arq",
-                target_dir=str(tmp_path / "myproject" / "src" / "myproject" / "core" / "arq"),
-                context={**base_context, "app_name": "system"},
+                "features/conversations",
+                target_dir=str(tmp_path / "myproject" / "src" / "myproject"),
+                context=base_context,
+                overwrite=False,
             )
 
             env_path = tmp_path / "myproject" / ".env"
@@ -137,7 +130,7 @@ class TestHandleInit:
             from codex_django_cli.commands.init import handle_init
 
             handle_init("myproject", str(tmp_path), code_only=True)
-            assert mock_engine.scaffold.call_count == 5
+            assert mock_engine.scaffold.call_count == 3
             assert not (tmp_path / "myproject" / ".env").exists()
 
     def test_i18n_languages_context(self, tmp_path: Path):
@@ -193,76 +186,3 @@ class TestHandleInit:
             context = kwargs["context"]
             assert context["enable_i18n"] is True
             assert context["languages"] == ["ja", "en"]
-
-
-@pytest.mark.unit
-class TestHandleAddApp:
-    def test_scaffolds_app(self, tmp_path: Path):
-        with patch(_ENGINE_PATH) as mock_engine_cls:
-            mock_engine = MagicMock()
-            mock_engine_cls.return_value = mock_engine
-
-            from codex_django_cli.commands.add_app import handle_add_app
-
-            handle_add_app("blog", str(tmp_path))
-
-            mock_engine.scaffold.assert_called_once_with(
-                "apps/default",
-                target_dir=str(tmp_path / "features" / "blog"),
-                context={"app_name": "blog"},
-            )
-
-    def test_skips_if_app_exists(self, tmp_path: Path):
-        target = tmp_path / "features" / "blog"
-        target.mkdir(parents=True)
-
-        with patch(_ENGINE_PATH) as mock_engine_cls:
-            from codex_django_cli.commands.add_app import handle_add_app
-
-            handle_add_app("blog", str(tmp_path))
-
-            mock_engine_cls.return_value.scaffold.assert_not_called()
-
-
-@pytest.mark.unit
-class TestHandleAddNotifications:
-    def test_scaffolds_feature_and_arq(self, tmp_path: Path):
-        with patch(_ENGINE_PATH) as mock_engine_cls:
-            mock_engine = MagicMock()
-            mock_engine_cls.return_value = mock_engine
-
-            from codex_django_cli.commands.notifications import handle_add_notifications
-
-            handle_add_notifications("system", str(tmp_path))
-
-            calls = mock_engine.scaffold.call_args_list
-            assert len(calls) == 4
-
-            assert calls[0][0][0] == "features/notifications/feature/models"
-            assert calls[0][1]["target_dir"] == str(tmp_path / "system" / "models")
-            assert calls[0][1]["context"] == {"app_name": "system"}
-
-            assert calls[1][0][0] == "features/notifications/feature/selectors"
-            assert calls[1][1]["target_dir"] == str(tmp_path / "system" / "selectors")
-
-            assert calls[2][0][0] == "features/notifications/feature/services"
-            assert calls[2][1]["target_dir"] == str(tmp_path / "system" / "services")
-
-            arq_call = calls[3]
-            assert arq_call[0][0] == "features/notifications/arq"
-            assert arq_call[1]["target_dir"] == str(tmp_path / "core" / "arq")
-
-    def test_custom_arq_dir(self, tmp_path: Path):
-        import os
-
-        with patch(_ENGINE_PATH) as mock_engine_cls:
-            mock_engine = MagicMock()
-            mock_engine_cls.return_value = mock_engine
-
-            from codex_django_cli.commands.notifications import handle_add_notifications
-
-            handle_add_notifications("system", str(tmp_path), arq_dir="myapp/arq")
-
-            arq_call = mock_engine.scaffold.call_args_list[3]
-            expected = os.path.join(str(tmp_path), "myapp/arq")
-            assert arq_call[1]["target_dir"] == expected
