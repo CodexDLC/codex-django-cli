@@ -1187,10 +1187,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#apps" class="md-nav__link">
+  <a href="#cabinet" class="md-nav__link">
     <span class="md-ellipsis">
       
-        apps
+        cabinet
       
     </span>
   </a>
@@ -1202,6 +1202,17 @@
     <span class="md-ellipsis">
       
         features
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        apps
       
     </span>
   </a>
@@ -1614,10 +1625,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#apps" class="md-nav__link">
+  <a href="#cabinet" class="md-nav__link">
     <span class="md-ellipsis">
       
-        apps
+        cabinet
       
     </span>
   </a>
@@ -1629,6 +1640,17 @@
     <span class="md-ellipsis">
       
         features
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        apps
       
     </span>
   </a>
@@ -1733,21 +1755,22 @@
 Поэтому blueprints ближе к декларативной системе сборки, чем к обычной папке с шаблонами.</p>
 <h2 id="blueprints">Почему Blueprints Так Важны</h2>
 <p>Самое важное в CLI это не само меню.
-Самое важное то, что структура проекта, подключение feature-сценариев и deploy-файлы строятся из переиспользуемых blueprint-деревьев.</p>
+Самое важное то, что структура проекта, расширение уже существующего проекта, генерация repository shell и deploy-файлы строятся из переиспользуемых blueprint-деревьев.</p>
 <p>Это означает, что архитектура CLI по своей сути template-centric:</p>
 <ul>
-<li>commands выбирают blueprint</li>
+<li>commands выбирают blueprint family или subtree</li>
 <li>engine рендерит его с context</li>
-<li>сгенерированное дерево становится частью целевого проекта</li>
+<li>сгенерированное дерево становится частью целевого репозитория или проекта</li>
 </ul>
 <p>Поэтому понять CLI значит понять, как разделены blueprints.</p>
 <h2 id="blueprints_1">Верхнеуровневые Семейства Blueprints</h2>
-<p>Сейчас пространство blueprints разделено на пять основных семейств:</p>
+<p>Сейчас пространство blueprints разделено на шесть основных семейств:</p>
 <ul>
 <li><code>repo</code></li>
 <li><code>project</code></li>
-<li><code>apps</code></li>
+<li><code>cabinet</code></li>
 <li><code>features</code></li>
+<li><code>apps</code></li>
 <li><code>deploy</code></li>
 </ul>
 <p>Это не случайные папки.
@@ -1757,10 +1780,9 @@
 Это внешняя оболочка сгенерированного проекта, в которую входят файлы вроде:</p>
 <ul>
 <li><code>pyproject.toml</code></li>
-<li><code>README.md</code></li>
 <li><code>.env.example</code></li>
-<li><code>.gitignore</code></li>
 <li>repo-level docs и tools</li>
+<li>shared repository helper templates</li>
 </ul>
 <p>Этот слой отвечает на вопрос:
 "Какие файлы относятся ко всему репозиторию в целом, независимо от внутреннего Django app tree?"</p>
@@ -1770,46 +1792,53 @@
 <ul>
 <li><code>core</code></li>
 <li><code>system</code></li>
-<li><code>cabinet</code></li>
 <li><code>features</code></li>
 <li><code>templates</code></li>
 <li><code>static</code></li>
 <li><code>manage.py</code></li>
 </ul>
-<p>Это центральное семейство blueprints, потому что именно оно задает исходную runtime-архитектуру нового codex-django проекта.</p>
-<h3 id="apps"><code>apps</code></h3>
-<p><code>apps/</code> содержит переиспользуемые blueprints для добавления обычного feature app в уже существующий проект.
-Текущий default app blueprint создает структуру <code>features/&lt;app_name&gt;/</code> с ожидаемой внутренней раскладкой для admin, forms, models, services, templates, tests и views.</p>
-<p>Этот слой отвечает на вопрос:
-"Как добавить один обычный app в канонической форме codex-django?"</p>
+<p>Это семейство задает исходную runtime-архитектуру нового codex-django проекта до подключения опциональных install-слоев.</p>
+<h3 id="cabinet"><code>cabinet</code></h3>
+<p><code>cabinet/</code> теперь это отдельное верхнеуровневое blueprint-family.
+Оно содержит project-local cabinet shell, views, services, templates, static assets и routing glue, которые раньше были частично спрятаны внутри <code>project/</code>.</p>
+<p>Это важно, потому что cabinet больше не выглядит как неявная часть базового scaffold.
+Теперь это явный extension-layer, который можно устанавливать, переустанавливать и сравнивать отдельно.</p>
 <h3 id="features"><code>features</code></h3>
 <p><code>features/</code> содержит advanced или compound feature scaffolds, например:</p>
 <ul>
 <li><code>booking</code></li>
+<li><code>booking_core</code></li>
+<li><code>booking_public</code></li>
+<li><code>conversations</code></li>
 <li><code>client_cabinet</code></li>
-<li><code>notifications</code></li>
 </ul>
 <p>Эти blueprints архитектурно шире, чем <code>apps/default</code>, потому что часто затрагивают сразу несколько целевых зон.</p>
 <p>Например:</p>
 <ul>
-<li>booking изменяет <code>booking/</code>, <code>system/</code>, <code>cabinet/</code> и public templates</li>
-<li>notifications делит вывод между feature-слоем и ARQ-инфраструктурой</li>
-<li>client cabinet внедряет код и в <code>cabinet</code>, и в <code>system</code></li>
+<li><code>booking_core</code> задает booking domain и service layer</li>
+<li><code>booking_public</code> добавляет public booking pages и multi-step templates</li>
+<li><code>conversations</code> внедряет feature code плюс cabinet-facing integration</li>
+<li><code>client_cabinet</code> остается частью blueprint-tree как специализированный cabinet-facing extension surface</li>
 </ul>
 <p>Поэтому <code>features/</code> это слой, где CLI выражает не отдельные приложения, а cross-cutting feature bundles.</p>
+<h3 id="apps"><code>apps</code></h3>
+<p><code>apps/</code> содержит переиспользуемые blueprints для добавления обычного feature app в уже существующий проект.
+В текущей форме CLI это уже не главный interactive growth path, но это семейство остается частью blueprint library как lower-level reusable scaffold family.</p>
+<p>Этот слой отвечает на вопрос:
+"Как добавить один обычный app в канонической форме codex-django, когда нужен именно такой lower-level pattern?"</p>
 <h3 id="deploy"><code>deploy</code></h3>
-<p><code>deploy/</code> содержит scaffolding для deployment-инфраструктуры, например Docker-файлы.
+<p><code>deploy/</code> содержит scaffolding для deployment-инфраструктуры, например Docker-файлы и workflow templates.
 Этот слой вынесен отдельно от <code>project/</code>, потому что operational output живет по другому lifecycle, чем runtime application code.</p>
 <p>Он отвечает на вопрос:
 "Какая эксплуатационная инфраструктура должна быть сгенерирована вокруг проекта?"</p>
 <h2 id="_2">Архитектурный Паттерн</h2>
 <p>Иерархия blueprints показывает скрытую модель генерации:</p>
 <ol>
-<li>сгенерировать repository shell</li>
+<li>при необходимости сгенерировать repository shell</li>
 <li>сгенерировать базовый project</li>
-<li>при необходимости добавить cross-cutting features</li>
-<li>при необходимости добавить стандартные apps</li>
-<li>при необходимости сгенерировать deploy-support</li>
+<li>при необходимости установить cabinet и feature layers</li>
+<li>при необходимости сгенерировать deploy или CI/CD support</li>
+<li>при необходимости использовать lower-level app blueprints</li>
 </ol>
 <p>Это не просто pipeline копирования файлов.
 Это staged project-construction model.</p>
@@ -1827,7 +1856,7 @@
 </ul>
 <h2 id="runtime-flow">Runtime Flow</h2>
 <pre class="mermaid"><code>flowchart TD
-    A["CLI command"] --&gt; B["select blueprint family"]
+    A["CLI command"] --&gt; B["select blueprint family or subtree"]
     B --&gt; C["CLIEngine.scaffold(...)"]
     C --&gt; D["walk blueprint tree"]
     D --&gt; E["render .j2 files with context"]

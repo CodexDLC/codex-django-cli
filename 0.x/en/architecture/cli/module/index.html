@@ -1684,7 +1684,7 @@
 <h1 id="cli-module">CLI Module</h1>
 <h2 id="purpose">Purpose</h2>
 <p><code>codex_django.cli</code> is the scaffolding and project-operations layer of the repository.
-Unlike the runtime library modules, CLI is responsible for generating project structures, injecting feature blueprints, and exposing developer workflows through an interactive or command-driven interface.</p>
+Unlike the runtime library modules, CLI is responsible for generating project structures, installing feature layers, generating repository shell files, and exposing developer workflows through an interactive or command-driven interface.</p>
 <p>It is already architecturally distinct enough that it can be documented as its own subtree.
 That matches the long-term direction hinted at in the code and memory notes: CLI may later be extracted into a dedicated library.</p>
 <h2 id="why-cli-deserves-its-own-tree">Why CLI Deserves Its Own Tree</h2>
@@ -1698,17 +1698,17 @@ It has several internal layers:</p>
 <li>blueprint library</li>
 <li>repo/project/feature/deploy output structures</li>
 </ul>
-<p>That makes it structurally different from modules like <code>booking</code> or <code>notifications</code>, where one concept page is enough as a first pass.</p>
+<p>That makes it structurally different from modules like <code>booking</code> or <code>conversations</code>, where one concept page is enough as a first pass.</p>
 <h2 id="main-layers">Main Layers</h2>
 <h3 id="1-entry-point-layer">1. Entry Point Layer</h3>
 <p><code>main.py</code> is the top-level gateway.
 It decides whether the CLI runs:</p>
 <ul>
 <li>as an interactive menu</li>
-<li>as a project-local menu</li>
-<li>as a legacy scripted subcommand interface</li>
+<li>as a repository-scoped project extension flow</li>
+<li>as a scripted subcommand interface</li>
 </ul>
-<p>This is the layer that distinguishes "global tool behavior" from "inside an already scaffolded project" behavior.</p>
+<p>This is the layer that distinguishes top-level tool behavior from runtime <code>manage.py</code> behavior.</p>
 <h3 id="2-prompt-layer">2. Prompt Layer</h3>
 <p><code>prompts.py</code> is a thin interactive layer over <code>questionary</code>.
 Its job is not to implement business logic, but to define menu trees and collect user decisions in a testable way.</p>
@@ -1724,13 +1724,11 @@ Its role is to:</p>
 </ul>
 <p>This is the infrastructure heart of the CLI.</p>
 <h3 id="4-command-layer">4. Command Layer</h3>
-<p><code>commands/</code> contains operation handlers such as:</p>
+<p><code>commands/</code> now centers around orchestration modules such as:</p>
 <ul>
 <li><code>init</code></li>
-<li><code>add_app</code></li>
-<li><code>booking</code></li>
-<li><code>client_cabinet</code></li>
-<li><code>notifications</code></li>
+<li><code>install</code></li>
+<li><code>repo</code></li>
 <li><code>quality</code></li>
 <li><code>deploy</code></li>
 </ul>
@@ -1738,12 +1736,13 @@ Its role is to:</p>
 <h3 id="5-blueprint-layer">5. Blueprint Layer</h3>
 <p><code>blueprints/</code> is the knowledge base of the CLI.
 It contains the template trees that define what gets generated.</p>
-<p>The blueprint space is already segmented into meaningful subdomains:</p>
+<p>The blueprint space is segmented into meaningful subdomains:</p>
 <ul>
 <li><code>repo</code></li>
 <li><code>project</code></li>
-<li><code>apps</code></li>
+<li><code>cabinet</code></li>
 <li><code>features</code></li>
+<li><code>apps</code></li>
 <li><code>deploy</code></li>
 </ul>
 <p>This is one of the strongest signs that CLI should be treated as a standalone documentation subtree.</p>
@@ -1760,18 +1759,18 @@ It contains the template trees that define what gets generated.</p>
 <pre class="mermaid"><code>flowchart TD
     A["User runs codex-django"] --&gt; B["main.py"]
     B --&gt; C["interactive prompts"]
-    B --&gt; D["legacy subcommands"]
+    B --&gt; D["scripted subcommands"]
     C --&gt; E["command handlers"]
     D --&gt; E
-    E --&gt; F["CLIEngine"]
-    F --&gt; G["blueprints repo/project/apps/features/deploy"]
+    E --&gt; F["CLIEngine / install orchestration"]
+    F --&gt; G["blueprints repo/project/cabinet/features/apps/deploy"]
     G --&gt; H["generated files in target project"]</code></pre>
 <h2 id="role-in-the-repository">Role In The Repository</h2>
 <p>CLI is the construction layer of <code>codex-django</code>.
 If the runtime modules define what the library provides after installation, CLI defines how a project is assembled so those modules become usable in practice.</p>
 <p>That means the repository has two different architectural dimensions:</p>
 <ul>
-<li>runtime modules such as <code>core</code>, <code>system</code>, <code>booking</code>, <code>notifications</code>, <code>cabinet</code></li>
+<li>runtime modules such as <code>core</code>, <code>system</code>, <code>booking</code>, <code>conversations</code>, <code>cabinet</code></li>
 <li>build/scaffolding module <code>cli</code></li>
 </ul>
 <p>This difference is strong enough that CLI should keep its own documentation tree from this point onward.</p>

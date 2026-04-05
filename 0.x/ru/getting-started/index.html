@@ -1520,10 +1520,10 @@
 </blockquote>
 <h1 id="_1">Быстрый старт</h1>
 <h2 id="django-admin-startproject">Почему не <code>django-admin startproject</code>?</h2>
-<p>В отличие от стандартной утилиты Django, которая создает абсолютно пустую структуру, <code>codex-django</code> генерирует полноценную архитектуру, готовую к production:
-- <strong>Современный Frontend:</strong> Сразу подключены <strong>HTMX 2.x</strong> и <strong>Alpine.js</strong>, настроена компиляция CSS и модульная статика.
-- <strong>Готовое Ядро (Core/System):</strong> Преднастроенные ASGI, Redis, система нотификаций, базовые шаблоны кабинета и SEO.
-- <strong>Интерактивное Меню:</strong> Вам не нужно зубрить флаги. Основная работа идет через визуальное меню <code>codex-django menu</code>, включая <code>init</code>, добавление фичей и генерацию Docker/CI конфигураций.</p>
+<p>В отличие от стандартной утилиты Django, которая создает абсолютно пустую структуру, <code>codex-django</code> собирает гораздо более насыщенную базовую архитектуру:
+- <strong>Современный Frontend:</strong> Сразу подключены <strong>HTMX 2.x</strong> и <strong>Alpine.js</strong>, настроены модульная статика, базовые темы и CSS-структура.
+- <strong>Готовое Ядро (Core/System):</strong> Преднастроены ASGI, Redis, SEO/admin-основа, reusable project settings и opinionated runtime-layout, который затем можно расширять cabinet-, conversations-, booking- и service-worker слоями.
+- <strong>Интерактивное Меню:</strong> Вам не нужно зубрить флаги. Через <code>codex-django menu</code> можно создать новый проект, расширить существующий, сгенерировать repo config файлы и подготовить Docker/CI-обвязку из одного menu-flow.</p>
 <h2 id="cli">Установка CLI</h2>
 <p>Установите инструмент глобально через <code>uv</code> (рекомендуется):</p>
 <div class="highlight"><pre><span></span><code>uv<span class="w"> </span>tool<span class="w"> </span>install<span class="w"> </span>codex-django-cli
@@ -1543,20 +1543,20 @@ codex-django<span class="w"> </span>init<span class="w"> </span>myproject<span c
 <span class="c1"># Убедитесь, что вы работаете в виртуальном окружении</span>
 pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
 python<span class="w"> </span>src/myproject/manage.py<span class="w"> </span>migrate
-python<span class="w"> </span>src/myproject/manage.py<span class="w"> </span>runserver_plus
+python<span class="w"> </span>src/myproject/manage.py<span class="w"> </span>startserver
 </code></pre></div>
 <blockquote>
 <p>[!IMPORTANT]
-<strong>Связь с библиотекой <code>codex-django</code></strong>: Команда <code>pip install -e .</code> критически важна! Она скачивает и устанавливает основную библиотеку-рантайм <code>codex-django</code>. Сам <code>codex-django-cli</code> — это лишь генератор каркаса. Реальная логика (HTMX-ответы, шаблоны кабинета, нотификации, SEO-база) живет именно в <code>codex-django</code>. <strong>Без неё ваш сгенерированный проект работать не будет.</strong></p>
+<strong>Связь с библиотекой <code>codex-django</code></strong>: Команда <code>pip install -e .</code> критически важна! Она скачивает и устанавливает основную runtime-библиотеку <code>codex-django</code>. Сам <code>codex-django-cli</code> — это генератор архитектурного каркаса. Реальная runtime-логика HTMX-ответов, cabinet templates, reusable settings и SEO support живет именно в <code>codex-django</code>. <strong>Без неё ваш сгенерированный проект работать не будет.</strong></p>
 </blockquote>
-<p>Меню <code>codex-django menu</code> (или просто <code>codex-django</code>) особенно удобно, если вы хотите выбрать i18n-режим, коды языков и optional modules без запоминания флагов. Но если вы опытный пользователь, явные флаги — самый быстрый путь.</p>
+<p>Меню <code>codex-django menu</code> (или просто <code>codex-django</code>) особенно удобно, если вы хотите выбрать i18n-режим, коды языков, слои генерации и compare-copy сценарии для уже найденных модулей без запоминания флагов.</p>
 <p>Если проект уже создан, добавляйте новые модули интерактивно:</p>
 <div class="highlight"><pre><span></span><code>codex-django<span class="w"> </span>menu
-<span class="c1"># -&gt; Выберите &quot;🧩  Scaffolding (Apps/Modules)&quot;</span>
-<span class="c1"># -&gt; Выберите целевой проект</span>
-<span class="c1"># -&gt; Выбирайте &quot;Basic app&quot;, &quot;Client Cabinet&quot; или &quot;Booking&quot;</span>
+<span class="c1"># -&gt; Выберите &quot;🧩  Extend existing Django project&quot;</span>
+<span class="c1"># -&gt; Выберите целевой проект из src/</span>
+<span class="c1"># -&gt; Выберите Cabinet, Conversations, Booking engine, Booking cabinet integration или compare-copy сценарий</span>
 </code></pre></div>
-<p>Генератор создаст нужные файлы и напечатает точные шаги по подключению в <code>settings.py</code>, <code>urls.py</code> и <code>admin.py</code>.</p>
+<p>Генератор создаст нужные файлы и напечатает точные дальнейшие шаги по подключению и проверке результата.</p>
 <h2 id="cli_1">Разработка самого CLI</h2>
 <p>При участии в разработке самого CLI (contributing):</p>
 <div class="highlight"><pre><span></span><code>uv<span class="w"> </span>sync<span class="w"> </span>--extra<span class="w"> </span>dev

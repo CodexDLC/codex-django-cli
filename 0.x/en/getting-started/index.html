@@ -1520,10 +1520,10 @@
 </blockquote>
 <h1 id="getting-started">Getting Started</h1>
 <h2 id="why-not-django-admin-startproject">Why not <code>django-admin startproject</code>?</h2>
-<p>Unlike Django's default utility which creates an entirely empty structure, <code>codex-django</code> generates a fully production-ready architecture:
+<p>Unlike Django's default utility which creates an entirely empty structure, <code>codex-django</code> assembles a much richer baseline:
 - <strong>Modern Frontend Stack:</strong> Comes pre-wired with <strong>HTMX 2.x</strong> and <strong>Alpine.js</strong>, modular CSS, and base themes.
-- <strong>Ready-to-use Core/System:</strong> Includes pre-configured ASGI, Redis, standard notifications, SEO mixins, and a generated <code>.env</code> file with Fernet encryption keys.
-- <strong>Interactive Menu:</strong> You don't need to memorize long CLI flags. Run <code>codex-django menu</code> to interactively launch wizards for initializing projects, adding features, or creating Docker/CI files.</p>
+- <strong>Ready-to-use Core/System:</strong> Includes pre-configured ASGI, Redis, SEO/admin foundations, reusable project settings support, and an opinionated runtime layout that can later be extended with cabinet, conversations, booking, and service-worker layers.
+- <strong>Interactive Menu:</strong> You don't need to memorize long CLI flags. Run <code>codex-django menu</code> to initialize a project, extend an existing scaffold, generate repo config files, or create Docker/CI files from the same menu system.</p>
 <h2 id="install-the-cli">Install The CLI</h2>
 <p>Install the CLI globally using <code>uv</code> (recommended):</p>
 <div class="highlight"><pre><span></span><code>uv<span class="w"> </span>tool<span class="w"> </span>install<span class="w"> </span>codex-django-cli
@@ -1543,20 +1543,20 @@ codex-django<span class="w"> </span>init<span class="w"> </span>myproject<span c
 <span class="c1"># Make sure you are in a dedicated virtual environment</span>
 pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
 python<span class="w"> </span>src/myproject/manage.py<span class="w"> </span>migrate
-python<span class="w"> </span>src/myproject/manage.py<span class="w"> </span>runserver_plus
+python<span class="w"> </span>src/myproject/manage.py<span class="w"> </span>startserver
 </code></pre></div>
 <blockquote>
 <p>[!IMPORTANT]
-<strong>The <code>codex-django</code> Dependency</strong>: The <code>pip install -e .</code> step is critical! It downloads and installs the core <code>codex-django</code> runtime library. The <code>codex-django-cli</code> only generates the scaffolding (the architectural wiring). The actual engine that powers HTMX responses, Cabinet templates, notifications, and SEO lives inside <code>codex-django</code>. <strong>Without it, your scaffolded project will not work.</strong></p>
+<strong>The <code>codex-django</code> Dependency</strong>: The <code>pip install -e .</code> step is critical! It downloads and installs the core <code>codex-django</code> runtime library. The <code>codex-django-cli</code> only generates the scaffolding (the architectural wiring). The actual runtime that powers HTMX responses, cabinet templates, reusable settings, and SEO support lives inside <code>codex-django</code>. <strong>Without it, your scaffolded project will not work.</strong></p>
 </blockquote>
-<p>The interactive menu is also accessible simply by typing <code>codex-django</code>. It is incredibly useful when you want to choose i18n modes, set up specific language codes, or toggle optional modules without memorizing flags. But if you know what you want, the explicit flags are the fastest way.</p>
+<p>The interactive menu is also accessible simply by typing <code>codex-django</code>. It is useful when you want to choose i18n modes, set language codes, decide which layers to scaffold, or generate comparison copies for already-detected modules without memorizing flags.</p>
 <p>If you already have a scaffolded project, extend it incrementally using the CLI menu:</p>
 <div class="highlight"><pre><span></span><code>codex-django<span class="w"> </span>menu
-<span class="c1"># -&gt; Choose &quot;🧩  Scaffolding (Apps/Modules)&quot;</span>
-<span class="c1"># -&gt; Select project target</span>
-<span class="c1"># -&gt; Choose &quot;Basic app&quot;, &quot;Client Cabinet&quot;, or &quot;Booking&quot;</span>
+<span class="c1"># -&gt; Choose &quot;🧩  Extend existing Django project&quot;</span>
+<span class="c1"># -&gt; Select project target from src/</span>
+<span class="c1"># -&gt; Choose Cabinet, Conversations, Booking engine, Booking cabinet integration, or compare-copy actions</span>
 </code></pre></div>
-<p>The scaffolding engine generates files and prints the exact follow-up steps you need to wire them into the core <code>settings.py</code>, <code>urls.py</code>, and <code>admin.py</code>.</p>
+<p>The scaffolding engine generates files and prints the exact follow-up steps you need to wire them into the repository and runtime project.</p>
 <h2 id="typical-development-loop-for-the-cli">Typical Development Loop for the CLI</h2>
 <p>If you are developing the CLI itself, use standard <code>uv</code> commands:</p>
 <div class="highlight"><pre><span></span><code>uv<span class="w"> </span>sync<span class="w"> </span>--extra<span class="w"> </span>dev

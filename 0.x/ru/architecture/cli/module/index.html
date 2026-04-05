@@ -1684,7 +1684,7 @@
 <h1 id="cli">Модуль CLI</h1>
 <h2 id="_1">Назначение</h2>
 <p><code>codex_django.cli</code> это слой скаффолдинга и проектных операций в репозитории.
-В отличие от runtime-модулей библиотеки, CLI отвечает за генерацию структуры проекта, внедрение feature blueprints и выдачу developer workflow через интерактивный или командный интерфейс.</p>
+В отличие от runtime-модулей библиотеки, CLI отвечает за генерацию структуры проекта, установку feature-слоев, генерацию repository shell files и выдачу developer workflows через интерактивный или командный интерфейс.</p>
 <p>Архитектурно он уже настолько отличается от остальных частей проекта, что для него логично вести отдельное поддерево документации.
 Это хорошо совпадает и с долгосрочным направлением, которое уже видно из кода и memory notes: позже CLI может быть вынесен в отдельную библиотеку.</p>
 <h2 id="cli_1">Почему CLI Заслуживает Отдельное Дерево</h2>
@@ -1698,17 +1698,17 @@
 <li>blueprint library</li>
 <li>repo/project/feature/deploy output structures</li>
 </ul>
-<p>Из-за этого он заметно отличается от модулей вроде <code>booking</code> или <code>notifications</code>, где на первом проходе достаточно одной общей архитектурной страницы.</p>
+<p>Из-за этого он заметно отличается от модулей вроде <code>booking</code> или <code>conversations</code>, где на первом проходе достаточно одной общей архитектурной страницы.</p>
 <h2 id="_2">Основные Слои</h2>
 <h3 id="1-entry-point-layer">1. Entry Point Layer</h3>
 <p><code>main.py</code> это верхняя точка входа.
 Именно он решает, как CLI будет работать:</p>
 <ul>
 <li>как интерактивное меню</li>
-<li>как меню внутри уже scaffolded project</li>
-<li>как legacy scripted subcommand interface</li>
+<li>как repository-scoped flow расширения проекта</li>
+<li>как scripted subcommand interface</li>
 </ul>
-<p>Это слой, который отделяет "поведение глобального инструмента" от "поведения внутри уже созданного проекта".</p>
+<p>Это слой, который отделяет top-level tool behavior от runtime <code>manage.py</code> behavior.</p>
 <h3 id="2-prompt-layer">2. Prompt Layer</h3>
 <p><code>prompts.py</code> это тонкая интерактивная прослойка поверх <code>questionary</code>.
 Ее задача не в том, чтобы реализовывать бизнес-логику, а в том, чтобы задавать menu tree и собирать пользовательские решения в тестируемой форме.</p>
@@ -1724,13 +1724,11 @@
 </ul>
 <p>Это инфраструктурное сердце CLI.</p>
 <h3 id="4-command-layer">4. Command Layer</h3>
-<p>В <code>commands/</code> лежат operation handlers:</p>
+<p><code>commands/</code> теперь сосредоточен вокруг orchestration-модулей вроде:</p>
 <ul>
 <li><code>init</code></li>
-<li><code>add_app</code></li>
-<li><code>booking</code></li>
-<li><code>client_cabinet</code></li>
-<li><code>notifications</code></li>
+<li><code>install</code></li>
+<li><code>repo</code></li>
 <li><code>quality</code></li>
 <li><code>deploy</code></li>
 </ul>
@@ -1742,8 +1740,9 @@
 <ul>
 <li><code>repo</code></li>
 <li><code>project</code></li>
-<li><code>apps</code></li>
+<li><code>cabinet</code></li>
 <li><code>features</code></li>
+<li><code>apps</code></li>
 <li><code>deploy</code></li>
 </ul>
 <p>Это один из самых сильных признаков того, что CLI нужно документировать как самостоятельное дерево.</p>
@@ -1760,18 +1759,18 @@
 <pre class="mermaid"><code>flowchart TD
     A["User runs codex-django"] --&gt; B["main.py"]
     B --&gt; C["interactive prompts"]
-    B --&gt; D["legacy subcommands"]
+    B --&gt; D["scripted subcommands"]
     C --&gt; E["command handlers"]
     D --&gt; E
-    E --&gt; F["CLIEngine"]
-    F --&gt; G["blueprints repo/project/apps/features/deploy"]
+    E --&gt; F["CLIEngine / install orchestration"]
+    F --&gt; G["blueprints repo/project/cabinet/features/apps/deploy"]
     G --&gt; H["generated files in target project"]</code></pre>
 <h2 id="_4">Роль В Репозитории</h2>
 <p>CLI это construction-layer внутри <code>codex-django</code>.
 Если runtime-модули описывают, что библиотека дает после установки, то CLI описывает, как проект собирается так, чтобы эти модули стали реально пригодны к использованию.</p>
 <p>То есть в репозитории одновременно есть две разные архитектурные оси:</p>
 <ul>
-<li>runtime modules: <code>core</code>, <code>system</code>, <code>booking</code>, <code>notifications</code>, <code>cabinet</code></li>
+<li>runtime modules: <code>core</code>, <code>system</code>, <code>booking</code>, <code>conversations</code>, <code>cabinet</code></li>
 <li>build/scaffolding module: <code>cli</code></li>
 </ul>
 <p>Эта разница уже достаточно сильна, чтобы дальше вести документацию CLI отдельно.</p>

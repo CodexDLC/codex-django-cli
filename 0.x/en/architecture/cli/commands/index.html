@@ -829,10 +829,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#standard-app-scaffolding" class="md-nav__link">
+  <a href="#install-extension-orchestration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Standard App Scaffolding
+        Install / Extension Orchestration
       
     </span>
   </a>
@@ -840,10 +840,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#feature-bundle-commands" class="md-nav__link">
+  <a href="#repository-config-commands" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Feature Bundle Commands
+        Repository Config Commands
       
     </span>
   </a>
@@ -1603,10 +1603,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#standard-app-scaffolding" class="md-nav__link">
+  <a href="#install-extension-orchestration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Standard App Scaffolding
+        Install / Extension Orchestration
       
     </span>
   </a>
@@ -1614,10 +1614,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#feature-bundle-commands" class="md-nav__link">
+  <a href="#repository-config-commands" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Feature Bundle Commands
+        Repository Config Commands
       
     </span>
   </a>
@@ -1734,10 +1734,10 @@ They are scenario handlers.</p>
 <p>This means each command answers a high-level question such as:</p>
 <ul>
 <li>how to initialize a new project</li>
-<li>how to add a standard app</li>
-<li>how to inject a booking bundle</li>
-<li>how to scaffold notification infrastructure</li>
+<li>how to extend an existing project</li>
+<li>how to generate repository config files</li>
 <li>how to generate deployment files</li>
+<li>how to scaffold quality tooling</li>
 </ul>
 <h2 id="architectural-role">Architectural Role</h2>
 <p>Commands sit between two different worlds:</p>
@@ -1756,51 +1756,45 @@ They are scenario handlers.</p>
 <p>So commands are not just wrappers around <code>engine.scaffold(...)</code>.
 They encode the semantic meaning of each CLI action.</p>
 <h2 id="command-families">Command Families</h2>
-<p>The current commands already form several architectural groups.</p>
+<p>The current commands form several architectural groups.</p>
 <h3 id="project-initialization">Project Initialization</h3>
-<p><code>init.py</code> is the highest-level scaffold operation.
-It creates the main project skeleton and may also include optional feature bundles such as:</p>
+<p><code>init.py</code> is the top-level public scaffold entrypoint for creating a new project.
+It coordinates a new-project workflow and delegates the actual install-layer resolution to the install orchestration layer.</p>
+<p>Its public role is simple:</p>
 <ul>
-<li>cabinet</li>
-<li>booking</li>
-<li>notifications</li>
+<li>accept explicit CLI flags</li>
+<li>normalize project options</li>
+<li>launch the new-project scaffold flow</li>
 </ul>
-<p>This command is special because it coordinates several blueprint families in sequence:</p>
+<h3 id="install-extension-orchestration">Install / Extension Orchestration</h3>
+<p><code>install.py</code> is the scenario layer behind project assembly and extension.
+It is responsible for:</p>
 <ul>
-<li><code>repo</code></li>
-<li><code>deploy</code></li>
-<li><code>project</code></li>
-<li>optional feature blueprints</li>
+<li>resolving which install layers are implied by the chosen modules</li>
+<li>detecting already-installed project modules</li>
+<li>scaffolding new-project flows</li>
+<li>extending existing projects</li>
+<li>generating compare copies for already-detected modules</li>
 </ul>
-<p>So <code>init</code> is not one scaffold action, but a project-construction workflow.</p>
-<h3 id="standard-app-scaffolding">Standard App Scaffolding</h3>
-<p><code>add_app.py</code> handles the creation of a regular feature app inside <code>features/&lt;app_name&gt;/</code>.
-It uses the default app blueprint and assumes the generated project already exists.</p>
-<p>This command is the canonical "grow the project by one standard app" path.</p>
-<h3 id="feature-bundle-commands">Feature Bundle Commands</h3>
-<p>Some commands scaffold more than one isolated folder because the feature they represent cuts across several layers of the generated project.</p>
-<p>Examples:</p>
+<p>This is the command-layer heart of the current scaffold model.
+It is not just one feature installer.
+It defines how projects grow after the base scaffold exists.</p>
+<h3 id="repository-config-commands">Repository Config Commands</h3>
+<p><code>repo.py</code> handles repository-level shell generation such as:</p>
 <ul>
-<li><code>booking.py</code></li>
-<li><code>client_cabinet.py</code></li>
-<li><code>notifications.py</code></li>
+<li><code>pyproject.toml</code></li>
+<li><code>.env.example</code></li>
+<li>other root-level comparison files</li>
 </ul>
-<p>These commands operate more like feature installers than like simple file generators.</p>
-<p>For example:</p>
-<ul>
-<li>booking touches booking code, system settings, cabinet integration, and public templates</li>
-<li>notifications splits output between feature code and ARQ infrastructure</li>
-<li>client cabinet injects cabinet-facing code and system-side profile models</li>
-</ul>
-<p>This is an important distinction:
-the CLI supports both app scaffolding and architectural feature injection.</p>
+<p>This command family sits above the runtime project tree.
+It manages the packaging and repository shell around the Django codebase.</p>
 <h3 id="quality-commands">Quality Commands</h3>
 <p><code>quality.py</code> is not about application structure.
 It generates developer workflow support such as <code>.pre-commit-config.yaml</code> and related baseline files.</p>
 <p>This means the commands package does not only build runtime code.
 It also scaffolds developer tooling around the project.</p>
 <h3 id="deployment-commands">Deployment Commands</h3>
-<p><code>deploy.py</code> handles operational infrastructure generation, currently around Docker-based deployment files.
+<p><code>deploy.py</code> handles operational infrastructure generation, currently around Docker and CI/CD support.
 Like quality tooling, this command sits outside the main runtime app tree while still being part of the generated project ecosystem.</p>
 <h2 id="common-command-pattern">Common Command Pattern</h2>
 <p>Despite their differences, the commands share one common architectural pattern:</p>
@@ -1808,7 +1802,7 @@ Like quality tooling, this command sits outside the main runtime app tree while 
 <li>receive intent and parameters</li>
 <li>compute destination paths</li>
 <li>assemble context</li>
-<li>call <code>CLIEngine</code></li>
+<li>call <code>CLIEngine</code> directly or through a helper orchestration layer</li>
 <li>print actionable next steps</li>
 </ol>
 <p>This gives the CLI a consistent mental model.
@@ -1819,7 +1813,7 @@ Each command defines what is being added, but the flow of command execution stay
     B --&gt; C["resolve target path"]
     B --&gt; D["build render context"]
     B --&gt; E["choose blueprint subtree"]
-    C --&gt; F["CLIEngine"]
+    C --&gt; F["CLIEngine or install orchestrator"]
     D --&gt; F
     E --&gt; F
     F --&gt; G["generated project files"]
@@ -1829,8 +1823,8 @@ Each command defines what is being added, but the flow of command execution stay
 But in reality the commands encode the supported project-evolution model:</p>
 <ul>
 <li>initialize a base project</li>
-<li>expand it with standard apps</li>
-<li>inject bigger architectural features</li>
+<li>extend it with install layers</li>
+<li>generate repository shell files</li>
 <li>add project tooling</li>
 <li>add deployment support</li>
 </ul>

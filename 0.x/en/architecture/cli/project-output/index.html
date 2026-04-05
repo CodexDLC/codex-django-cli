@@ -1843,11 +1843,10 @@ If blueprints are the source material and <code>CLIEngine</code> is the executor
 <p>At the repository root, CLI can generate the outer project shell:</p>
 <ul>
 <li><code>pyproject.toml</code></li>
-<li><code>README.md</code></li>
 <li><code>.env.example</code></li>
-<li><code>.gitignore</code></li>
 <li>repo docs and tools</li>
-<li>deployment files under <code>deploy/&lt;project_name&gt;/</code></li>
+<li>deployment files under <code>deploy/</code></li>
+<li>CI/CD workflows under <code>.github/workflows/</code></li>
 </ul>
 <p>This is the operational and packaging layer around the generated application.</p>
 <h3 id="django-project-level">Django Project Level</h3>
@@ -1859,7 +1858,6 @@ This is the codebase that actually becomes the application's backend structure.<
 <li><code>manage.py</code></li>
 <li><code>core/</code></li>
 <li><code>system/</code></li>
-<li><code>cabinet/</code></li>
 <li><code>features/</code></li>
 <li><code>templates/</code></li>
 <li><code>static/</code></li>
@@ -1867,6 +1865,8 @@ This is the codebase that actually becomes the application's backend structure.<
 <p>This already tells us something important:
 the generated project is not a blank Django app.
 It is opinionated from the start.</p>
+<p><code>cabinet/</code> is no longer just a built-in subsection of the base project blueprint.
+It is now a dedicated install layer with its own top-level blueprint family.</p>
 <h2 id="meaning-of-the-main-output-folders">Meaning Of The Main Output Folders</h2>
 <h3 id="core"><code>core/</code></h3>
 <p><code>core/</code> is the project's framework and settings layer.
@@ -1887,26 +1887,29 @@ In the generated output it is responsible for:</p>
 <li>SEO models/admin</li>
 <li>static content</li>
 <li>management command support</li>
+<li>selectors and service helpers</li>
 <li>error view support</li>
 </ul>
 <p>This matches the reusable <code>system</code> concepts already present in the library itself.</p>
 <h3 id="cabinet"><code>cabinet/</code></h3>
-<p><code>cabinet/</code> appears in the generated project as a minimal shell around the reusable cabinet framework.
-It does not duplicate the full library implementation.
-Instead, it provides project-local glue and customization points such as:</p>
+<p>When the cabinet layer is installed, <code>cabinet/</code> appears in the generated project as the project-local shell around the reusable cabinet framework.
+It provides project-local glue and customization points such as:</p>
 <ul>
 <li>local cabinet registration</li>
-<li>minimal selectors/views</li>
+<li>cabinet views and routing glue</li>
+<li>local services and context processors</li>
 <li>theme and override surface</li>
 </ul>
 <p>This is important because cabinet is meant to stay library-driven while still allowing project-level adaptation.</p>
 <h3 id="features"><code>features/</code></h3>
 <p><code>features/</code> is the extensibility area of the generated project.
 The base project already includes <code>features/main/</code>, which acts as the starter feature module for public pages like home and contacts.</p>
-<p>Later CLI commands can grow this area with:</p>
+<p>Later CLI flows can grow this area with layered feature scaffolds such as:</p>
 <ul>
-<li>standard apps</li>
-<li>feature bundles</li>
+<li>conversations</li>
+<li>booking core</li>
+<li>public booking</li>
+<li>lower-level app scaffolds when needed</li>
 </ul>
 <p>So <code>features/</code> is the main growth surface of the scaffolded project.</p>
 <h3 id="templates"><code>templates/</code></h3>
@@ -1916,9 +1919,10 @@ The base project already includes <code>features/main/</code>, which acts as the
 <li>includes</li>
 <li>public pages</li>
 <li>error pages</li>
+<li>optional service-worker and manifest output templates</li>
 </ul>
 <p>This layer defines the shared rendering surface of the generated project.
-It is distinct from the library-owned <code>cabinet</code> templates and from showcase templates.</p>
+It is distinct from the library-owned cabinet templates while still cooperating with the cabinet layer when that layer is installed.</p>
 <h3 id="static"><code>static/</code></h3>
 <p><code>static/</code> contains the front-end asset structure for the generated project.
 Notably, it already has a layered CSS setup and compiler configuration, which means front-end organization is also scaffolded as an architectural choice rather than left entirely ad hoc.</p>
@@ -1926,21 +1930,25 @@ Notably, it already has a layered CSS setup and compiler configuration, which me
 <p>The base project can be expanded at generation time with optional modules such as:</p>
 <ul>
 <li>cabinet</li>
-<li>booking</li>
-<li>notifications</li>
+<li>conversations</li>
+<li>booking core</li>
+<li>public booking</li>
+<li>service-worker assets</li>
 </ul>
 <p>These do not simply add one folder each.
 They may inject files into multiple target areas.</p>
 <p>Examples:</p>
 <ul>
-<li>booking expands runtime code, templates, cabinet integration, and system configuration</li>
-<li>notifications adds feature code and ARQ-related infrastructure</li>
-<li>client cabinet extends cabinet and system-side user profile handling</li>
+<li>cabinet adds project-local cabinet structure, assets, templates, and routing glue</li>
+<li>conversations adds feature code plus cabinet-facing integration</li>
+<li>booking expands domain code, cabinet builders, and public booking pages</li>
+<li>service-worker support adds manifest and <code>sw.js</code> assets into the project output</li>
 </ul>
 <p>So generated output is layered:</p>
 <ol>
+<li>repository shell</li>
 <li>base project shell</li>
-<li>optional feature bundles</li>
+<li>optional install layers</li>
 <li>later incremental scaffold commands</li>
 </ol>
 <h2 id="generated-project-as-architecture">Generated Project As Architecture</h2>
@@ -1959,11 +1967,11 @@ It generates a codex-django-shaped project with explicit assumptions about:</p>
 <pre class="mermaid"><code>flowchart TD
     A["CLI init command"] --&gt; B["repo blueprints"]
     A --&gt; C["project blueprints"]
-    A --&gt; D["optional feature blueprints"]
+    A --&gt; D["optional install layers"]
     B --&gt; E["repository shell"]
     C --&gt; F["src/&lt;project_name&gt;/ runtime structure"]
     D --&gt; F
-    F --&gt; G["core/system/cabinet/features/templates/static"]</code></pre>
+    F --&gt; G["core/system/features/templates/static (+ optional cabinet)"]</code></pre>
 <h2 id="relationship-to-other-cli-pages">Relationship To Other CLI Pages</h2>
 <ul>
 <li><code>blueprints.md</code> explains the source families that define this output</li>

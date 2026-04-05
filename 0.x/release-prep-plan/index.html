@@ -1,0 +1,2743 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="CLI scaffolding and blueprint package for codex-django">
+      
+      
+        <meta name="author" content="Codex Team">
+      
+      
+        <link rel="canonical" href="https://codexdlc.github.io/codex-django-cli/0.x/release-prep-plan/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Release Prep Plan - codex-django-cli</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#release-prep-plan" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="codex-django-cli" class="md-header__button md-logo" aria-label="codex-django-cli" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            codex-django-cli
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Release Prep Plan
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="cyan"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="cyan"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../en/" class="md-tabs__link">
+          
+  
+  
+  Guide (EN)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../ru/" class="md-tabs__link">
+          
+  
+  
+  Руководство (RU)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../en/api/cli/" class="md-tabs__link">
+          
+  
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../changelog/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Changelog
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="codex-django-cli" class="md-nav__button md-logo" aria-label="codex-django-cli" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    codex-django-cli
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guide (EN)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guide (EN)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../en/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../en/getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../en/guides/blueprints-and-scaffolding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blueprints
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../en/architecture/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../en/architecture/cli/module/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../en/architecture/cli/entrypoints/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entrypoints
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../en/architecture/cli/blueprints/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blueprints
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../en/architecture/cli/engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../en/architecture/cli/commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../en/architecture/cli/project-output/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Output
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Руководство (RU)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Руководство (RU)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ru/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Обзор
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ru/getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Быстрый старт
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ru/guides/blueprints-and-scaffolding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blueprints
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Архитектура
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Архитектура
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ru/architecture/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Обзор
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ru/architecture/cli/module/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модуль
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ru/architecture/cli/entrypoints/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entrypoints
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ru/architecture/cli/blueprints/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blueprints
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ru/architecture/cli/engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ru/architecture/cli/commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ru/architecture/cli/project-output/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Output
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../en/api/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../en/api/internal/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Internal Modules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#goal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Goal
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tracking-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tracking Rules
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#layer-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layer Order
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#docs-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Docs Layer
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Docs Layer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#factual-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Factual Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#confirmed-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Confirmed Points
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remaining-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Remaining Notes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#release-impact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Release Impact
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#commands-prompts-main-engine-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Commands / Prompts / Main / Engine Layer
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Commands / Prompts / Main / Engine Layer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#factual-summary_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Factual Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#confirmed-points_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Confirmed Points
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remaining-notes_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Remaining Notes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#release-impact_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Release Impact
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#blueprints-cabinet-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Blueprints / Cabinet Layer
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Blueprints / Cabinet Layer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#factual-summary_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Factual Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#confirmed-moves" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Confirmed Moves
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#confirmed-deletions-replacements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Confirmed Deletions / Replacements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#confirmed-new-responsibilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Confirmed New Responsibilities
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remaining-notes_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Remaining Notes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#release-impact_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Release Impact
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#blueprints-features-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Blueprints / Features Layer
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Blueprints / Features Layer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#factual-summary_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Factual Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#booking-layer-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Booking Layer Mapping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#booking-core-layer-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Booking Core Layer Mapping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#booking-public-layer-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Booking Public Layer Mapping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conversations-layer-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conversations Layer Mapping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#confirmed-moves-extractions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Confirmed Moves / Extractions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#confirmed-additions-replacements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Confirmed Additions / Replacements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remaining-notes_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Remaining Notes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#release-impact_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Release Impact
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#blueprints-project-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Blueprints / Project Layer
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Blueprints / Project Layer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#factual-summary_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Factual Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#core-settings-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core / Settings Mapping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#system-layer-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System Layer Mapping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#templates-public-runtime-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Templates / Public Runtime Mapping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#confirmed-moves-removals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Confirmed Moves / Removals
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#confirmed-additions-replacements_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Confirmed Additions / Replacements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remaining-notes_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Remaining Notes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#release-impact_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Release Impact
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tooling-package-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tooling / Package Layer
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tooling / Package Layer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#factual-summary_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Factual Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyproject-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pyproject Mapping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check-runner-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Check Runner Mapping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#project-tree-helper-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Project Tree Helper Mapping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#confirmed-additions-replacements_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Confirmed Additions / Replacements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remaining-notes_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Remaining Notes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#release-impact_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Release Impact
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tests-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tests Layer
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tests Layer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#factual-summary_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Factual Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#synchronization-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synchronization Changes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#new-updated-public-guarantees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        New / Updated Public Guarantees
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#staged-vs-working-tree-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Staged vs Working Tree Notes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remaining-notes_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Remaining Notes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#release-impact_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Release Impact
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#changelog-version-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changelog / Version Layer
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Changelog / Version Layer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#factual-summary_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Factual Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version-recommendation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Version Recommendation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changelog-draft-assessment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changelog Draft Assessment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remaining-notes_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Remaining Notes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#release-impact_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Release Impact
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="release-prep-plan">Release Prep Plan</h1>
+<h2 id="goal">Goal</h2>
+<p>Use this file as the working release-prep tracker for the current <code>codex-django-cli</code> refactor.
+The release pass must move layer by layer and avoid mixing documentation, runtime architecture, blueprint moves, test synchronization, and release notes.</p>
+<h2 id="tracking-rules">Tracking Rules</h2>
+<ul>
+<li>Work strictly by layers.</li>
+<li>For each layer, first capture factual changes from <code>git status</code> and the current file tree.</li>
+<li>Only after that decide what documentation text must change.</li>
+<li>Treat moves, deletions, and truly new additions separately.</li>
+<li>Do not finalize <code>CHANGELOG.md</code> or decide the version until every other layer is reviewed.</li>
+<li>After each layer, update this file with:</li>
+<li>confirmed facts;</li>
+<li>open questions or disputed points;</li>
+<li>whether the layer affects release versioning.</li>
+</ul>
+<h2 id="layer-order">Layer Order</h2>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Status</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>docs</td>
+<td>done</td>
+<td>Landing, getting-started, architecture, API, and blueprint workflow docs were aligned with the current CLI model.</td>
+</tr>
+<tr>
+<td>commands / prompts / main / engine</td>
+<td>done</td>
+<td>Current CLI operating model was confirmed from code and reflected in the tracker.</td>
+</tr>
+<tr>
+<td>blueprints/cabinet</td>
+<td>done</td>
+<td>Extraction mapped: a small subset is true rename, but most of the layer is a new cabinet app contract.</td>
+</tr>
+<tr>
+<td>blueprints/features/*</td>
+<td>done</td>
+<td>Feature map confirmed: booking split across runtime/core/public layers and conversations introduced as a first-class feature package.</td>
+</tr>
+<tr>
+<td>blueprints/project/*</td>
+<td>done</td>
+<td>Project output map confirmed: cabinet was extracted out, while system/core/templates gained richer runtime and operational defaults.</td>
+</tr>
+<tr>
+<td>tooling + pyproject + helper scripts</td>
+<td>done</td>
+<td>Tooling map confirmed: quality policy moved into pyproject, checks became config-driven, and project tree helpers were added as internal dev tooling.</td>
+</tr>
+<tr>
+<td>tests</td>
+<td>done</td>
+<td>Test map confirmed: legacy command coverage was removed, new install/menu/runtime guarantees were added, and CLI unit suite currently passes.</td>
+</tr>
+<tr>
+<td>CHANGELOG + version</td>
+<td>done</td>
+<td>Version recommendation is <code>0.3.0</code>, and CHANGELOG.md was restored to a readable multiline draft.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="docs-layer">Docs Layer</h2>
+<h3 id="factual-summary">Factual Summary</h3>
+<ul>
+<li>Reviewed and updated the following documentation groups:</li>
+<li>landing + getting-started pages;</li>
+<li>CLI architecture pages for module, commands, entrypoints, blueprints, and project output;</li>
+<li>internal CLI API page;</li>
+<li>blueprint workflow guides in English and Russian.</li>
+<li>The docs now consistently describe:</li>
+<li><code>init/install/repo</code> instead of the old bootstrap model;</li>
+<li><code>startserver</code> instead of <code>runserver_plus</code>;</li>
+<li>the extracted top-level <code>cabinet</code> blueprint family;</li>
+<li>the split between <code>booking_core</code> and <code>booking_public</code>;</li>
+<li>conversations as a dedicated feature layer;</li>
+<li>current menu wording centered on project init, project extension, repo config, deploy, CI/CD, and pre-commit flows.</li>
+</ul>
+<h3 id="confirmed-points">Confirmed Points</h3>
+<ul>
+<li>Old menu wording such as <code>Scaffolding (Apps/Modules)</code> was removed from live docs.</li>
+<li>Removed command families such as <code>add_app</code>, <code>add-booking</code>, <code>add-client-cabinet</code>, and notification-specific CLI paths were removed from live docs.</li>
+<li>The internal API reference now points at the current internal modules.</li>
+<li>Blueprint docs now describe the real top-level partition: <code>repo</code>, <code>project</code>, <code>cabinet</code>, <code>features</code>, <code>apps</code>, <code>deploy</code>.</li>
+</ul>
+<h3 id="remaining-notes">Remaining Notes</h3>
+<ul>
+<li>References to <code>client_cabinet</code> remain only where it still exists as a blueprint subtree and therefore still has architectural value.</li>
+<li><code>Notifications</code> in the Codex ecosystem table remains valid because it refers to <code>codex-platform</code>, not to a removed CLI command family.</li>
+</ul>
+<h3 id="release-impact">Release Impact</h3>
+<ul>
+<li>This layer materially strengthens release framing and reduces architectural drift in docs.</li>
+<li>Version choice is still deferred.</li>
+</ul>
+<h2 id="commands-prompts-main-engine-layer">Commands / Prompts / Main / Engine Layer</h2>
+<h3 id="factual-summary_1">Factual Summary</h3>
+<ul>
+<li><code>main.py</code> now exposes one top-level CLI with two real operating modes:</li>
+<li>interactive menu mode;</li>
+<li>scripted subcommand mode.</li>
+<li>The interactive menu is repository-scoped, not project-local in the old sense:</li>
+<li>it scans <code>src/</code> for generated projects;</li>
+<li>it resolves a target project when an extension, deploy, or repo-config action needs one.</li>
+<li>The public scripted subcommands currently exposed by <code>_handle_cli_args()</code> are:</li>
+<li><code>init</code></li>
+<li><code>menu</code></li>
+<li><code>deploy</code></li>
+<li><code>prompts.py</code> now defines the active menu tree around:</li>
+<li>project initialization;</li>
+<li>project extension;</li>
+<li>deployment file generation;</li>
+<li>CI/CD workflow generation;</li>
+<li>repo config generation;</li>
+<li>pre-commit setup.</li>
+<li><code>install.py</code> is the orchestration core of the current scaffold model.
+  It owns:</li>
+<li>module detection for existing projects;</li>
+<li>install-plan resolution;</li>
+<li>new-project scaffolding;</li>
+<li>extension of existing projects;</li>
+<li>compare-copy generation.</li>
+<li><code>init.py</code> is now a thin public entrypoint that normalizes flags into <code>InstallSelection</code> and delegates real project assembly to <code>install.py</code>.</li>
+<li><code>repo.py</code> is now the repository-shell generator for <code>pyproject.toml</code> and <code>.env.example</code>, including compare-file behavior when those files already exist.</li>
+<li><code>deploy.py</code> and <code>quality.py</code> remain separate operational layers outside the runtime project tree.</li>
+<li><code>engine.py</code> remains the low-level scaffold contract:</li>
+<li>render <code>.j2</code> templates with context;</li>
+<li>copy static files as-is;</li>
+<li>prefer templated variants when both <code>foo</code> and <code>foo.j2</code> exist;</li>
+<li>write scaffold trees into target paths with optional overwrite.</li>
+</ul>
+<h3 id="confirmed-points_1">Confirmed Points</h3>
+<ul>
+<li>The old command family model (<code>add_app</code>, <code>booking</code>, <code>client_cabinet</code>, <code>notifications</code>) is no longer the current public CLI model.</li>
+<li>The real command/orchestration model is now <code>init -&gt; install</code>, plus <code>repo</code>, <code>deploy</code>, and <code>quality</code>.</li>
+<li>The menu labels in docs must be treated as API-like UX contracts because tests cover them directly through <code>prompts.py</code>.</li>
+<li>The current CLI is hybrid, but only some flows are scriptable; richer install/extend flows are still menu-first.</li>
+</ul>
+<h3 id="remaining-notes_1">Remaining Notes</h3>
+<ul>
+<li><code>deploy.py</code> still carries some broader optional context fields such as <code>with_notifications</code>, <code>enable_i18n</code>, and <code>cluster_name</code>; these belong to the operational layer review, not the core command-model review.</li>
+<li>The engine contract itself looks stable; the remaining architectural questions now shift to blueprint layout rather than entrypoint behavior.</li>
+</ul>
+<h3 id="release-impact_1">Release Impact</h3>
+<ul>
+<li>This layer is version-relevant because it changes how users understand and operate the CLI.</li>
+<li>Version choice is still deferred until blueprint and tooling layers are also mapped.</li>
+</ul>
+<h2 id="blueprints-cabinet-layer">Blueprints / Cabinet Layer</h2>
+<h3 id="factual-summary_2">Factual Summary</h3>
+<ul>
+<li>The cabinet scaffold is no longer primarily a subtree inside <code>blueprints/project/cabinet</code>.
+  It is now a dedicated top-level blueprint family under <code>blueprints/cabinet</code>.</li>
+<li>Git recognizes only a small subset as true renames:</li>
+<li><code>apps.py.j2</code></li>
+<li><code>static/cabinet/css/base.css</code></li>
+<li><code>static/cabinet/css/compiler_config.json</code></li>
+<li><code>static/cabinet/css/theme/tokens.css</code></li>
+<li>Most of the layer is therefore not just a file move. It is a structural rewrite with new responsibilities.</li>
+<li>The old cabinet tree was small and mostly centered on:</li>
+<li>a default cabinet registration in <code>cabinet.py.j2</code>;</li>
+<li>user selector/view templates;</li>
+<li>mock-backed dashboard and user data;</li>
+<li>a narrow user + client-booking routing model.</li>
+<li>The new top-level cabinet tree now includes distinct app-level surfaces for:</li>
+<li>registration entrypoint and app bootstrapping;</li>
+<li>adapters and context processors;</li>
+<li>auth routes;</li>
+<li>booking bridge integration;</li>
+<li>service-layer modules for users, booking, analytics, client, and conversations;</li>
+<li>dedicated views for analytics, auth, booking, client, conversations, site settings, and users;</li>
+<li>expanded cabinet CSS and JS assets;</li>
+<li>dedicated templates for analytics, booking, client, conversations, site settings, and users.</li>
+</ul>
+<h3 id="confirmed-moves">Confirmed Moves</h3>
+<ul>
+<li>A small core of cabinet assets was genuinely moved forward into the new top-level family:</li>
+<li>app registration file;</li>
+<li>base cabinet CSS;</li>
+<li>CSS compiler config;</li>
+<li>theme tokens.</li>
+<li>The cabinet concept itself clearly survived the refactor, but it was promoted from a project subtree to a first-class blueprint layer.</li>
+</ul>
+<h3 id="confirmed-deletions-replacements">Confirmed Deletions / Replacements</h3>
+<ul>
+<li>The following old project-local cabinet pieces are gone as standalone concepts:</li>
+<li><code>mock.py.j2</code></li>
+<li>selector-only user data access under <code>selector/users.py.j2</code></li>
+<li>old function-based user views;</li>
+<li>user detail template pair <code>index.html</code> / <code>detail.html</code>;</li>
+<li>old <code>my/bookings</code> client portal route model;</li>
+<li>placeholder package stubs like <code>admin</code>, <code>forms</code>, <code>models</code>, <code>modules</code>, <code>tests</code>, and <code>services</code> under the old cabinet subtree.</li>
+<li>These were not simply renamed one-to-one. In practice they were replaced by a broader app-layer contract built around service objects, class-based views, richer templates, and explicit integration points.</li>
+</ul>
+<h3 id="confirmed-new-responsibilities">Confirmed New Responsibilities</h3>
+<ul>
+<li><code>cabinet.py.j2</code> changed role.
+  The old file declared default sections and dashboard extensions directly.
+  The new file is a cabinet app registration entrypoint and intentionally leaves feature registrations to feature-specific <code>cabinet.py</code> modules.</li>
+<li>User pages moved from selector-driven function views to a service-backed class view model:</li>
+<li>old: <code>selector/users.py.j2</code> + function views + <code>index/detail</code> templates;</li>
+<li>new: <code>services/users.py.j2</code> + <code>UserListView</code> + card-grid based users page.</li>
+<li>Cabinet routing expanded from a narrow users/client-booking scope to a broader application shell that can host:</li>
+<li>analytics;</li>
+<li>client corner and appointments;</li>
+<li>booking schedule/settings/new flows;</li>
+<li>conversations inbox/thread/compose flows;</li>
+<li>site settings tabs.</li>
+<li>Client-facing cabinet behavior is now explicit inside the cabinet layer itself through <code>views/client.py.j2</code>, <code>services/client.py.j2</code>, and dedicated templates.</li>
+<li>Conversations are integrated at the cabinet shell level instead of being absent from the old cabinet subtree.</li>
+<li>Booking inside cabinet now looks like an operator-facing workflow layer, not just a minimal client-portal add-on.</li>
+</ul>
+<h3 id="remaining-notes_2">Remaining Notes</h3>
+<ul>
+<li>Some files shown as adds may still contain reused fragments, but at the release-mapping level this layer should be described as an extraction plus architectural expansion, not as a pure rename.</li>
+<li>Final docs wording for cabinet should emphasize promotion to a first-class blueprint family and the split of feature registrations out of the cabinet root itself.</li>
+</ul>
+<h3 id="release-impact_2">Release Impact</h3>
+<ul>
+<li>This layer is strongly version-relevant because it changes the generated project architecture and the cabinet extension model.</li>
+<li>Version choice is still deferred until features, project output, tooling, and tests are also mapped.</li>
+</ul>
+<h2 id="blueprints-features-layer">Blueprints / Features Layer</h2>
+<h3 id="factual-summary_3">Factual Summary</h3>
+<ul>
+<li>The old single <code>features/booking</code> story is now split across three distinct concerns:</li>
+<li><code>features/booking</code></li>
+<li><code>features/booking_core</code></li>
+<li><code>features/booking_public</code></li>
+<li><code>features/conversations</code> is entirely new as a first-class feature package.</li>
+<li><code>features/client_cabinet</code> remains in place, but the current diff there is mostly template alignment with the expanded cabinet shell rather than a brand-new feature family.</li>
+<li><code>features/notifications</code> still exists in the tree, but it is not part of the current staged expansion in the way booking and conversations are.</li>
+</ul>
+<h3 id="booking-layer-mapping">Booking Layer Mapping</h3>
+<ul>
+<li><code>features/booking</code> still survives, but it is no longer the whole booking story.</li>
+<li>The legacy-style booking package under <code>features/booking/booking/*</code> still contains the thin public booking app surface:</li>
+<li>models;</li>
+<li>selectors wrapping <code>codex_django.booking</code> adapters;</li>
+<li>API-style views and URLs;</li>
+<li>public booking wiki/docs.</li>
+<li>A new nested package under <code>features/booking/features/booking/*</code> was added in the same feature family.
+  At release-mapping level this means the booking blueprint now also emits a project-local <code>features.booking</code> package structure rather than only the older root-level <code>booking</code> app shape.</li>
+<li>The booking cabinet subtree under <code>features/booking/cabinet/*</code> remains active, but it was updated to fit the new cabinet shell and current appointment UX.</li>
+<li>The old public booking page and step partials did not disappear conceptually, but they were extracted into a dedicated public-template layer.</li>
+</ul>
+<h3 id="booking-core-layer-mapping">Booking Core Layer Mapping</h3>
+<ul>
+<li><code>features/booking_core</code> is genuinely new as a separate feature layer.</li>
+<li>It introduces the missing domain/service contracts that were not previously isolated as their own blueprint package:</li>
+<li><code>apps.py.j2</code></li>
+<li><code>booking_settings.py.j2</code></li>
+<li><code>cabinet.py.j2</code></li>
+<li>provider modules;</li>
+<li>selector engine;</li>
+<li>service helpers and cabinet workflow service;</li>
+<li>URLs and view package skeletons.</li>
+<li>In practical terms this layer owns the reusable booking engine integration:</li>
+<li>project provider access;</li>
+<li>cabinet workflow state;</li>
+<li>booking bridge adapter;</li>
+<li>core settings/runtime contracts.</li>
+<li>This means booking is no longer described accurately as only a public wizard plus a couple of models. It now has an explicit core/runtime layer.</li>
+</ul>
+<h3 id="booking-public-layer-mapping">Booking Public Layer Mapping</h3>
+<ul>
+<li><code>features/booking_public</code> is also new as its own layer.</li>
+<li>Its staged diff is template-only and clearly corresponds to the old public booking wizard UI:</li>
+<li><code>booking_page.html</code></li>
+<li><code>partials/step_service.html</code></li>
+<li><code>partials/step_date.html</code></li>
+<li><code>partials/step_time.html</code></li>
+<li><code>partials/step_confirm.html</code></li>
+<li>Comparing the old and new booking page shows near-direct extraction rather than a conceptual rewrite.</li>
+<li>This means the public booking wizard presentation was separated out from the broader booking feature package and can now be described independently from booking runtime/core logic.</li>
+</ul>
+<h3 id="conversations-layer-mapping">Conversations Layer Mapping</h3>
+<ul>
+<li><code>features/conversations</code> is a genuinely new feature family, not a rename.</li>
+<li>It introduces a complete project-local package with:</li>
+<li>app registration;</li>
+<li>cabinet registration;</li>
+<li>forms;</li>
+<li>migrations;</li>
+<li>message and reply models;</li>
+<li>selectors;</li>
+<li>service modules for alerts, email import, notifications, and workflow;</li>
+<li>URLs and views;</li>
+<li>translations and tests.</li>
+<li>The conversations cabinet registration confirms that the feature integrates directly into the cabinet shell through:</li>
+<li>topbar entries;</li>
+<li>sidebar entries;</li>
+<li>dashboard metrics;</li>
+<li>bell/notification integration.</li>
+<li>This layer therefore changes not just generated files but the feature topology of generated projects.</li>
+</ul>
+<h3 id="confirmed-moves-extractions">Confirmed Moves / Extractions</h3>
+<ul>
+<li>Public booking templates were effectively extracted out of the older <code>features/booking/templates/booking/*</code> location into <code>features/booking_public/templates/features/booking/*</code>.</li>
+<li>Booking cabinet pages remain attached to the booking feature family, but the cabinet shell they plug into is now broader and more modular than before.</li>
+</ul>
+<h3 id="confirmed-additions-replacements">Confirmed Additions / Replacements</h3>
+<ul>
+<li>Booking gained explicit core/runtime scaffolding instead of keeping all responsibilities bundled in one feature package.</li>
+<li>Conversations was added as a new feature package rather than being represented indirectly through notifications or cabinet-only pages.</li>
+<li><code>client_cabinet</code> template updates indicate downstream alignment with the new cabinet structure, but <code>client_cabinet</code> itself is not the main source of this layer's architectural change.</li>
+</ul>
+<h3 id="remaining-notes_3">Remaining Notes</h3>
+<ul>
+<li>The coexistence of <code>features/booking/booking/*</code> and <code>features/booking/features/booking/*</code> should be described carefully in docs as two output shapes inside the same booking family, not as a simple typo or duplicate.</li>
+<li>The exact install-selection matrix for when <code>booking</code>, <code>booking_core</code>, and <code>booking_public</code> are combined should be verified later from install orchestration, but the structural split itself is already clear from the blueprint tree.</li>
+</ul>
+<h3 id="release-impact_3">Release Impact</h3>
+<ul>
+<li>This layer is strongly version-relevant because it changes the feature composition of generated projects.</li>
+<li>Version choice is still deferred until the <code>project/*</code>, tooling, tests, and final release layers are also mapped.</li>
+</ul>
+<h2 id="blueprints-project-layer">Blueprints / Project Layer</h2>
+<h3 id="factual-summary_4">Factual Summary</h3>
+<ul>
+<li>This layer contains two different kinds of change and they must be described separately:</li>
+<li>removal of the old <code>project/cabinet</code> subtree because cabinet became its own top-level blueprint family;</li>
+<li>expansion of the remaining base project output under <code>core</code>, <code>system</code>, <code>features.main</code>, and <code>templates</code>.</li>
+<li>The <code>project/cabinet/*</code> removals are real, but they are not a loss of cabinet functionality.
+  They belong to the cabinet extraction already mapped in the previous layer.</li>
+<li>Outside cabinet extraction, the generated project shell itself became richer and more operationally opinionated.</li>
+</ul>
+<h3 id="core-settings-mapping">Core / Settings Mapping</h3>
+<ul>
+<li><code>project/core/settings/modules/*</code> was updated in multiple places:</li>
+<li>installed apps;</li>
+<li>codex integration settings;</li>
+<li>i18n settings;</li>
+<li>middleware;</li>
+<li>logger configuration.</li>
+<li>The updated apps settings confirm the new generated project topology:</li>
+<li>local apps include <code>system</code>, <code>features.main</code>, optional <code>cabinet</code>, optional <code>features.conversations</code>, and optional <code>features.booking</code>;</li>
+<li>codex library apps still provide <code>codex_django.cabinet</code> and <code>codex_django.showcase</code>.</li>
+<li><code>project/core/urls.py.j2</code> now explicitly wires more generated runtime endpoints:</li>
+<li><code>robots.txt</code>;</li>
+<li><code>llms_de.txt</code> and <code>llms_en.txt</code>;</li>
+<li>optional <code>sw.js</code> and <code>manifest.json</code>;</li>
+<li>optional public booking and conversations routes;</li>
+<li>cabinet and showcase wiring.</li>
+<li>This means the base project routing contract now assumes a broader generated surface than before.</li>
+</ul>
+<h3 id="system-layer-mapping">System Layer Mapping</h3>
+<ul>
+<li><code>project/system/*</code> gained several new project-level runtime pieces:</li>
+<li><code>cabinet.py.j2</code>;</li>
+<li><code>management/commands/compile_assets.py.j2</code>;</li>
+<li><code>management/commands/startserver.py.j2</code>;</li>
+<li><code>models/user_profile.py.j2</code>;</li>
+<li><code>selectors/client_profile.py.j2</code> and <code>selectors/users.py.j2</code>;</li>
+<li><code>services/client_profile.py.j2</code> and <code>services/site_settings.py.j2</code>.</li>
+<li><code>runserver_plus.py.j2</code> was removed and replaced by <code>startserver.py.j2</code>.
+  The new command keeps the same high-level purpose of compiling assets before local serving, but it is cleaner and delegates compilation to a dedicated <code>compile_assets</code> command.</li>
+<li><code>compile_assets.py.j2</code> is a new standalone operational command that scans static directories and app static folders for <code>compiler_config.json</code> files and compiles them through <code>codex_core.dev.static_compiler.StaticCompiler</code>.</li>
+<li><code>system/cabinet.py.j2</code> is new and important.
+  It registers default analytics, users, and client cabinet modules directly at the system layer, including dashboard widgets and sidebar/topbar entries.</li>
+<li><code>system/models/user_profile.py.j2</code> is a new shared profile model built on <code>AbstractUserProfile</code>.</li>
+<li>The new selectors/services indicate that user and client-profile behavior is now scaffolded as first-class project infrastructure rather than being left to ad-hoc example code.</li>
+</ul>
+<h3 id="templates-public-runtime-mapping">Templates / Public Runtime Mapping</h3>
+<ul>
+<li><code>project/templates/main/home.html</code> was replaced by <code>home.html.j2</code>, so the homepage is now scaffolded as a true template rather than shipped as a fixed static HTML file.</li>
+<li>The new generated homepage is a structured starter landing page centered on:</li>
+<li>showcase usage;</li>
+<li>public site foundation;</li>
+<li>cabinet/backoffice flows;</li>
+<li>notifications/integrations.</li>
+<li>New generated text templates were added:</li>
+<li><code>llms_de.txt.j2</code></li>
+<li><code>llms_en.txt.j2</code></li>
+<li>New generated web-app/runtime templates were added:</li>
+<li><code>manifest.json.j2</code></li>
+<li><code>robots.txt.j2</code></li>
+<li><code>sw.js.j2</code></li>
+<li>This indicates that the generated project now ships with a stronger default public/runtime shell, including PWA-facing assets and machine-readable site files.</li>
+</ul>
+<h3 id="confirmed-moves-removals">Confirmed Moves / Removals</h3>
+<ul>
+<li><code>project/cabinet/*</code> was removed from the project layer because cabinet responsibility moved to the new top-level <code>blueprints/cabinet</code> family.</li>
+<li><code>runserver_plus.py.j2</code> was removed in favor of <code>startserver.py.j2</code> plus <code>compile_assets.py.j2</code>.</li>
+<li><code>templates/main/home.html</code> was removed in favor of <code>templates/main/home.html.j2</code>.</li>
+</ul>
+<h3 id="confirmed-additions-replacements_1">Confirmed Additions / Replacements</h3>
+<ul>
+<li>The system layer now provides more real project infrastructure by default:</li>
+<li>user profile model;</li>
+<li>selectors/services for user and client profile data;</li>
+<li>default cabinet registrations at the system level;</li>
+<li>dedicated asset compilation command.</li>
+<li>The public template layer now includes default runtime assets for SEO/PWA/discovery rather than only core HTML pages.</li>
+<li>The generated project is therefore closer to a ready operational starter and less like a minimal skeleton.</li>
+</ul>
+<h3 id="remaining-notes_4">Remaining Notes</h3>
+<ul>
+<li>Some of the changed <code>system/admin</code> and <code>system/models</code> files are incremental expansions rather than wholly new concepts, but together they reinforce the same shift: the scaffold is supplying more truthful application infrastructure up front.</li>
+<li>The final release summary should avoid merging the cabinet extraction story into this layer again; it should treat cabinet extraction and project-runtime enrichment as adjacent but separate changes.</li>
+</ul>
+<h3 id="release-impact_4">Release Impact</h3>
+<ul>
+<li>This layer is strongly version-relevant because it changes the default generated project runtime, developer commands, and shipped public assets.</li>
+<li>Version choice is still deferred until tooling, tests, and final release framing are also mapped.</li>
+</ul>
+<h2 id="tooling-package-layer">Tooling / Package Layer</h2>
+<h3 id="factual-summary_5">Factual Summary</h3>
+<ul>
+<li>This layer is small in file count but meaningful in development workflow impact.</li>
+<li>The staged changes touch exactly five paths:</li>
+<li><code>pyproject.toml</code></li>
+<li><code>tools/dev/check.py</code></li>
+<li><code>tools/dev/generate_project_tree.py</code></li>
+<li><code>src/codex_django_cli/dev/__init__.py</code></li>
+<li><code>src/codex_django_cli/dev/project_tree.py</code></li>
+<li>The overall direction is clear:</li>
+<li>quality policy moved into declarative project config;</li>
+<li>the check launcher became thinner;</li>
+<li>a reusable project-tree generator was added as internal dev tooling.</li>
+</ul>
+<h3 id="pyproject-mapping">Pyproject Mapping</h3>
+<ul>
+<li><code>pyproject.toml</code> now requires a newer <code>codex-core</code> range in dev dependencies:</li>
+<li>from <code>&gt;=0.2.2,&lt;0.3.0</code></li>
+<li>to <code>&gt;=0.3.0,&lt;0.4.0</code></li>
+<li>Pytest config now injects default coverage flags through <code>addopts</code>.</li>
+<li>Coverage omission rules were expanded so reports focus on meaningful runtime code rather than:</li>
+<li>blueprint sources;</li>
+<li>the new <code>dev/project_tree.py</code> helper;</li>
+<li>draft paths.</li>
+<li>A new <code>[tool.codex-check]</code> section was added.
+  It centralizes project-specific check policy, including:</li>
+<li>audit flags;</li>
+<li>security command;</li>
+<li>stage definitions for unit / integration / e2e;</li>
+<li>when coverage should or should not run;</li>
+<li>prompt expectations for heavier test stages.</li>
+<li>This means the repository's quality gate is now more configuration-driven and less hardcoded inside scripts.</li>
+</ul>
+<h3 id="check-runner-mapping">Check Runner Mapping</h3>
+<ul>
+<li><code>tools/dev/check.py</code> was simplified into a thin launcher over <code>codex_core.dev.check_runner.BaseCheckRunner</code>.</li>
+<li>The script now explicitly says that project policy lives in <code>pyproject.toml</code>.</li>
+<li>This is a real tooling architecture change:</li>
+<li>before, project-local scripting carried more responsibility;</li>
+<li>now, <code>pyproject.toml</code> is the main source of truth for the quality/check pipeline.</li>
+</ul>
+<h3 id="project-tree-helper-mapping">Project Tree Helper Mapping</h3>
+<ul>
+<li>A new internal helper package was added under <code>src/codex_django_cli/dev/*</code>.</li>
+<li>Its main export is <code>ProjectTreeGenerator</code>, a reusable utility that:</li>
+<li>scans a project directory;</li>
+<li>filters noisy directories and binary/static artifacts;</li>
+<li>writes a human-readable tree to a text file;</li>
+<li>supports interactive selection of a top-level subtree versus the full project.</li>
+<li><code>tools/dev/generate_project_tree.py</code> is the thin script entrypoint for that helper.</li>
+<li>This confirms that project-tree generation is now a first-class dev utility rather than a one-off local script.</li>
+</ul>
+<h3 id="confirmed-additions-replacements_2">Confirmed Additions / Replacements</h3>
+<ul>
+<li>Quality/check behavior is now driven more by shared codex-core tooling plus project config, and less by custom local script logic.</li>
+<li>The repo gained an internal helper module intended for repository introspection and documentation support.</li>
+<li>Coverage defaults became stricter and more standardized for local test runs.</li>
+</ul>
+<h3 id="remaining-notes_5">Remaining Notes</h3>
+<ul>
+<li>The working tree currently contains <code>src/codex_django_cli/dev/__pycache__/*</code> from local execution, but those are runtime byproducts, not meaningful source changes for release framing.</li>
+<li>This layer should be described as developer-experience and maintenance infrastructure, not as generated-project runtime behavior.</li>
+</ul>
+<h3 id="release-impact_5">Release Impact</h3>
+<ul>
+<li>This layer is moderately version-relevant: it does not change end-user generated app behavior directly, but it does change contributor workflow, check semantics, and dev-tool expectations.</li>
+<li>Version choice is still deferred until the tests layer and final release framing are also mapped.</li>
+</ul>
+<h2 id="tests-layer">Tests Layer</h2>
+<h3 id="factual-summary_6">Factual Summary</h3>
+<ul>
+<li>The current staged test changes span unit, integration, and e2e layers:</li>
+<li>unit CLI tests;</li>
+<li>integration command tests;</li>
+<li>e2e init/install chain tests.</li>
+<li>The main pattern is consistent across all three levels:</li>
+<li>legacy command coverage was removed;</li>
+<li>the rewritten <code>init/install/menu/deploy</code> model is now the source of behavioral assertions;</li>
+<li>generated output expectations were updated to the new scaffold topology.</li>
+<li>Current verification status:</li>
+<li><code>tests/unit/cli</code> passes locally;</li>
+<li>latest run: <code>90 passed</code>;</li>
+<li>coverage is now injected by default from <code>pyproject.toml</code>, and the latest unit CLI run reported <code>TOTAL 88%</code> for measured runtime code.</li>
+</ul>
+<h3 id="synchronization-changes">Synchronization Changes</h3>
+<ul>
+<li>Several tests were changed mainly to stop asserting old architecture details that are no longer true:</li>
+<li>old <code>add_app</code> command tests were removed;</li>
+<li>old <code>notifications</code> command tests were removed;</li>
+<li>old <code>booking</code> command tests were removed;</li>
+<li>old <code>client_cabinet</code> command tests were removed;</li>
+<li>old prompt expectations for scaffolding-specific menus were removed.</li>
+<li>These removals should be understood as synchronization with the rewritten CLI surface, not as a reduction in overall seriousness.</li>
+</ul>
+<h3 id="new-updated-public-guarantees">New / Updated Public Guarantees</h3>
+<ul>
+<li><code>tests/unit/cli/test_install.py</code> is new and is now the clearest unit-level contract for the install orchestrator.
+  It verifies:</li>
+<li>install-selection resolution;</li>
+<li>language normalization;</li>
+<li>scaffold path resolution;</li>
+<li><code>.env</code> writing behavior;</li>
+<li>scaffold order for new projects and existing projects;</li>
+<li>automatic implication rules such as booking =&gt; cabinet and public booking =&gt; booking.</li>
+<li><code>tests/unit/cli/test_prompts.py</code> now treats prompt/menu wording as a real contract.
+  It verifies:</li>
+<li>the current top-level menu choices;</li>
+<li>absence of the old scaffolding menu wording;</li>
+<li>install-module prompts and aliases;</li>
+<li>init-mode and plan-confirm flows;</li>
+<li>cloud DB prompt behavior.</li>
+<li><code>tests/unit/cli/test_main.py</code> was reshaped around <code>_handle_cli_args()</code> and the current interactive flow.
+  It now checks:</li>
+<li><code>menu</code> command behavior;</li>
+<li>current <code>init</code> flag mapping;</li>
+<li>rejection of removed commands such as <code>add-app</code>;</li>
+<li>deploy flag handling;</li>
+<li>project discovery from <code>src/</code>.</li>
+<li><code>tests/unit/cli/test_engine.py</code> gained a direct guarantee that <code>.j2</code> wins when raw and templated files share the same output path.</li>
+<li>Integration and e2e tests now assert the new scaffold topology:</li>
+<li>cabinet directory exists in generated projects;</li>
+<li>conversations scaffold appears in base init flow;</li>
+<li>optional booking/public-booking layers can be generated;</li>
+<li>generated management command is <code>startserver</code>, not <code>runserver_plus</code>.</li>
+</ul>
+<h3 id="staged-vs-working-tree-notes">Staged vs Working Tree Notes</h3>
+<ul>
+<li>Some unit test files still have staged/working-tree divergence:</li>
+<li><code>tests/unit/cli/test_commands.py</code></li>
+<li><code>tests/unit/cli/test_install.py</code></li>
+<li><code>tests/unit/cli/test_prompts.py</code></li>
+<li>This does not invalidate the architectural map, but it does mean final staging cleanup is still required before a release commit is cut.</li>
+</ul>
+<h3 id="remaining-notes_6">Remaining Notes</h3>
+<ul>
+<li>The test layer should be described as a synchronization-and-guardrail layer:
+  it now follows the rewritten runtime and also locks in several new public expectations.</li>
+<li>The strongest new source of truth for CLI behavior is now the combination of:</li>
+<li>install orchestration tests;</li>
+<li>prompt/menu contract tests;</li>
+<li>init/integration/e2e scaffold topology tests.</li>
+</ul>
+<h3 id="release-impact_6">Release Impact</h3>
+<ul>
+<li>This layer is release-relevant because it shows that the rewritten CLI and scaffold flow are not just code changes but tested behavior.</li>
+<li>With this layer mapped, the only remaining layer before release naming is <code>CHANGELOG + version</code>.</li>
+</ul>
+<h2 id="changelog-version-layer">Changelog / Version Layer</h2>
+<h3 id="factual-summary_7">Factual Summary</h3>
+<ul>
+<li>All preceding layers are now mapped in this tracker, so version naming can finally be judged from confirmed scope rather than first impressions.</li>
+<li>The staged <code>CHANGELOG.md</code> already contains a draft <code>0.3.0</code> entry dated <code>2026-04-05</code>.</li>
+<li><code>CHANGELOG.md</code> was restored from the structured staged draft back into a readable multiline working copy.</li>
+<li>The version naming decision is therefore no longer blocked by changelog corruption; remaining cleanup is ordinary staging hygiene across the repo.</li>
+</ul>
+<h3 id="version-recommendation">Version Recommendation</h3>
+<ul>
+<li>Recommended version: <code>0.3.0</code>.</li>
+<li>Reasoning:</li>
+<li>the CLI public model changed materially from legacy command families to <code>init/install/repo</code> orchestration;</li>
+<li>the scaffold topology changed materially through cabinet extraction, booking layer split, and conversations introduction;</li>
+<li>the generated project runtime changed materially through <code>startserver</code>, <code>compile_assets</code>, user-profile/selectors/services, and new public/runtime assets;</li>
+<li>docs and tests were updated broadly to match the new mental model rather than a narrow bugfix.</li>
+<li>This is larger than a patch release and more coherent than a series of unrelated small fixes.</li>
+<li>It still fits a minor release better than a major one because the package is already in <code>0.x</code>, the project is still evolving rapidly, and the changes represent a significant iteration of the scaffold/CLI model rather than a stable-1.0 contract break.</li>
+</ul>
+<h3 id="changelog-draft-assessment">Changelog Draft Assessment</h3>
+<ul>
+<li>The staged draft is directionally correct.</li>
+<li>Its current sections broadly match the mapped release layers:</li>
+<li>cabinet extraction;</li>
+<li>booking/conversations additions;</li>
+<li>system/project template expansion;</li>
+<li>CLI/install/repo changes;</li>
+<li>tooling/check updates;</li>
+<li>removal of legacy command modules.</li>
+<li>The remaining editorial choice is only about emphasis: whether docs/test synchronization should stay secondary in the release note or be elevated further.</li>
+<li>The current draft already works as a release note and does not need structural rescue anymore.</li>
+</ul>
+<h3 id="remaining-notes_7">Remaining Notes</h3>
+<ul>
+<li><code>.gitignore</code> is still modified and likely belongs in the release commit as hygiene, but it should remain a secondary note rather than the headline of the release.</li>
+<li>Several docs/tests files still have staged/working-tree divergence; changelog finalization should happen only after that staging cleanup so the release commit reflects one coherent final state.</li>
+</ul>
+<h3 id="release-impact_7">Release Impact</h3>
+<ul>
+<li>The factual map now supports a <code>0.3.0</code> release framing.</li>
+<li>This planning pass is complete; remaining work is final staging cleanup and release execution.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "navigation.breadcrumbs", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../javascripts/mermaid.js"></script>
+      
+    
+  </body>
+</html>

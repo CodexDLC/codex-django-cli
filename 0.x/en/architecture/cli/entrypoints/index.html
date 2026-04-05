@@ -722,10 +722,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#context-sensitive-entry" class="md-nav__link">
+  <a href="#repository-scoped-project-selection" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Context-Sensitive Entry
+        Repository-Scoped Project Selection
       
     </span>
   </a>
@@ -744,10 +744,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#legacy-scripted-entrypoints" class="md-nav__link">
+  <a href="#scripted-entrypoints" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Legacy / Scripted Entrypoints
+        Scripted Entrypoints
       
     </span>
   </a>
@@ -1552,10 +1552,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#context-sensitive-entry" class="md-nav__link">
+  <a href="#repository-scoped-project-selection" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Context-Sensitive Entry
+        Repository-Scoped Project Selection
       
     </span>
   </a>
@@ -1574,10 +1574,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#legacy-scripted-entrypoints" class="md-nav__link">
+  <a href="#scripted-entrypoints" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Legacy / Scripted Entrypoints
+        Scripted Entrypoints
       
     </span>
   </a>
@@ -1678,57 +1678,57 @@ If <code>commands</code> define the semantic operations and <code>engine</code> 
 <li>direct CLI invocation</li>
 <li>interactive menu mode</li>
 <li>scripted subcommand mode</li>
-<li>project-local invocation through <code>codex-django</code> CLI while standing in a generated project directory</li>
+<li>project selection from <code>src/</code> while standing in a repository that contains one or more generated projects</li>
 </ul>
 <p>So the entrypoint layer is not just a thin wrapper.
 It defines the CLI's operating modes.</p>
 <h2 id="main-entry-gateway">Main Entry Gateway</h2>
 <p><code>main.py</code> is the central gateway of the CLI.
-Its top-level <code>main()</code> function decides which path to take based on the incoming arguments and the current working context.</p>
+Its top-level <code>main()</code> function decides which path to take based on the incoming arguments.</p>
 <p>At a high level it distinguishes between:</p>
 <ul>
 <li>no args: launch interactive behavior</li>
 <li><code>menu</code>: force interactive menu behavior</li>
-<li>legacy args: parse subcommands</li>
+<li>scripted args: parse supported subcommands</li>
 </ul>
 <p>This already tells us something architectural:
 the CLI is designed to be usable both as a guided interactive tool and as a scriptable command-line utility.</p>
-<h2 id="context-sensitive-entry">Context-Sensitive Entry</h2>
-<p>One of the most important pieces in the entrypoint layer is <code>_is_in_project()</code>.
-This function checks whether the current working directory looks like a scaffolded codex-django project.</p>
-<p>That means the same CLI binary can change behavior depending on where it is launched:</p>
+<h2 id="repository-scoped-project-selection">Repository-Scoped Project Selection</h2>
+<p>One of the important pieces in the current entrypoint layer is project selection from <code>src/</code>.
+Rather than switching into a completely different project-local binary mode, the CLI scans the repository for generated Django projects and then lets the user:</p>
 <ul>
-<li>outside a project: global menu</li>
-<li>inside a generated project: project menu</li>
+<li>choose a target project</li>
+<li>extend that project</li>
+<li>generate deployment or repo-config helpers against that repository context</li>
 </ul>
-<p>This creates a dual operating model:</p>
+<p>This gives the CLI a repository-scoped operating model:</p>
 <ul>
 <li>global project creation mode</li>
-<li>local project maintenance and extension mode</li>
+<li>project extension mode inside a multi-project repository layout</li>
 </ul>
 <h2 id="interactive-entrypoints">Interactive Entrypoints</h2>
 <p>When the CLI enters interactive mode, <code>main.py</code> routes into menu-based flows such as:</p>
 <ul>
-<li>global initialization</li>
-<li>project commands</li>
-<li>scaffolding menus</li>
-<li>quality/deploy/security menus</li>
+<li>project initialization</li>
+<li>project extension</li>
+<li>deployment generation</li>
+<li>CI/CD workflow generation</li>
+<li>repo config generation</li>
+<li>quality tooling generation</li>
 </ul>
 <p>The important point is that menus are not the CLI itself.
 They are one entry mode into the command system.</p>
 <p>This design keeps the interaction layer replaceable while leaving command semantics stable underneath.</p>
-<h2 id="legacy-scripted-entrypoints">Legacy / Scripted Entrypoints</h2>
-<p>The <code>_handle_legacy_args()</code> branch exposes classic argparse-driven command access.
-This path supports direct subcommands such as:</p>
+<h2 id="scripted-entrypoints">Scripted Entrypoints</h2>
+<p>The <code>_handle_cli_args()</code> branch exposes classic argparse-driven command access.
+This path currently supports direct scripted entry for:</p>
 <ul>
 <li><code>init</code></li>
-<li><code>add-app</code></li>
-<li><code>add-notifications</code></li>
-<li><code>add-client-cabinet</code></li>
-<li><code>add-booking</code></li>
+<li><code>menu</code></li>
+<li><code>deploy</code></li>
 </ul>
 <p>This matters for automation and CI-style usage.
-It means the CLI is not locked into human-driven menu flows.</p>
+It means the CLI is not locked into human-driven menu flows even though some richer flows remain interactive-first.</p>
 <p>Architecturally, this makes the tool hybrid:</p>
 <ul>
 <li>human-friendly in interactive mode</li>
@@ -1746,27 +1746,27 @@ The CLI package remains a separate developer tool (<code>codex-django ...</code>
 <p>Putting these pieces together, the entrypoint system follows this model:</p>
 <ol>
 <li>determine invocation mode</li>
-<li>determine whether current context is global or project-local</li>
 <li>route into menu or scripted command handling</li>
+<li>resolve target project context when needed</li>
 <li>hand control to command handlers</li>
 </ol>
-<p>This means entrypoints are responsible for mode selection, not for business logic.</p>
+<p>This means entrypoints are responsible for mode selection and context routing, not for business logic.</p>
 <h2 id="runtime-flow">Runtime Flow</h2>
 <pre class="mermaid"><code>flowchart TD
     A["User runs codex-django"] --&gt; B["codex_django_cli.main"]
-    B --&gt; C["detect args and context"]
+    B --&gt; C["detect args and mode"]
     C --&gt; D["interactive menu path"]
-    C --&gt; E["legacy subcommand path"]
-    D --&gt; F["project menu or global menu"]
+    C --&gt; E["scripted subcommand path"]
+    D --&gt; F["resolve repository project context when needed"]
     F --&gt; G["command handlers"]
     E --&gt; G</code></pre>
 <h2 id="why-entrypoints-deserve-separate-documentation">Why Entrypoints Deserve Separate Documentation</h2>
 <p>Without documenting entrypoints, the CLI can look simpler than it really is.
 But the entrypoint layer is where several key architectural promises are enforced:</p>
 <ul>
-<li>one tool can work globally and inside a project</li>
+<li>one tool can initialize and extend projects from the same binary</li>
 <li>interactive UX and scripted UX can coexist</li>
-<li>generated projects stay connected to the CLI after scaffold</li>
+<li>repository-scoped project selection stays outside runtime <code>manage.py</code> commands</li>
 </ul>
 <p>Those are not implementation details.
 They are part of the CLI's product design.</p>

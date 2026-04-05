@@ -1539,12 +1539,12 @@
 
 <h1 id="blueprint-workflow">Blueprint Workflow</h1>
 <h2 id="scaffold-">Как Работают Scaffold-Команды</h2>
-<p>Каждая крупная CLI-команда переводит намерение разработчика в один или несколько blueprint renders.</p>
+<p>Каждый крупный CLI-flow переводит намерение разработчика в один или несколько blueprint renders.</p>
 <p>Типичный flow:</p>
 <ol>
-<li>Вы выбираете команду вроде <code>init</code>, <code>add-client-cabinet</code> или <code>add-booking</code>.</li>
-<li>Команда определяет нужное blueprint family.</li>
-<li><code>CLIEngine</code> рендерит шаблоны и копирует static assets в target project.</li>
+<li>Вы выбираете сценарий вроде <code>init</code>, расширения проекта через меню или генерации repository config files.</li>
+<li>Команда или orchestration-layer определяет нужное blueprint family.</li>
+<li><code>CLIEngine</code> рендерит шаблоны и копирует static assets в target project или repository.</li>
 <li>Команда печатает follow-up шаги, которые еще нужно применить вручную.</li>
 </ol>
 <h2 id="blueprints">Семейства Blueprints</h2>
@@ -1552,8 +1552,9 @@
 <ul>
 <li><code>repo</code> для repository shell files;</li>
 <li><code>project</code> для базовой Django project layout;</li>
-<li><code>apps</code> для app-level building blocks;</li>
+<li><code>cabinet</code> для отдельного project-local cabinet layer;</li>
 <li><code>features</code> для cross-cutting functional bundles;</li>
+<li><code>apps</code> для lower-level app building blocks;</li>
 <li><code>deploy</code> для operational и deployment-oriented output.</li>
 </ul>
 <h2 id="_1">Безопасный Рабочий Паттерн</h2>

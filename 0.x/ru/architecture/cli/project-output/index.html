@@ -1843,11 +1843,10 @@
 <p>В корне репозитория CLI может создать внешнюю оболочку проекта:</p>
 <ul>
 <li><code>pyproject.toml</code></li>
-<li><code>README.md</code></li>
 <li><code>.env.example</code></li>
-<li><code>.gitignore</code></li>
 <li>repo docs и tools</li>
-<li>deployment files в <code>deploy/&lt;project_name&gt;/</code></li>
+<li>deployment files в <code>deploy/</code></li>
+<li>CI/CD workflows в <code>.github/workflows/</code></li>
 </ul>
 <p>Это operational и packaging-слой вокруг generated application.</p>
 <h3 id="django-project-level">Django Project Level</h3>
@@ -1859,7 +1858,6 @@
 <li><code>manage.py</code></li>
 <li><code>core/</code></li>
 <li><code>system/</code></li>
-<li><code>cabinet/</code></li>
 <li><code>features/</code></li>
 <li><code>templates/</code></li>
 <li><code>static/</code></li>
@@ -1867,6 +1865,8 @@
 <p>И уже это само по себе говорит о важной вещи:
 generated project это не пустой Django skeleton.
 Он с самого начала архитектурно opinionated.</p>
+<p><code>cabinet/</code> больше не выглядит как встроенный подраздел базового project blueprint.
+Теперь это отдельный install-layer со своим верхнеуровневым blueprint-family.</p>
 <h2 id="_3">Смысл Основных Выходных Папок</h2>
 <h3 id="core"><code>core/</code></h3>
 <p><code>core/</code> это framework и settings-слой проекта.
@@ -1887,26 +1887,29 @@ generated project это не пустой Django skeleton.
 <li>SEO models/admin</li>
 <li>static content</li>
 <li>management command support</li>
+<li>selectors и service helpers</li>
 <li>error views</li>
 </ul>
 <p>Это напрямую отражает reusable <code>system</code> concepts, которые уже есть в самой библиотеке.</p>
 <h3 id="cabinet"><code>cabinet/</code></h3>
-<p><code>cabinet/</code> появляется в generated project как минимальная оболочка вокруг reusable cabinet framework.
-Он не дублирует полную реализацию библиотеки.
-Вместо этого он создает project-local glue и точки настройки, например:</p>
+<p>Когда cabinet-layer установлен, <code>cabinet/</code> появляется в generated project как project-local shell вокруг reusable cabinet framework.
+Он создает project-local glue и точки настройки, например:</p>
 <ul>
 <li>local cabinet registration</li>
-<li>минимальные selectors/views</li>
+<li>cabinet views и routing glue</li>
+<li>local services и context processors</li>
 <li>theme и override surface</li>
 </ul>
 <p>Это важно, потому что сам cabinet должен оставаться library-driven, но при этом сохранять пространство для project-level адаптации.</p>
 <h3 id="features"><code>features/</code></h3>
 <p><code>features/</code> это зона расширения generated project.
 Базовый проект уже содержит <code>features/main/</code>, который выступает стартовым feature module для публичных страниц вроде home и contacts.</p>
-<p>Позже CLI-команды могут расширять эту область через:</p>
+<p>Позже CLI-флоу могут расширять эту область через layered feature scaffolds, например:</p>
 <ul>
-<li>standard apps</li>
-<li>feature bundles</li>
+<li>conversations</li>
+<li>booking core</li>
+<li>public booking</li>
+<li>lower-level app scaffolds при необходимости</li>
 </ul>
 <p>Поэтому <code>features/</code> это основной growth-surface scaffolded проекта.</p>
 <h3 id="templates"><code>templates/</code></h3>
@@ -1916,9 +1919,10 @@ generated project это не пустой Django skeleton.
 <li>includes</li>
 <li>public pages</li>
 <li>error pages</li>
+<li>optional service-worker и manifest output templates</li>
 </ul>
 <p>Этот слой задает shared rendering surface сгенерированного проекта.
-Он отличен и от library-owned <code>cabinet</code> templates, и от showcase templates.</p>
+Он отличен от library-owned cabinet templates, но при этом работает вместе с cabinet-layer, когда тот установлен.</p>
 <h3 id="static"><code>static/</code></h3>
 <p><code>static/</code> содержит front-end asset structure generated project.
 Важно, что там уже заложена многоуровневая CSS-структура и compiler configuration, то есть организация фронтенда тоже scaffold'ится как архитектурное решение, а не оставляется полностью на усмотрение проекта.</p>
@@ -1926,21 +1930,25 @@ generated project это не пустой Django skeleton.
 <p>Базовый проект может расширяться уже на этапе генерации опциональными модулями:</p>
 <ul>
 <li>cabinet</li>
-<li>booking</li>
-<li>notifications</li>
+<li>conversations</li>
+<li>booking core</li>
+<li>public booking</li>
+<li>service-worker assets</li>
 </ul>
 <p>Эти модули не просто добавляют по одной папке.
 Они могут внедрять файлы сразу в несколько целевых зон.</p>
 <p>Например:</p>
 <ul>
-<li>booking расширяет runtime code, templates, cabinet integration и system configuration</li>
-<li>notifications добавляют feature code и ARQ-related infrastructure</li>
-<li>client cabinet расширяет cabinet и system-side user profile handling</li>
+<li>cabinet добавляет project-local cabinet structure, assets, templates и routing glue</li>
+<li>conversations добавляет feature code плюс cabinet-facing integration</li>
+<li>booking расширяет domain code, cabinet builders и public booking pages</li>
+<li>service-worker support добавляет manifest и <code>sw.js</code> assets в project output</li>
 </ul>
 <p>То есть generated output всегда многослоен:</p>
 <ol>
+<li>repository shell</li>
 <li>base project shell</li>
-<li>optional feature bundles</li>
+<li>optional install layers</li>
 <li>later incremental scaffold commands</li>
 </ol>
 <h2 id="generated-project">Generated Project Как Архитектура</h2>
@@ -1959,11 +1967,11 @@ CLI генерирует не нейтральный Django skeleton.
 <pre class="mermaid"><code>flowchart TD
     A["CLI init command"] --&gt; B["repo blueprints"]
     A --&gt; C["project blueprints"]
-    A --&gt; D["optional feature blueprints"]
+    A --&gt; D["optional install layers"]
     B --&gt; E["repository shell"]
     C --&gt; F["src/&lt;project_name&gt;/ runtime structure"]
     D --&gt; F
-    F --&gt; G["core/system/cabinet/features/templates/static"]</code></pre>
+    F --&gt; G["core/system/features/templates/static (+ optional cabinet)"]</code></pre>
 <h2 id="cli-">Связь С Другими CLI-Страницами</h2>
 <ul>
 <li><code>blueprints.md</code> объясняет семейства исходных blueprints, из которых строится этот output</li>

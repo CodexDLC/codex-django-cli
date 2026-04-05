@@ -1539,12 +1539,12 @@
 
 <h1 id="blueprint-workflow">Blueprint Workflow</h1>
 <h2 id="how-scaffold-commands-work">How Scaffold Commands Work</h2>
-<p>Every major CLI command translates a developer intention into one or more blueprint renders.</p>
+<p>Every major CLI flow translates a developer intention into one or more blueprint renders.</p>
 <p>Typical flow:</p>
 <ol>
-<li>Choose a command such as <code>init</code>, <code>add-client-cabinet</code>, or <code>add-booking</code>.</li>
-<li>The command resolves the relevant blueprint family.</li>
-<li><code>CLIEngine</code> renders templates and copies static assets into the target project.</li>
+<li>Choose a flow such as <code>init</code>, project extension from the menu, or repository config generation.</li>
+<li>The command or orchestration layer resolves the relevant blueprint family.</li>
+<li><code>CLIEngine</code> renders templates and copies static assets into the target project or repository.</li>
 <li>The command prints follow-up integration steps you still need to apply manually.</li>
 </ol>
 <h2 id="blueprint-families">Blueprint Families</h2>
@@ -1552,8 +1552,9 @@
 <ul>
 <li><code>repo</code> for repository shell files</li>
 <li><code>project</code> for the base Django project layout</li>
-<li><code>apps</code> for app-level building blocks</li>
+<li><code>cabinet</code> for the dedicated project-local cabinet layer</li>
 <li><code>features</code> for cross-cutting functional bundles</li>
+<li><code>apps</code> for lower-level app building blocks</li>
 <li><code>deploy</code> for operational and deployment-oriented output</li>
 </ul>
 <h2 id="safe-working-pattern">Safe Working Pattern</h2>

@@ -784,10 +784,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#apps" class="md-nav__link">
+  <a href="#cabinet" class="md-nav__link">
     <span class="md-ellipsis">
       
-        apps
+        cabinet
       
     </span>
   </a>
@@ -799,6 +799,17 @@
     <span class="md-ellipsis">
       
         features
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        apps
       
     </span>
   </a>
@@ -1603,10 +1614,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#apps" class="md-nav__link">
+  <a href="#cabinet" class="md-nav__link">
     <span class="md-ellipsis">
       
-        apps
+        cabinet
       
     </span>
   </a>
@@ -1618,6 +1629,17 @@
     <span class="md-ellipsis">
       
         features
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        apps
       
     </span>
   </a>
@@ -1711,21 +1733,22 @@ If <code>CLIEngine</code> is the renderer, blueprints are the architectural sour
 Because of that, blueprints are closer to a declarative construction system than to a simple templates folder.</p>
 <h2 id="why-blueprints-matter">Why Blueprints Matter</h2>
 <p>The most important thing about the CLI is not the menu itself.
-It is the fact that project structure, feature additions, and deployment files are all driven from reusable blueprint trees.</p>
+It is the fact that project structure, project extension, repository shell generation, and deployment files are all driven from reusable blueprint trees.</p>
 <p>This means the CLI architecture is fundamentally template-centric:</p>
 <ul>
-<li>commands choose a blueprint</li>
+<li>commands choose a blueprint family or subtree</li>
 <li>the engine renders it with context</li>
-<li>the generated tree becomes part of the target project</li>
+<li>the generated tree becomes part of the target repository or project</li>
 </ul>
 <p>So understanding the CLI means understanding how blueprints are partitioned.</p>
 <h2 id="top-level-blueprint-families">Top-Level Blueprint Families</h2>
-<p>The current blueprint space is split into five main families:</p>
+<p>The current blueprint space is split into six main families:</p>
 <ul>
 <li><code>repo</code></li>
 <li><code>project</code></li>
-<li><code>apps</code></li>
+<li><code>cabinet</code></li>
 <li><code>features</code></li>
+<li><code>apps</code></li>
 <li><code>deploy</code></li>
 </ul>
 <p>These are not arbitrary folders.
@@ -1735,10 +1758,9 @@ They correspond to different layers of output responsibility.</p>
 This is the outer shell around a generated project and includes files such as:</p>
 <ul>
 <li><code>pyproject.toml</code></li>
-<li><code>README.md</code></li>
 <li><code>.env.example</code></li>
-<li><code>.gitignore</code></li>
 <li>repo-level docs and tools</li>
+<li>shared repository helper templates</li>
 </ul>
 <p>This layer answers:
 "What files belong to the repository as a whole, regardless of the internal Django app tree?"</p>
@@ -1748,46 +1770,53 @@ This includes the initial structure for:</p>
 <ul>
 <li><code>core</code></li>
 <li><code>system</code></li>
-<li><code>cabinet</code></li>
 <li><code>features</code></li>
 <li><code>templates</code></li>
 <li><code>static</code></li>
 <li><code>manage.py</code></li>
 </ul>
-<p>This is the central blueprint family because it defines the starting runtime architecture of a fresh codex-django project.</p>
-<h3 id="apps"><code>apps</code></h3>
-<p><code>apps/</code> contains reusable blueprints for adding a standard feature app to an existing project.
-The current default app blueprint creates a <code>features/&lt;app_name&gt;/</code> structure with the expected internal layout for admin, forms, models, services, templates, tests, and views.</p>
-<p>This layer answers:
-"How do we add one regular app in the canonical codex-django shape?"</p>
+<p>This family defines the starting runtime architecture of a fresh codex-django project before optional install layers are applied.</p>
+<h3 id="cabinet"><code>cabinet</code></h3>
+<p><code>cabinet/</code> is now a dedicated top-level blueprint family.
+It contains the project-local cabinet shell, views, services, templates, static assets, and routing glue that used to be partially embedded under <code>project/</code>.</p>
+<p>This matters because cabinet is no longer just an implementation detail of the base project scaffold.
+It is an explicit extension layer that can be installed, reinstalled, or compared independently.</p>
 <h3 id="features"><code>features</code></h3>
 <p><code>features/</code> contains advanced or compound feature scaffolds such as:</p>
 <ul>
 <li><code>booking</code></li>
+<li><code>booking_core</code></li>
+<li><code>booking_public</code></li>
+<li><code>conversations</code></li>
 <li><code>client_cabinet</code></li>
-<li><code>notifications</code></li>
 </ul>
 <p>These blueprints are more architectural than <code>apps/default</code> because they often modify several target areas at once.</p>
 <p>For example:</p>
 <ul>
-<li>booking touches <code>booking/</code>, <code>system/</code>, <code>cabinet/</code>, and public templates</li>
-<li>notifications splits output between a feature area and ARQ infrastructure</li>
-<li>client cabinet injects both cabinet and system-side code</li>
+<li><code>booking_core</code> defines the booking domain and service layer</li>
+<li><code>booking_public</code> adds public booking pages and multi-step templates</li>
+<li><code>conversations</code> injects feature code plus cabinet-facing integration</li>
+<li><code>client_cabinet</code> remains part of the blueprint tree as a specialized cabinet-facing extension surface</li>
 </ul>
 <p>So <code>features/</code> is the layer where the CLI expresses cross-cutting feature bundles rather than isolated apps.</p>
+<h3 id="apps"><code>apps</code></h3>
+<p><code>apps/</code> contains reusable blueprints for adding a standard feature app to an existing project.
+In the current CLI shape it is no longer the main interactive growth path, but it remains part of the blueprint library as a lower-level reusable scaffold family.</p>
+<p>This layer answers:
+"How do we add one regular app in the canonical codex-django shape when we need that lower-level pattern?"</p>
 <h3 id="deploy"><code>deploy</code></h3>
-<p><code>deploy/</code> contains deployment-specific scaffolding such as Docker files.
+<p><code>deploy/</code> contains deployment-specific scaffolding such as Docker files and workflow templates.
 This layer is intentionally separated from <code>project/</code> because deployment output has a different lifecycle than runtime application code.</p>
 <p>It answers:
 "What operational infrastructure should be generated around the project?"</p>
 <h2 id="architectural-pattern">Architectural Pattern</h2>
 <p>The blueprint hierarchy reveals an implicit generation model:</p>
 <ol>
-<li>generate repository shell</li>
+<li>generate repository shell when needed</li>
 <li>generate base project</li>
-<li>optionally add cross-cutting features</li>
-<li>optionally add standard apps</li>
-<li>optionally generate deployment support</li>
+<li>optionally install cabinet and feature layers</li>
+<li>optionally generate deployment or CI/CD support</li>
+<li>optionally use lower-level app blueprints for specialized scaffolding</li>
 </ol>
 <p>This is not just a file-copy pipeline.
 It is a staged project-construction model.</p>
@@ -1805,7 +1834,7 @@ It is a staged project-construction model.</p>
 </ul>
 <h2 id="runtime-flow">Runtime Flow</h2>
 <pre class="mermaid"><code>flowchart TD
-    A["CLI command"] --&gt; B["select blueprint family"]
+    A["CLI command"] --&gt; B["select blueprint family or subtree"]
     B --&gt; C["CLIEngine.scaffold(...)"]
     C --&gt; D["walk blueprint tree"]
     D --&gt; E["render .j2 files with context"]

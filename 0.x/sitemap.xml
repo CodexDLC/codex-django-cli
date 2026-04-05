@@ -2,102 +2,106 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://codexdlc.github.io/codex-django-cli/0.x/</loc>
-         <lastmod>2026-03-30</lastmod>
+         <lastmod>2026-04-05</lastmod>
     </url>
     <url>
          <loc>https://codexdlc.github.io/codex-django-cli/0.x/changelog/</loc>
-         <lastmod>2026-03-30</lastmod>
+         <lastmod>2026-04-05</lastmod>
+    </url>
+    <url>
+         <loc>https://codexdlc.github.io/codex-django-cli/0.x/release-prep-plan/</loc>
+         <lastmod>2026-04-05</lastmod>
     </url>
     <url>
          <loc>https://codexdlc.github.io/codex-django-cli/0.x/en/</loc>
-         <lastmod>2026-03-30</lastmod>
+         <lastmod>2026-04-05</lastmod>
     </url>
     <url>
          <loc>https://codexdlc.github.io/codex-django-cli/0.x/en/getting-started/</loc>
-         <lastmod>2026-03-30</lastmod>
+         <lastmod>2026-04-05</lastmod>
     </url>
     <url>
          <loc>https://codexdlc.github.io/codex-django-cli/0.x/en/api/cli/</loc>
-         <lastmod>2026-03-30</lastmod>
+         <lastmod>2026-04-05</lastmod>
     </url>
     <url>
          <loc>https://codexdlc.github.io/codex-django-cli/0.x/en/api/internal/cli/</loc>
-         <lastmod>2026-03-30</lastmod>
+         <lastmod>2026-04-05</lastmod>
     </url>
     <url>
          <loc>https://codexdlc.github.io/codex-django-cli/0.x/en/architecture/cli/</loc>
-         <lastmod>2026-03-30</lastmod>
+         <lastmod>2026-04-05</lastmod>
     </url>
     <url>
          <loc>https://codexdlc.github.io/codex-django-cli/0.x/en/architecture/cli/blueprints/</loc>
-         <lastmod>2026-03-30</lastmod>
+         <lastmod>2026-04-05</lastmod>
     </url>
     <url>
          <loc>https://codexdlc.github.io/codex-django-cli/0.x/en/architecture/cli/commands/</loc>
-         <lastmod>2026-03-30</lastmod>
+         <lastmod>2026-04-05</lastmod>
     </url>
     <url>
          <loc>https://codexdlc.github.io/codex-django-cli/0.x/en/architecture/cli/engine/</loc>
-         <lastmod>2026-03-30</lastmod>
+         <lastmod>2026-04-05</lastmod>
     </url>
     <url>
          <loc>https://codexdlc.github.io/codex-django-cli/0.x/en/architecture/cli/entrypoints/</loc>
-         <lastmod>2026-03-30</lastmod>
+         <lastmod>2026-04-05</lastmod>
     </url>
     <url>
          <loc>https://codexdlc.github.io/codex-django-cli/0.x/en/architecture/cli/module/</loc>
-         <lastmod>2026-03-30</lastmod>
+         <lastmod>2026-04-05</lastmod>
     </url>
     <url>
          <loc>https://codexdlc.github.io/codex-django-cli/0.x/en/architecture/cli/project-output/</loc>
-         <lastmod>2026-03-30</lastmod>
+         <lastmod>2026-04-05</lastmod>
     </url>
     <url>
          <loc>https://codexdlc.github.io/codex-django-cli/0.x/en/guides/blueprints-and-scaffolding/</loc>
-         <lastmod>2026-03-30</lastmod>
+         <lastmod>2026-04-05</lastmod>
     </url>
     <url>
          <loc>https://codexdlc.github.io/codex-django-cli/0.x/evolution/roadmap/</loc>
-         <lastmod>2026-03-30</lastmod>
+         <lastmod>2026-04-05</lastmod>
     </url>
     <url>
          <loc>https://codexdlc.github.io/codex-django-cli/0.x/ru/</loc>
-         <lastmod>2026-03-30</lastmod>
+         <lastmod>2026-04-05</lastmod>
     </url>
     <url>
          <loc>https://codexdlc.github.io/codex-django-cli/0.x/ru/getting-started/</loc>
-         <lastmod>2026-03-30</lastmod>
+         <lastmod>2026-04-05</lastmod>
     </url>
     <url>
          <loc>https://codexdlc.github.io/codex-django-cli/0.x/ru/architecture/cli/</loc>
-         <lastmod>2026-03-30</lastmod>
+         <lastmod>2026-04-05</lastmod>
     </url>
     <url>
          <loc>https://codexdlc.github.io/codex-django-cli/0.x/ru/architecture/cli/blueprints/</loc>
-         <lastmod>2026-03-30</lastmod>
+         <lastmod>2026-04-05</lastmod>
     </url>
     <url>
          <loc>https://codexdlc.github.io/codex-django-cli/0.x/ru/architecture/cli/commands/</loc>
-         <lastmod>2026-03-30</lastmod>
+         <lastmod>2026-04-05</lastmod>
     </url>
     <url>
          <loc>https://codexdlc.github.io/codex-django-cli/0.x/ru/architecture/cli/engine/</loc>
-         <lastmod>2026-03-30</lastmod>
+         <lastmod>2026-04-05</lastmod>
     </url>
     <url>
          <loc>https://codexdlc.github.io/codex-django-cli/0.x/ru/architecture/cli/entrypoints/</loc>
-         <lastmod>2026-03-30</lastmod>
+         <lastmod>2026-04-05</lastmod>
     </url>
     <url>
          <loc>https://codexdlc.github.io/codex-django-cli/0.x/ru/architecture/cli/module/</loc>
-         <lastmod>2026-03-30</lastmod>
+         <lastmod>2026-04-05</lastmod>
     </url>
     <url>
          <loc>https://codexdlc.github.io/codex-django-cli/0.x/ru/architecture/cli/project-output/</loc>
-         <lastmod>2026-03-30</lastmod>
+         <lastmod>2026-04-05</lastmod>
     </url>
     <url>
          <loc>https://codexdlc.github.io/codex-django-cli/0.x/ru/guides/blueprints-and-scaffolding/</loc>
-         <lastmod>2026-03-30</lastmod>
+         <lastmod>2026-04-05</lastmod>
     </url>
 </urlset>
