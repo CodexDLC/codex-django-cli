@@ -190,15 +190,15 @@ wheels = [
 
 [[package]]
 name = "codex-core"
-version = "0.2.2"
+version = "0.3.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pydantic" },
     { name = "pydantic-settings" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/56/3a/1d35a245aeef5d7bd38c21fc0f5ef342b2b1702d088c4b301fa8948bc7d4/codex_core-0.2.2.tar.gz", hash = "sha256:fb70746d3f5a7f57f9e61a891e713284bd62fd845f1227af275ecaf2446169bf", size = 119607, upload-time = "2026-03-29T11:14:17.822Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/8d/55/11335e1bfa46861b9e7a38678bf8d8438419c23affbe7a1d6210a986d963/codex_core-0.3.0.tar.gz", hash = "sha256:3dc573d1c3f8e1b88ceb563835bd4fec14c498884a76bca11daffbb3d9d78347", size = 125208, upload-time = "2026-04-04T21:32:34.837Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/42/19/cc9064e28235478e7284501e51ecd32cfbcb6863559e0af15bc894a9f8f7/codex_core-0.2.2-py3-none-any.whl", hash = "sha256:b12410beaa8dce5e04244649fcd9c0d9526f7664ec0df666d9b7b0bb6e324975", size = 29424, upload-time = "2026-03-29T11:14:16.441Z" },
+    { url = "https://files.pythonhosted.org/packages/a7/67/7ab0dea9a79ff0085343468a473b084e3bbefe03b75ea67da6307eb3cc1e/codex_core-0.3.0-py3-none-any.whl", hash = "sha256:c1ee78a1f1629d5bdc79d511870fc65c14d29f3ab6287ecc62f31a199c216772", size = 33021, upload-time = "2026-04-04T21:32:33.426Z" },
 ]
 
 [[package]]
@@ -233,7 +233,7 @@ docs = [
 [package.metadata]
 requires-dist = [
     { name = "bandit", marker = "extra == 'dev'", specifier = ">=1.7" },
-    { name = "codex-core", marker = "extra == 'dev'", specifier = ">=0.2.2,<0.3.0" },
+    { name = "codex-core", marker = "extra == 'dev'", specifier = ">=0.3.0,<0.4.0" },
     { name = "detect-secrets", marker = "extra == 'dev'", specifier = ">=1.5" },
     { name = "jinja2", specifier = ">=3.1" },
     { name = "mike", marker = "extra == 'docs'", specifier = ">=2.0" },
