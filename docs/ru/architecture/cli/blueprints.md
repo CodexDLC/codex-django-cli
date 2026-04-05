@@ -13,24 +13,25 @@
 ## Почему Blueprints Так Важны
 
 Самое важное в CLI это не само меню.
-Самое важное то, что структура проекта, подключение feature-сценариев и deploy-файлы строятся из переиспользуемых blueprint-деревьев.
+Самое важное то, что структура проекта, расширение уже существующего проекта, генерация repository shell и deploy-файлы строятся из переиспользуемых blueprint-деревьев.
 
 Это означает, что архитектура CLI по своей сути template-centric:
 
-- commands выбирают blueprint
+- commands выбирают blueprint family или subtree
 - engine рендерит его с context
-- сгенерированное дерево становится частью целевого проекта
+- сгенерированное дерево становится частью целевого репозитория или проекта
 
 Поэтому понять CLI значит понять, как разделены blueprints.
 
 ## Верхнеуровневые Семейства Blueprints
 
-Сейчас пространство blueprints разделено на пять основных семейств:
+Сейчас пространство blueprints разделено на шесть основных семейств:
 
 - `repo`
 - `project`
-- `apps`
+- `cabinet`
 - `features`
+- `apps`
 - `deploy`
 
 Это не случайные папки.
@@ -42,10 +43,9 @@
 Это внешняя оболочка сгенерированного проекта, в которую входят файлы вроде:
 
 - `pyproject.toml`
-- `README.md`
 - `.env.example`
-- `.gitignore`
 - repo-level docs и tools
+- shared repository helper templates
 
 Этот слой отвечает на вопрос:
 "Какие файлы относятся ко всему репозиторию в целом, независимо от внутреннего Django app tree?"
@@ -57,43 +57,53 @@
 
 - `core`
 - `system`
-- `cabinet`
 - `features`
 - `templates`
 - `static`
 - `manage.py`
 
-Это центральное семейство blueprints, потому что именно оно задает исходную runtime-архитектуру нового codex-django проекта.
+Это семейство задает исходную runtime-архитектуру нового codex-django проекта до подключения опциональных install-слоев.
 
-### `apps`
+### `cabinet`
 
-`apps/` содержит переиспользуемые blueprints для добавления обычного feature app в уже существующий проект.
-Текущий default app blueprint создает структуру `features/<app_name>/` с ожидаемой внутренней раскладкой для admin, forms, models, services, templates, tests и views.
+`cabinet/` теперь это отдельное верхнеуровневое blueprint-family.
+Оно содержит project-local cabinet shell, views, services, templates, static assets и routing glue, которые раньше были частично спрятаны внутри `project/`.
 
-Этот слой отвечает на вопрос:
-"Как добавить один обычный app в канонической форме codex-django?"
+Это важно, потому что cabinet больше не выглядит как неявная часть базового scaffold.
+Теперь это явный extension-layer, который можно устанавливать, переустанавливать и сравнивать отдельно.
 
 ### `features`
 
 `features/` содержит advanced или compound feature scaffolds, например:
 
 - `booking`
+- `booking_core`
+- `booking_public`
+- `conversations`
 - `client_cabinet`
-- `notifications`
 
 Эти blueprints архитектурно шире, чем `apps/default`, потому что часто затрагивают сразу несколько целевых зон.
 
 Например:
 
-- booking изменяет `booking/`, `system/`, `cabinet/` и public templates
-- notifications делит вывод между feature-слоем и ARQ-инфраструктурой
-- client cabinet внедряет код и в `cabinet`, и в `system`
+- `booking_core` задает booking domain и service layer
+- `booking_public` добавляет public booking pages и multi-step templates
+- `conversations` внедряет feature code плюс cabinet-facing integration
+- `client_cabinet` остается частью blueprint-tree как специализированный cabinet-facing extension surface
 
 Поэтому `features/` это слой, где CLI выражает не отдельные приложения, а cross-cutting feature bundles.
 
+### `apps`
+
+`apps/` содержит переиспользуемые blueprints для добавления обычного feature app в уже существующий проект.
+В текущей форме CLI это уже не главный interactive growth path, но это семейство остается частью blueprint library как lower-level reusable scaffold family.
+
+Этот слой отвечает на вопрос:
+"Как добавить один обычный app в канонической форме codex-django, когда нужен именно такой lower-level pattern?"
+
 ### `deploy`
 
-`deploy/` содержит scaffolding для deployment-инфраструктуры, например Docker-файлы.
+`deploy/` содержит scaffolding для deployment-инфраструктуры, например Docker-файлы и workflow templates.
 Этот слой вынесен отдельно от `project/`, потому что operational output живет по другому lifecycle, чем runtime application code.
 
 Он отвечает на вопрос:
@@ -103,11 +113,11 @@
 
 Иерархия blueprints показывает скрытую модель генерации:
 
-1. сгенерировать repository shell
+1. при необходимости сгенерировать repository shell
 2. сгенерировать базовый project
-3. при необходимости добавить cross-cutting features
-4. при необходимости добавить стандартные apps
-5. при необходимости сгенерировать deploy-support
+3. при необходимости установить cabinet и feature layers
+4. при необходимости сгенерировать deploy или CI/CD support
+5. при необходимости использовать lower-level app blueprints
 
 Это не просто pipeline копирования файлов.
 Это staged project-construction model.
@@ -129,7 +139,7 @@ Blueprints это не просто набор файлов:
 
 ```mermaid
 flowchart TD
-    A["CLI command"] --> B["select blueprint family"]
+    A["CLI command"] --> B["select blueprint family or subtree"]
     B --> C["CLIEngine.scaffold(...)"]
     C --> D["walk blueprint tree"]
     D --> E["render .j2 files with context"]

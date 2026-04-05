@@ -13,24 +13,25 @@ Because of that, blueprints are closer to a declarative construction system than
 ## Why Blueprints Matter
 
 The most important thing about the CLI is not the menu itself.
-It is the fact that project structure, feature additions, and deployment files are all driven from reusable blueprint trees.
+It is the fact that project structure, project extension, repository shell generation, and deployment files are all driven from reusable blueprint trees.
 
 This means the CLI architecture is fundamentally template-centric:
 
-- commands choose a blueprint
+- commands choose a blueprint family or subtree
 - the engine renders it with context
-- the generated tree becomes part of the target project
+- the generated tree becomes part of the target repository or project
 
 So understanding the CLI means understanding how blueprints are partitioned.
 
 ## Top-Level Blueprint Families
 
-The current blueprint space is split into five main families:
+The current blueprint space is split into six main families:
 
 - `repo`
 - `project`
-- `apps`
+- `cabinet`
 - `features`
+- `apps`
 - `deploy`
 
 These are not arbitrary folders.
@@ -42,10 +43,9 @@ They correspond to different layers of output responsibility.
 This is the outer shell around a generated project and includes files such as:
 
 - `pyproject.toml`
-- `README.md`
 - `.env.example`
-- `.gitignore`
 - repo-level docs and tools
+- shared repository helper templates
 
 This layer answers:
 "What files belong to the repository as a whole, regardless of the internal Django app tree?"
@@ -57,43 +57,53 @@ This includes the initial structure for:
 
 - `core`
 - `system`
-- `cabinet`
 - `features`
 - `templates`
 - `static`
 - `manage.py`
 
-This is the central blueprint family because it defines the starting runtime architecture of a fresh codex-django project.
+This family defines the starting runtime architecture of a fresh codex-django project before optional install layers are applied.
 
-### `apps`
+### `cabinet`
 
-`apps/` contains reusable blueprints for adding a standard feature app to an existing project.
-The current default app blueprint creates a `features/<app_name>/` structure with the expected internal layout for admin, forms, models, services, templates, tests, and views.
+`cabinet/` is now a dedicated top-level blueprint family.
+It contains the project-local cabinet shell, views, services, templates, static assets, and routing glue that used to be partially embedded under `project/`.
 
-This layer answers:
-"How do we add one regular app in the canonical codex-django shape?"
+This matters because cabinet is no longer just an implementation detail of the base project scaffold.
+It is an explicit extension layer that can be installed, reinstalled, or compared independently.
 
 ### `features`
 
 `features/` contains advanced or compound feature scaffolds such as:
 
 - `booking`
+- `booking_core`
+- `booking_public`
+- `conversations`
 - `client_cabinet`
-- `notifications`
 
 These blueprints are more architectural than `apps/default` because they often modify several target areas at once.
 
 For example:
 
-- booking touches `booking/`, `system/`, `cabinet/`, and public templates
-- notifications splits output between a feature area and ARQ infrastructure
-- client cabinet injects both cabinet and system-side code
+- `booking_core` defines the booking domain and service layer
+- `booking_public` adds public booking pages and multi-step templates
+- `conversations` injects feature code plus cabinet-facing integration
+- `client_cabinet` remains part of the blueprint tree as a specialized cabinet-facing extension surface
 
 So `features/` is the layer where the CLI expresses cross-cutting feature bundles rather than isolated apps.
 
+### `apps`
+
+`apps/` contains reusable blueprints for adding a standard feature app to an existing project.
+In the current CLI shape it is no longer the main interactive growth path, but it remains part of the blueprint library as a lower-level reusable scaffold family.
+
+This layer answers:
+"How do we add one regular app in the canonical codex-django shape when we need that lower-level pattern?"
+
 ### `deploy`
 
-`deploy/` contains deployment-specific scaffolding such as Docker files.
+`deploy/` contains deployment-specific scaffolding such as Docker files and workflow templates.
 This layer is intentionally separated from `project/` because deployment output has a different lifecycle than runtime application code.
 
 It answers:
@@ -103,11 +113,11 @@ It answers:
 
 The blueprint hierarchy reveals an implicit generation model:
 
-1. generate repository shell
+1. generate repository shell when needed
 2. generate base project
-3. optionally add cross-cutting features
-4. optionally add standard apps
-5. optionally generate deployment support
+3. optionally install cabinet and feature layers
+4. optionally generate deployment or CI/CD support
+5. optionally use lower-level app blueprints for specialized scaffolding
 
 This is not just a file-copy pipeline.
 It is a staged project-construction model.
@@ -129,7 +139,7 @@ This means the blueprint tree carries two kinds of meaning at once:
 
 ```mermaid
 flowchart TD
-    A["CLI command"] --> B["select blueprint family"]
+    A["CLI command"] --> B["select blueprint family or subtree"]
     B --> C["CLIEngine.scaffold(...)"]
     C --> D["walk blueprint tree"]
     D --> E["render .j2 files with context"]

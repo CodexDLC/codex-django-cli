@@ -25,11 +25,10 @@ These should not be confused.
 At the repository root, CLI can generate the outer project shell:
 
 - `pyproject.toml`
-- `README.md`
 - `.env.example`
-- `.gitignore`
 - repo docs and tools
-- deployment files under `deploy/<project_name>/`
+- deployment files under `deploy/`
+- CI/CD workflows under `.github/workflows/`
 
 This is the operational and packaging layer around the generated application.
 
@@ -45,7 +44,6 @@ The base project blueprint currently generates a structure centered around these
 - `manage.py`
 - `core/`
 - `system/`
-- `cabinet/`
 - `features/`
 - `templates/`
 - `static/`
@@ -53,6 +51,9 @@ The base project blueprint currently generates a structure centered around these
 This already tells us something important:
 the generated project is not a blank Django app.
 It is opinionated from the start.
+
+`cabinet/` is no longer just a built-in subsection of the base project blueprint.
+It is now a dedicated install layer with its own top-level blueprint family.
 
 ## Meaning Of The Main Output Folders
 
@@ -78,18 +79,19 @@ In the generated output it is responsible for:
 - SEO models/admin
 - static content
 - management command support
+- selectors and service helpers
 - error view support
 
 This matches the reusable `system` concepts already present in the library itself.
 
 ### `cabinet/`
 
-`cabinet/` appears in the generated project as a minimal shell around the reusable cabinet framework.
-It does not duplicate the full library implementation.
-Instead, it provides project-local glue and customization points such as:
+When the cabinet layer is installed, `cabinet/` appears in the generated project as the project-local shell around the reusable cabinet framework.
+It provides project-local glue and customization points such as:
 
 - local cabinet registration
-- minimal selectors/views
+- cabinet views and routing glue
+- local services and context processors
 - theme and override surface
 
 This is important because cabinet is meant to stay library-driven while still allowing project-level adaptation.
@@ -99,10 +101,12 @@ This is important because cabinet is meant to stay library-driven while still al
 `features/` is the extensibility area of the generated project.
 The base project already includes `features/main/`, which acts as the starter feature module for public pages like home and contacts.
 
-Later CLI commands can grow this area with:
+Later CLI flows can grow this area with layered feature scaffolds such as:
 
-- standard apps
-- feature bundles
+- conversations
+- booking core
+- public booking
+- lower-level app scaffolds when needed
 
 So `features/` is the main growth surface of the scaffolded project.
 
@@ -114,9 +118,10 @@ So `features/` is the main growth surface of the scaffolded project.
 - includes
 - public pages
 - error pages
+- optional service-worker and manifest output templates
 
 This layer defines the shared rendering surface of the generated project.
-It is distinct from the library-owned `cabinet` templates and from showcase templates.
+It is distinct from the library-owned cabinet templates while still cooperating with the cabinet layer when that layer is installed.
 
 ### `static/`
 
@@ -128,23 +133,27 @@ Notably, it already has a layered CSS setup and compiler configuration, which me
 The base project can be expanded at generation time with optional modules such as:
 
 - cabinet
-- booking
-- notifications
+- conversations
+- booking core
+- public booking
+- service-worker assets
 
 These do not simply add one folder each.
 They may inject files into multiple target areas.
 
 Examples:
 
-- booking expands runtime code, templates, cabinet integration, and system configuration
-- notifications adds feature code and ARQ-related infrastructure
-- client cabinet extends cabinet and system-side user profile handling
+- cabinet adds project-local cabinet structure, assets, templates, and routing glue
+- conversations adds feature code plus cabinet-facing integration
+- booking expands domain code, cabinet builders, and public booking pages
+- service-worker support adds manifest and `sw.js` assets into the project output
 
 So generated output is layered:
 
-1. base project shell
-2. optional feature bundles
-3. later incremental scaffold commands
+1. repository shell
+2. base project shell
+3. optional install layers
+4. later incremental scaffold commands
 
 ## Generated Project As Architecture
 
@@ -166,11 +175,11 @@ That is why project output deserves its own documentation page.
 flowchart TD
     A["CLI init command"] --> B["repo blueprints"]
     A --> C["project blueprints"]
-    A --> D["optional feature blueprints"]
+    A --> D["optional install layers"]
     B --> E["repository shell"]
     C --> F["src/<project_name>/ runtime structure"]
     D --> F
-    F --> G["core/system/cabinet/features/templates/static"]
+    F --> G["core/system/features/templates/static (+ optional cabinet)"]
 ```
 
 ## Relationship To Other CLI Pages

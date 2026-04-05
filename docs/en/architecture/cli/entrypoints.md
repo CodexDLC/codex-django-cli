@@ -12,7 +12,7 @@ In `codex_django_cli`, entrypoints are more important than they first appear bec
 - direct CLI invocation
 - interactive menu mode
 - scripted subcommand mode
-- project-local invocation through `codex-django` CLI while standing in a generated project directory
+- project selection from `src/` while standing in a repository that contains one or more generated projects
 
 So the entrypoint layer is not just a thin wrapper.
 It defines the CLI's operating modes.
@@ -20,59 +20,58 @@ It defines the CLI's operating modes.
 ## Main Entry Gateway
 
 `main.py` is the central gateway of the CLI.
-Its top-level `main()` function decides which path to take based on the incoming arguments and the current working context.
+Its top-level `main()` function decides which path to take based on the incoming arguments.
 
 At a high level it distinguishes between:
 
 - no args: launch interactive behavior
 - `menu`: force interactive menu behavior
-- legacy args: parse subcommands
+- scripted args: parse supported subcommands
 
 This already tells us something architectural:
 the CLI is designed to be usable both as a guided interactive tool and as a scriptable command-line utility.
 
-## Context-Sensitive Entry
+## Repository-Scoped Project Selection
 
-One of the most important pieces in the entrypoint layer is `_is_in_project()`.
-This function checks whether the current working directory looks like a scaffolded codex-django project.
+One of the important pieces in the current entrypoint layer is project selection from `src/`.
+Rather than switching into a completely different project-local binary mode, the CLI scans the repository for generated Django projects and then lets the user:
 
-That means the same CLI binary can change behavior depending on where it is launched:
+- choose a target project
+- extend that project
+- generate deployment or repo-config helpers against that repository context
 
-- outside a project: global menu
-- inside a generated project: project menu
-
-This creates a dual operating model:
+This gives the CLI a repository-scoped operating model:
 
 - global project creation mode
-- local project maintenance and extension mode
+- project extension mode inside a multi-project repository layout
 
 ## Interactive Entrypoints
 
 When the CLI enters interactive mode, `main.py` routes into menu-based flows such as:
 
-- global initialization
-- project commands
-- scaffolding menus
-- quality/deploy/security menus
+- project initialization
+- project extension
+- deployment generation
+- CI/CD workflow generation
+- repo config generation
+- quality tooling generation
 
 The important point is that menus are not the CLI itself.
 They are one entry mode into the command system.
 
 This design keeps the interaction layer replaceable while leaving command semantics stable underneath.
 
-## Legacy / Scripted Entrypoints
+## Scripted Entrypoints
 
-The `_handle_legacy_args()` branch exposes classic argparse-driven command access.
-This path supports direct subcommands such as:
+The `_handle_cli_args()` branch exposes classic argparse-driven command access.
+This path currently supports direct scripted entry for:
 
 - `init`
-- `add-app`
-- `add-notifications`
-- `add-client-cabinet`
-- `add-booking`
+- `menu`
+- `deploy`
 
 This matters for automation and CI-style usage.
-It means the CLI is not locked into human-driven menu flows.
+It means the CLI is not locked into human-driven menu flows even though some richer flows remain interactive-first.
 
 Architecturally, this makes the tool hybrid:
 
@@ -94,21 +93,21 @@ This boundary keeps responsibilities clean:
 Putting these pieces together, the entrypoint system follows this model:
 
 1. determine invocation mode
-2. determine whether current context is global or project-local
-3. route into menu or scripted command handling
+2. route into menu or scripted command handling
+3. resolve target project context when needed
 4. hand control to command handlers
 
-This means entrypoints are responsible for mode selection, not for business logic.
+This means entrypoints are responsible for mode selection and context routing, not for business logic.
 
 ## Runtime Flow
 
 ```mermaid
 flowchart TD
     A["User runs codex-django"] --> B["codex_django_cli.main"]
-    B --> C["detect args and context"]
+    B --> C["detect args and mode"]
     C --> D["interactive menu path"]
-    C --> E["legacy subcommand path"]
-    D --> F["project menu or global menu"]
+    C --> E["scripted subcommand path"]
+    D --> F["resolve repository project context when needed"]
     F --> G["command handlers"]
     E --> G
 ```
@@ -118,9 +117,9 @@ flowchart TD
 Without documenting entrypoints, the CLI can look simpler than it really is.
 But the entrypoint layer is where several key architectural promises are enforced:
 
-- one tool can work globally and inside a project
+- one tool can initialize and extend projects from the same binary
 - interactive UX and scripted UX can coexist
-- generated projects stay connected to the CLI after scaffold
+- repository-scoped project selection stays outside runtime `manage.py` commands
 
 Those are not implementation details.
 They are part of the CLI's product design.

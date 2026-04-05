@@ -4,13 +4,13 @@
 
 ## Как Работают Scaffold-Команды
 
-Каждая крупная CLI-команда переводит намерение разработчика в один или несколько blueprint renders.
+Каждый крупный CLI-flow переводит намерение разработчика в один или несколько blueprint renders.
 
 Типичный flow:
 
-1. Вы выбираете команду вроде `init`, `add-client-cabinet` или `add-booking`.
-2. Команда определяет нужное blueprint family.
-3. `CLIEngine` рендерит шаблоны и копирует static assets в target project.
+1. Вы выбираете сценарий вроде `init`, расширения проекта через меню или генерации repository config files.
+2. Команда или orchestration-layer определяет нужное blueprint family.
+3. `CLIEngine` рендерит шаблоны и копирует static assets в target project или repository.
 4. Команда печатает follow-up шаги, которые еще нужно применить вручную.
 
 ## Семейства Blueprints
@@ -19,8 +19,9 @@ Blueprint tree в CLI организован по типу результата:
 
 - `repo` для repository shell files;
 - `project` для базовой Django project layout;
-- `apps` для app-level building blocks;
+- `cabinet` для отдельного project-local cabinet layer;
 - `features` для cross-cutting functional bundles;
+- `apps` для lower-level app building blocks;
 - `deploy` для operational и deployment-oriented output.
 
 ## Безопасный Рабочий Паттерн

@@ -7,7 +7,7 @@
   <h1>Project assembly, scaffold generation, and developer workflows for Codex-shaped Django projects.</h1>
   <p class="cdx-lead">
     <code>codex-django-cli</code> owns the interactive <code>codex-django</code> command, blueprint rendering,
-    project bootstrap flows, feature scaffolding, deployment helpers, and CLI-focused quality tooling.
+    project bootstrap flows, project extension flows, repository config generation, deployment helpers, and CLI-focused quality tooling.
     Generated projects still target the <code>codex_django.*</code> runtime API from
     <code>codex-django</code>.
   </p>
@@ -23,11 +23,11 @@
 <div class="cdx-grid cdx-grid-2">
   <div class="cdx-card">
     <h3>Production-ready Architecture</h3>
-    <p>We don't just create an empty folder. <code>codex-django init</code> scaffolds a robust, modern baseline: an <strong>HTMX 2.x + Alpine.js</strong> frontend stack, a configured <strong>Redis/ASGI</strong> core, standard <code>system/</code> apps with SEO and notifications, and secure <code>.env</code> handling with Fernet encryption keys.</p>
+    <p>We don't just create an empty folder. <code>codex-django init</code> scaffolds a robust, modern baseline: an <strong>HTMX 2.x + Alpine.js</strong> frontend stack, a configured <strong>Redis/ASGI</strong> core, standard <code>system/</code> apps with SEO and project settings support, and an opinionated runtime layout that can be extended with cabinet, booking, conversations, and service-worker layers.</p>
   </div>
   <div class="cdx-card">
     <h3>The Interactive Menu</h3>
-    <p>Just run <code>codex-django menu</code>. Inside your project, it provides a context-sensitive interface to scaffold new modules, generate Docker/CI files, build translation domains, or run quality checks without memorizing commands or flags.</p>
+    <p>Run <code>codex-django menu</code>. The menu can initialize a new project, extend an existing project under <code>src/</code>, generate repo config files, create deployment and CI/CD scaffolds, or configure quality tooling without requiring you to memorize every path and flag.</p>
   </div>
 </div>
 
@@ -65,11 +65,13 @@ python src/myproject/manage.py migrate
 python src/myproject/manage.py startserver
 ```
 
-Add modular features incrementally to an existing project:
+Extend an existing scaffold incrementally:
 
 ```bash
 codex-django menu
-# Choose "🧩  Scaffolding (Apps/Modules)" -> Select "Client Cabinet", "Booking", etc.
+# Choose "🧩  Extend existing Django project"
+# Select a project from src/
+# Choose Cabinet, Conversations, Booking, or compare-copy actions
 ```
 
 ## Start Here
@@ -82,7 +84,7 @@ codex-django menu
   </div>
   <div class="cdx-card">
     <h3>Extend an existing project</h3>
-    <p>Add feature apps, booking, cabinet, notifications, and deployment assets on top of an existing scaffold.</p>
+    <p>Add cabinet, conversations, booking layers, service-worker assets, and deployment support on top of an existing scaffold.</p>
     <p><a href="./en/guides/blueprints-and-scaffolding/">Open blueprint guide</a></p>
   </div>
   <div class="cdx-card">
@@ -120,12 +122,12 @@ codex-django menu
 <div class="cdx-grid cdx-grid-3">
   <div class="cdx-card">
     <h3><code>main</code></h3>
-    <p>Top-level mode selection, interactive routing, legacy subcommand parsing, and project-context dispatch.</p>
+    <p>Top-level mode selection, interactive routing, scripted entrypoints, project discovery under <code>src/</code>, and menu orchestration.</p>
     <p><a href="./en/architecture/cli/entrypoints/">Architecture</a> · <a href="./en/api/cli/">API</a></p>
   </div>
   <div class="cdx-card">
     <h3><code>commands</code></h3>
-    <p>Concrete scaffold handlers for project init, app generation, booking, notifications, deploy, and quality flows.</p>
+    <p>Concrete orchestration handlers for project init, install/extend flows, repo config generation, deploy flows, and quality tooling.</p>
     <p><a href="./en/architecture/cli/commands/">Architecture</a> · <a href="./en/api/internal/cli/">API</a></p>
   </div>
   <div class="cdx-card">
@@ -135,7 +137,7 @@ codex-django menu
   </div>
   <div class="cdx-card">
     <h3><code>blueprints</code></h3>
-    <p>Template asset tree for runtime projects, optional features, deploy files, and shared repository scaffolds.</p>
+    <p>Template asset tree for runtime projects, cabinet extraction, optional features, deploy files, and shared repository scaffolds.</p>
     <p><a href="./en/architecture/cli/blueprints/">Architecture</a></p>
   </div>
   <div class="cdx-card">

@@ -6,10 +6,10 @@
 
 ## Why not `django-admin startproject`?
 
-Unlike Django's default utility which creates an entirely empty structure, `codex-django` generates a fully production-ready architecture:
+Unlike Django's default utility which creates an entirely empty structure, `codex-django` assembles a much richer baseline:
 - **Modern Frontend Stack:** Comes pre-wired with **HTMX 2.x** and **Alpine.js**, modular CSS, and base themes.
-- **Ready-to-use Core/System:** Includes pre-configured ASGI, Redis, standard notifications, SEO mixins, and a generated `.env` file with Fernet encryption keys.
-- **Interactive Menu:** You don't need to memorize long CLI flags. Run `codex-django menu` to interactively launch wizards for initializing projects, adding features, or creating Docker/CI files.
+- **Ready-to-use Core/System:** Includes pre-configured ASGI, Redis, SEO/admin foundations, reusable project settings support, and an opinionated runtime layout that can later be extended with cabinet, conversations, booking, and service-worker layers.
+- **Interactive Menu:** You don't need to memorize long CLI flags. Run `codex-django menu` to initialize a project, extend an existing scaffold, generate repo config files, or create Docker/CI files from the same menu system.
 
 ## Install The CLI
 
@@ -45,20 +45,20 @@ python src/myproject/manage.py startserver
 ```
 
 > [!IMPORTANT]
-> **The `codex-django` Dependency**: The `pip install -e .` step is critical! It downloads and installs the core `codex-django` runtime library. The `codex-django-cli` only generates the scaffolding (the architectural wiring). The actual engine that powers HTMX responses, Cabinet templates, notifications, and SEO lives inside `codex-django`. **Without it, your scaffolded project will not work.**
+> **The `codex-django` Dependency**: The `pip install -e .` step is critical! It downloads and installs the core `codex-django` runtime library. The `codex-django-cli` only generates the scaffolding (the architectural wiring). The actual runtime that powers HTMX responses, cabinet templates, reusable settings, and SEO support lives inside `codex-django`. **Without it, your scaffolded project will not work.**
 
-The interactive menu is also accessible simply by typing `codex-django`. It is incredibly useful when you want to choose i18n modes, set up specific language codes, or toggle optional modules without memorizing flags. But if you know what you want, the explicit flags are the fastest way.
+The interactive menu is also accessible simply by typing `codex-django`. It is useful when you want to choose i18n modes, set language codes, decide which layers to scaffold, or generate comparison copies for already-detected modules without memorizing flags.
 
 If you already have a scaffolded project, extend it incrementally using the CLI menu:
 
 ```bash
 codex-django menu
-# -> Choose "🧩  Scaffolding (Apps/Modules)"
-# -> Select project target
-# -> Choose "Basic app", "Client Cabinet", or "Booking"
+# -> Choose "🧩  Extend existing Django project"
+# -> Select project target from src/
+# -> Choose Cabinet, Conversations, Booking engine, Booking cabinet integration, or compare-copy actions
 ```
 
-The scaffolding engine generates files and prints the exact follow-up steps you need to wire them into the core `settings.py`, `urls.py`, and `admin.py`.
+The scaffolding engine generates files and prints the exact follow-up steps you need to wire them into the repository and runtime project.
 
 ## Typical Development Loop for the CLI
 

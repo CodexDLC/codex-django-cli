@@ -5,7 +5,7 @@
 ## Purpose
 
 `codex_django.cli` is the scaffolding and project-operations layer of the repository.
-Unlike the runtime library modules, CLI is responsible for generating project structures, injecting feature blueprints, and exposing developer workflows through an interactive or command-driven interface.
+Unlike the runtime library modules, CLI is responsible for generating project structures, installing feature layers, generating repository shell files, and exposing developer workflows through an interactive or command-driven interface.
 
 It is already architecturally distinct enough that it can be documented as its own subtree.
 That matches the long-term direction hinted at in the code and memory notes: CLI may later be extracted into a dedicated library.
@@ -22,7 +22,7 @@ It has several internal layers:
 - blueprint library
 - repo/project/feature/deploy output structures
 
-That makes it structurally different from modules like `booking` or `notifications`, where one concept page is enough as a first pass.
+That makes it structurally different from modules like `booking` or `conversations`, where one concept page is enough as a first pass.
 
 ## Main Layers
 
@@ -32,10 +32,10 @@ That makes it structurally different from modules like `booking` or `notificatio
 It decides whether the CLI runs:
 
 - as an interactive menu
-- as a project-local menu
-- as a legacy scripted subcommand interface
+- as a repository-scoped project extension flow
+- as a scripted subcommand interface
 
-This is the layer that distinguishes "global tool behavior" from "inside an already scaffolded project" behavior.
+This is the layer that distinguishes top-level tool behavior from runtime `manage.py` behavior.
 
 ### 2. Prompt Layer
 
@@ -58,13 +58,11 @@ This is the infrastructure heart of the CLI.
 
 ### 4. Command Layer
 
-`commands/` contains operation handlers such as:
+`commands/` now centers around orchestration modules such as:
 
 - `init`
-- `add_app`
-- `booking`
-- `client_cabinet`
-- `notifications`
+- `install`
+- `repo`
 - `quality`
 - `deploy`
 
@@ -75,12 +73,13 @@ These handlers translate a high-level user action into a concrete scaffolding or
 `blueprints/` is the knowledge base of the CLI.
 It contains the template trees that define what gets generated.
 
-The blueprint space is already segmented into meaningful subdomains:
+The blueprint space is segmented into meaningful subdomains:
 
 - `repo`
 - `project`
-- `apps`
+- `cabinet`
 - `features`
+- `apps`
 - `deploy`
 
 This is one of the strongest signs that CLI should be treated as a standalone documentation subtree.
@@ -101,11 +100,11 @@ This subtree already covers the main CLI concerns through dedicated pages:
 flowchart TD
     A["User runs codex-django"] --> B["main.py"]
     B --> C["interactive prompts"]
-    B --> D["legacy subcommands"]
+    B --> D["scripted subcommands"]
     C --> E["command handlers"]
     D --> E
-    E --> F["CLIEngine"]
-    F --> G["blueprints repo/project/apps/features/deploy"]
+    E --> F["CLIEngine / install orchestration"]
+    F --> G["blueprints repo/project/cabinet/features/apps/deploy"]
     G --> H["generated files in target project"]
 ```
 
@@ -116,7 +115,7 @@ If the runtime modules define what the library provides after installation, CLI 
 
 That means the repository has two different architectural dimensions:
 
-- runtime modules such as `core`, `system`, `booking`, `notifications`, `cabinet`
+- runtime modules such as `core`, `system`, `booking`, `conversations`, `cabinet`
 - build/scaffolding module `cli`
 
 This difference is strong enough that CLI should keep its own documentation tree from this point onward.

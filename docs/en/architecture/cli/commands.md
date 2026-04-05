@@ -13,10 +13,10 @@ They are scenario handlers.
 This means each command answers a high-level question such as:
 
 - how to initialize a new project
-- how to add a standard app
-- how to inject a booking bundle
-- how to scaffold notification infrastructure
+- how to extend an existing project
+- how to generate repository config files
 - how to generate deployment files
+- how to scaffold quality tooling
 
 ## Architectural Role
 
@@ -38,53 +38,44 @@ They encode the semantic meaning of each CLI action.
 
 ## Command Families
 
-The current commands already form several architectural groups.
+The current commands form several architectural groups.
 
 ### Project Initialization
 
-`init.py` is the highest-level scaffold operation.
-It creates the main project skeleton and may also include optional feature bundles such as:
+`init.py` is the top-level public scaffold entrypoint for creating a new project.
+It coordinates a new-project workflow and delegates the actual install-layer resolution to the install orchestration layer.
 
-- cabinet
-- booking
-- notifications
+Its public role is simple:
 
-This command is special because it coordinates several blueprint families in sequence:
+- accept explicit CLI flags
+- normalize project options
+- launch the new-project scaffold flow
 
-- `repo`
-- `deploy`
-- `project`
-- optional feature blueprints
+### Install / Extension Orchestration
 
-So `init` is not one scaffold action, but a project-construction workflow.
+`install.py` is the scenario layer behind project assembly and extension.
+It is responsible for:
 
-### Standard App Scaffolding
+- resolving which install layers are implied by the chosen modules
+- detecting already-installed project modules
+- scaffolding new-project flows
+- extending existing projects
+- generating compare copies for already-detected modules
 
-`add_app.py` handles the creation of a regular feature app inside `features/<app_name>/`.
-It uses the default app blueprint and assumes the generated project already exists.
+This is the command-layer heart of the current scaffold model.
+It is not just one feature installer.
+It defines how projects grow after the base scaffold exists.
 
-This command is the canonical "grow the project by one standard app" path.
+### Repository Config Commands
 
-### Feature Bundle Commands
+`repo.py` handles repository-level shell generation such as:
 
-Some commands scaffold more than one isolated folder because the feature they represent cuts across several layers of the generated project.
+- `pyproject.toml`
+- `.env.example`
+- other root-level comparison files
 
-Examples:
-
-- `booking.py`
-- `client_cabinet.py`
-- `notifications.py`
-
-These commands operate more like feature installers than like simple file generators.
-
-For example:
-
-- booking touches booking code, system settings, cabinet integration, and public templates
-- notifications splits output between feature code and ARQ infrastructure
-- client cabinet injects cabinet-facing code and system-side profile models
-
-This is an important distinction:
-the CLI supports both app scaffolding and architectural feature injection.
+This command family sits above the runtime project tree.
+It manages the packaging and repository shell around the Django codebase.
 
 ### Quality Commands
 
@@ -96,7 +87,7 @@ It also scaffolds developer tooling around the project.
 
 ### Deployment Commands
 
-`deploy.py` handles operational infrastructure generation, currently around Docker-based deployment files.
+`deploy.py` handles operational infrastructure generation, currently around Docker and CI/CD support.
 Like quality tooling, this command sits outside the main runtime app tree while still being part of the generated project ecosystem.
 
 ## Common Command Pattern
@@ -106,7 +97,7 @@ Despite their differences, the commands share one common architectural pattern:
 1. receive intent and parameters
 2. compute destination paths
 3. assemble context
-4. call `CLIEngine`
+4. call `CLIEngine` directly or through a helper orchestration layer
 5. print actionable next steps
 
 This gives the CLI a consistent mental model.
@@ -120,7 +111,7 @@ flowchart TD
     B --> C["resolve target path"]
     B --> D["build render context"]
     B --> E["choose blueprint subtree"]
-    C --> F["CLIEngine"]
+    C --> F["CLIEngine or install orchestrator"]
     D --> F
     E --> F
     F --> G["generated project files"]
@@ -133,8 +124,8 @@ Without command-level documentation, CLI can look like a flat list of actions.
 But in reality the commands encode the supported project-evolution model:
 
 - initialize a base project
-- expand it with standard apps
-- inject bigger architectural features
+- extend it with install layers
+- generate repository shell files
 - add project tooling
 - add deployment support
 

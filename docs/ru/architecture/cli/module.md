@@ -5,7 +5,7 @@
 ## Назначение
 
 `codex_django.cli` это слой скаффолдинга и проектных операций в репозитории.
-В отличие от runtime-модулей библиотеки, CLI отвечает за генерацию структуры проекта, внедрение feature blueprints и выдачу developer workflow через интерактивный или командный интерфейс.
+В отличие от runtime-модулей библиотеки, CLI отвечает за генерацию структуры проекта, установку feature-слоев, генерацию repository shell files и выдачу developer workflows через интерактивный или командный интерфейс.
 
 Архитектурно он уже настолько отличается от остальных частей проекта, что для него логично вести отдельное поддерево документации.
 Это хорошо совпадает и с долгосрочным направлением, которое уже видно из кода и memory notes: позже CLI может быть вынесен в отдельную библиотеку.
@@ -22,7 +22,7 @@ CLI это не просто один модуль с несколькими hel
 - blueprint library
 - repo/project/feature/deploy output structures
 
-Из-за этого он заметно отличается от модулей вроде `booking` или `notifications`, где на первом проходе достаточно одной общей архитектурной страницы.
+Из-за этого он заметно отличается от модулей вроде `booking` или `conversations`, где на первом проходе достаточно одной общей архитектурной страницы.
 
 ## Основные Слои
 
@@ -32,10 +32,10 @@ CLI это не просто один модуль с несколькими hel
 Именно он решает, как CLI будет работать:
 
 - как интерактивное меню
-- как меню внутри уже scaffolded project
-- как legacy scripted subcommand interface
+- как repository-scoped flow расширения проекта
+- как scripted subcommand interface
 
-Это слой, который отделяет "поведение глобального инструмента" от "поведения внутри уже созданного проекта".
+Это слой, который отделяет top-level tool behavior от runtime `manage.py` behavior.
 
 ### 2. Prompt Layer
 
@@ -58,13 +58,11 @@ CLI это не просто один модуль с несколькими hel
 
 ### 4. Command Layer
 
-В `commands/` лежат operation handlers:
+`commands/` теперь сосредоточен вокруг orchestration-модулей вроде:
 
 - `init`
-- `add_app`
-- `booking`
-- `client_cabinet`
-- `notifications`
+- `install`
+- `repo`
 - `quality`
 - `deploy`
 
@@ -79,8 +77,9 @@ CLI это не просто один модуль с несколькими hel
 
 - `repo`
 - `project`
-- `apps`
+- `cabinet`
 - `features`
+- `apps`
 - `deploy`
 
 Это один из самых сильных признаков того, что CLI нужно документировать как самостоятельное дерево.
@@ -101,11 +100,11 @@ CLI это не просто один модуль с несколькими hel
 flowchart TD
     A["User runs codex-django"] --> B["main.py"]
     B --> C["interactive prompts"]
-    B --> D["legacy subcommands"]
+    B --> D["scripted subcommands"]
     C --> E["command handlers"]
     D --> E
-    E --> F["CLIEngine"]
-    F --> G["blueprints repo/project/apps/features/deploy"]
+    E --> F["CLIEngine / install orchestration"]
+    F --> G["blueprints repo/project/cabinet/features/apps/deploy"]
     G --> H["generated files in target project"]
 ```
 
@@ -116,7 +115,7 @@ CLI это construction-layer внутри `codex-django`.
 
 То есть в репозитории одновременно есть две разные архитектурные оси:
 
-- runtime modules: `core`, `system`, `booking`, `notifications`, `cabinet`
+- runtime modules: `core`, `system`, `booking`, `conversations`, `cabinet`
 - build/scaffolding module: `cli`
 
 Эта разница уже достаточно сильна, чтобы дальше вести документацию CLI отдельно.

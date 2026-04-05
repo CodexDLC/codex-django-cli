@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from unittest.mock import ANY, MagicMock, patch
+from unittest.mock import MagicMock, patch
 
 import pytest
 
@@ -11,7 +11,6 @@ from codex_django_cli.commands.install import (
     InstallSelection,
     _normalize_languages,
     _resolve_scaffold_paths,
-    _write_project_env,
     describe_plan,
     resolve_install_selection,
 )
@@ -67,50 +66,13 @@ def test_resolve_scaffold_paths_default_and_explicit_target(tmp_path: Path):
 
 
 @pytest.mark.unit
-def test_write_project_env_respects_overwrite(tmp_path: Path):
-    _write_project_env(
-        str(tmp_path),
-        "demo",
-        overwrite=False,
-        secret_key="secret-1",
-        field_encryption_key="fernet-1",
-    )
-    env_path = tmp_path / '.env'
-    assert env_path.exists()
-    first = env_path.read_text(encoding='utf-8')
-    assert 'SECRET_KEY=secret-1' in first
-
-    _write_project_env(
-        str(tmp_path),
-        "demo",
-        overwrite=False,
-        secret_key="secret-2",
-        field_encryption_key="fernet-2",
-    )
-    assert env_path.read_text(encoding='utf-8') == first
-
-    _write_project_env(
-        str(tmp_path),
-        "demo",
-        overwrite=True,
-        secret_key="secret-3",
-        field_encryption_key="fernet-3",
-    )
-    updated = env_path.read_text(encoding='utf-8')
-    assert 'SECRET_KEY=secret-3' in updated
-    assert 'FIELD_ENCRYPTION_KEY=fernet-3' in updated
-
-
-@pytest.mark.unit
 def test_scaffold_new_project_with_booking_and_public_booking(tmp_path: Path):
     with (
         patch('codex_django_cli.commands.install._resolve_scaffold_paths', return_value=(str(tmp_path / 'root'), str(tmp_path / 'root' / 'src' / 'demo'))),
         patch('codex_django_cli.commands.install.os.path.exists', return_value=False),
-        patch('codex_django_cli.commands.install._write_project_env') as mock_env,
+        patch('codex_django_cli.commands.repo.handle_generate_repo_config') as mock_repo_config,
         patch('codex_django_cli.commands.install.console.print') as mock_print,
         patch('codex_django_cli.engine.CLIEngine') as mock_engine_cls,
-        patch('codex_django_cli.utils.generate_secret_key', return_value='secret-key'),
-        patch('codex_django_cli.utils.generate_field_encryption_key', return_value='fernet-key'),
     ):
         mock_engine = MagicMock()
         mock_engine_cls.return_value = mock_engine
@@ -132,14 +94,19 @@ def test_scaffold_new_project_with_booking_and_public_booking(tmp_path: Path):
         assert plan.sw is True
         calls = mock_engine.scaffold.call_args_list
         names = [call.args[0] for call in calls]
-        assert names == ['repo', 'deploy/shared', 'project', 'cabinet', 'features/conversations', 'features/booking_core', 'features/booking_public']
+        assert names == ['project', 'cabinet', 'features/conversations', 'features/booking_core', 'features/booking_public']
         context = calls[-1].kwargs['context']
         assert context['with_booking'] is True
         assert context['with_public_booking'] is True
         assert context['with_sw'] is True
         assert context['languages'] == ['ru', 'en']
-        assert context['secret_key'] == 'secret-key'
-        mock_env.assert_called_once()
+        mock_repo_config.assert_called_once_with(
+            name='demo',
+            project_root=str(tmp_path / 'root'),
+            include_pyproject=True,
+            include_env_example=True,
+            overwrite=False,
+        )
         assert any('Modules:' in str(call.args[0]) for call in mock_print.call_args_list if call.args)
 
 
