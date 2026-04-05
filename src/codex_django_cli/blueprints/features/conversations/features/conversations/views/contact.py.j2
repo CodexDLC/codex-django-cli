@@ -26,8 +26,3 @@ class ContactFormView(FormView):
         context = super().get_context_data(**kwargs)
         context["sent"] = self.request.GET.get("sent") == "1"
         return context
-
-
-
-
-

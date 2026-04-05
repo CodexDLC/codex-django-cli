@@ -135,6 +135,3 @@ class InboxBulkActionView(_ConversationsDisabledView):
 def manual_check_view(request: Any) -> JsonResponse:
     return JsonResponse({"error": "Conversations module is disabled."}, status=404)
 {%- endif %}
-
-
-

@@ -17,7 +17,9 @@ def _write_rendered_file(path: str, content: str) -> None:
         handle.write(content)
 
 
-def _resolve_output_path(project_root: str, primary_name: str, compare_name: str, *, overwrite: bool) -> tuple[str, bool]:
+def _resolve_output_path(
+    project_root: str, primary_name: str, compare_name: str, *, overwrite: bool
+) -> tuple[str, bool]:
     primary_path = os.path.join(project_root, primary_name)
     if overwrite or not os.path.exists(primary_path):
         return primary_path, False

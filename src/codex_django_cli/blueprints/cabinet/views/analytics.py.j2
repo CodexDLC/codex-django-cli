@@ -27,10 +27,3 @@ class AnalyticsReportsView(TemplateView):
         # Получаем данные детальных отчетов
         context.update(AnalyticsService.get_reports_context(self.request))
         return context
-
-
-
-
-
-
-

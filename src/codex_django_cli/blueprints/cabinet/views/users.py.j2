@@ -27,11 +27,3 @@ class UserListView(TemplateView):
         context = super().get_context_data(**kwargs)
         context.update(UserService.get_list_context(self.request))
         return context
-
-
-
-
-
-
-
-

@@ -40,8 +40,3 @@ class MessageReply(models.Model):
     def __str__(self):
         direction = "←" if self.is_inbound else "→"
         return f"{direction} {self.message.sender_email} @ {self.sent_at:%Y-%m-%d %H:%M}"
-
-
-
-
-

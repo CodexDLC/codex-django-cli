@@ -65,5 +65,3 @@ def get_paginated_messages(
 ) -> Page[Message]:
     qs = get_messages(status=status, topic=topic)
     return Paginator(qs, per_page).get_page(page)
-
-

@@ -1,7 +1,6 @@
 """Generate project structure tree."""
 
 import sys
-import os
 from pathlib import Path
 
 # Add src to sys.path to allow importing codex_django_cli

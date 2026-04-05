@@ -96,7 +96,16 @@ def test_interactive_menu_extend_existing_install(tmp_path: Path):
         patch("codex_django_cli.main.os.path.isdir", return_value=True),
         patch("codex_django_cli.main.os.listdir", return_value=["myproject"]),
         patch("codex_django_cli.main.os.path.isfile", return_value=True),
-        patch("codex_django_cli.commands.install.detect_project_modules", return_value={"cabinet": False, "conversations": False, "booking": False, "public_booking": False, "sw": False}),
+        patch(
+            "codex_django_cli.commands.install.detect_project_modules",
+            return_value={
+                "cabinet": False,
+                "conversations": False,
+                "booking": False,
+                "public_booking": False,
+                "sw": False,
+            },
+        ),
         patch.object(prompts_module, "ask_extension_modules", return_value=["booking"]),
         patch.object(prompts_module, "ask_confirm_plan", return_value=True),
         patch("codex_django_cli.commands.install.scaffold_existing_project") as mock_scaffold,
@@ -116,7 +125,16 @@ def test_interactive_menu_extend_existing_compare_copy(tmp_path: Path):
         patch("codex_django_cli.main.os.path.isdir", return_value=True),
         patch("codex_django_cli.main.os.listdir", return_value=["myproject"]),
         patch("codex_django_cli.main.os.path.isfile", return_value=True),
-        patch("codex_django_cli.commands.install.detect_project_modules", return_value={"cabinet": True, "conversations": False, "booking": False, "public_booking": False, "sw": False}),
+        patch(
+            "codex_django_cli.commands.install.detect_project_modules",
+            return_value={
+                "cabinet": True,
+                "conversations": False,
+                "booking": False,
+                "public_booking": False,
+                "sw": False,
+            },
+        ),
         patch.object(prompts_module, "ask_extension_modules", return_value=["cabinet"]),
         patch.object(prompts_module, "ask_existing_module_action", return_value="compare"),
         patch.object(prompts_module, "ask_confirm_plan", return_value=True),
@@ -283,7 +301,19 @@ def test_cli_deploy_uses_new_flags(tmp_path: Path):
         patch("codex_django_cli.main.os.getcwd", return_value=str(tmp_path)),
         patch("codex_django_cli.commands.deploy.handle_generate_deploy") as mock_handle,
     ):
-        result = _handle_cli_args(["deploy", "myproject", "--mode", "stack", "--domain", "prod.example.com", "--with-bot", "--with-worker", "--no-docker"])
+        result = _handle_cli_args(
+            [
+                "deploy",
+                "myproject",
+                "--mode",
+                "stack",
+                "--domain",
+                "prod.example.com",
+                "--with-bot",
+                "--with-worker",
+                "--no-docker",
+            ]
+        )
         mock_handle.assert_called_once_with(
             name="myproject",
             project_root=str(tmp_path),
@@ -299,7 +329,10 @@ def test_cli_deploy_uses_new_flags(tmp_path: Path):
 
 @pytest.mark.unit
 def test_interactive_menu_loops_after_back_then_exit():
-    with patch.object(prompts_module, "ask_main_action", side_effect=["📦  Generate repo config files", "❌  Exit"]), patch.object(prompts_module, "ask_repo_config_action", return_value="← Back"):
+    with (
+        patch.object(prompts_module, "ask_main_action", side_effect=["📦  Generate repo config files", "❌  Exit"]),
+        patch.object(prompts_module, "ask_repo_config_action", return_value="← Back"),
+    ):
         assert _interactive_menu() == 0
 
 

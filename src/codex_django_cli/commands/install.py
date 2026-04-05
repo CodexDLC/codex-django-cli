@@ -117,7 +117,9 @@ def _resolve_scaffold_paths(name: str, base_dir: str, target_dir: str | None, de
     return project_root, backend_dir
 
 
-def scaffold_new_project(*, name: str, base_dir: str, target_dir: str | None, selection: InstallSelection, languages: list[str] | None) -> ResolvedInstallPlan | None:
+def scaffold_new_project(
+    *, name: str, base_dir: str, target_dir: str | None, selection: InstallSelection, languages: list[str] | None
+) -> ResolvedInstallPlan | None:
     from codex_django_cli import engine as engine_module
     from codex_django_cli.commands.repo import handle_generate_repo_config
 
@@ -156,19 +158,27 @@ def scaffold_new_project(*, name: str, base_dir: str, target_dir: str | None, se
         )
     engine.scaffold("project", target_dir=backend_dir, context=context, overwrite=selection.overwrite)
     if plan.cabinet:
-        engine.scaffold("cabinet", target_dir=os.path.join(backend_dir, "cabinet"), context=context, overwrite=selection.overwrite)
+        engine.scaffold(
+            "cabinet", target_dir=os.path.join(backend_dir, "cabinet"), context=context, overwrite=selection.overwrite
+        )
     if plan.conversations:
-        engine.scaffold("features/conversations", target_dir=backend_dir, context=context, overwrite=selection.overwrite)
+        engine.scaffold(
+            "features/conversations", target_dir=backend_dir, context=context, overwrite=selection.overwrite
+        )
     if plan.booking:
         engine.scaffold("features/booking_core", target_dir=backend_dir, context=context, overwrite=selection.overwrite)
     if plan.public_booking:
-        engine.scaffold("features/booking_public", target_dir=backend_dir, context=context, overwrite=selection.overwrite)
+        engine.scaffold(
+            "features/booking_public", target_dir=backend_dir, context=context, overwrite=selection.overwrite
+        )
     console.print(f"[green]✓[/green] Project [bold]{name}[/bold] initialized in [bold]{project_root}[/bold]")
     console.print(f"  Modules: [cyan]{describe_plan(plan)}[/cyan]")
     return plan
 
 
-def _scaffold_modules_to_target(*, target_dir: str, selection: InstallSelection, compare_copy: bool = False) -> ResolvedInstallPlan:
+def _scaffold_modules_to_target(
+    *, target_dir: str, selection: InstallSelection, compare_copy: bool = False
+) -> ResolvedInstallPlan:
     from codex_django_cli import engine as engine_module
 
     plan = resolve_install_selection(selection, base_mode=False)
@@ -183,13 +193,33 @@ def _scaffold_modules_to_target(*, target_dir: str, selection: InstallSelection,
     engine = engine_module.CLIEngine()
 
     if plan.cabinet:
-        engine.scaffold("cabinet", target_dir=os.path.join(target_dir, "cabinet"), context=context, overwrite=selection.overwrite or compare_copy)
+        engine.scaffold(
+            "cabinet",
+            target_dir=os.path.join(target_dir, "cabinet"),
+            context=context,
+            overwrite=selection.overwrite or compare_copy,
+        )
     if plan.conversations:
-        engine.scaffold("features/conversations", target_dir=target_dir, context=context, overwrite=selection.overwrite or compare_copy)
+        engine.scaffold(
+            "features/conversations",
+            target_dir=target_dir,
+            context=context,
+            overwrite=selection.overwrite or compare_copy,
+        )
     if plan.booking:
-        engine.scaffold("features/booking_core", target_dir=target_dir, context=context, overwrite=selection.overwrite or compare_copy)
+        engine.scaffold(
+            "features/booking_core",
+            target_dir=target_dir,
+            context=context,
+            overwrite=selection.overwrite or compare_copy,
+        )
     if plan.public_booking:
-        engine.scaffold("features/booking_public", target_dir=target_dir, context=context, overwrite=selection.overwrite or compare_copy)
+        engine.scaffold(
+            "features/booking_public",
+            target_dir=target_dir,
+            context=context,
+            overwrite=selection.overwrite or compare_copy,
+        )
     return plan
 
 

@@ -23,8 +23,3 @@ def site_settings_view(request: HttpRequest) -> HttpResponse:
 @login_required
 def site_settings_tab_view(request: HttpRequest, tab_slug: str) -> HttpResponse:
     return redirect(f"{reverse('cabinet:site_settings')}#{tab_slug}")
-
-
-
-
-

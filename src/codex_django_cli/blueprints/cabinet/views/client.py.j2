@@ -39,7 +39,3 @@ class ClientAppointmentsView(TemplateView):
         context = super().get_context_data(**kwargs)
         context.update(ClientService.get_appointments_context(self.request))
         return context
-
-
-
-

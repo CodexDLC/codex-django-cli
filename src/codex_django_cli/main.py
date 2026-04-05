@@ -98,8 +98,11 @@ def _resolve_project_name(forced_project: str | None = None) -> str | None:
     return prompts.ask_project_name()
 
 
-def _build_selection_from_modules(modules: list[str], *, overwrite: bool, enable_i18n: bool, with_cloud_db: bool) -> InstallSelection:
+def _build_selection_from_modules(
+    modules: list[str], *, overwrite: bool, enable_i18n: bool, with_cloud_db: bool
+) -> InstallSelection:
     from codex_django_cli.commands.install import InstallSelection
+
     return InstallSelection(
         cabinet="cabinet" in modules,
         booking="booking" in modules or "booking_engine" in modules or "booking_cabinet" in modules,
@@ -133,11 +136,15 @@ def _init_wizard() -> MenuResult:
     enable_i18n = prompts.ask_enable_i18n()
     languages = prompts.ask_languages(enable_i18n) if enable_i18n else None
     from codex_django_cli.commands.install import describe_plan, resolve_install_selection
-    selection = _build_selection_from_modules(modules, overwrite=overwrite, enable_i18n=enable_i18n, with_cloud_db=with_cloud_db)
+
+    selection = _build_selection_from_modules(
+        modules, overwrite=overwrite, enable_i18n=enable_i18n, with_cloud_db=with_cloud_db
+    )
     resolved = resolve_install_selection(selection, base_mode=True)
     if not prompts.ask_confirm_plan(describe_plan(resolved)):
         return "back"
     from codex_django_cli.commands.init import handle_init
+
     handle_init(
         name=name,
         base_dir=os.getcwd(),
@@ -167,6 +174,7 @@ def _extend_wizard(forced_project: str | None = None) -> MenuResult:
         scaffold_compare_copy,
         scaffold_existing_project,
     )
+
     detected_modules = detect_project_modules(project_dir)
     modules = prompts.ask_extension_modules(installed_modules=detected_modules)
     if modules is None:
@@ -191,7 +199,9 @@ def _extend_wizard(forced_project: str | None = None) -> MenuResult:
     if install_modules:
         install_selection = InstallSelection(
             cabinet="cabinet" in install_modules,
-            booking="booking" in install_modules or "booking_engine" in install_modules or "booking_cabinet" in install_modules,
+            booking="booking" in install_modules
+            or "booking_engine" in install_modules
+            or "booking_cabinet" in install_modules,
             booking_cabinet="booking_cabinet" in install_modules,
             conversations="conversations" in install_modules,
             public_booking="public_booking" in install_modules,
@@ -205,7 +215,9 @@ def _extend_wizard(forced_project: str | None = None) -> MenuResult:
     if compare_modules:
         compare_selection = InstallSelection(
             cabinet="cabinet" in compare_modules,
-            booking="booking" in compare_modules or "booking_engine" in compare_modules or "booking_cabinet" in compare_modules,
+            booking="booking" in compare_modules
+            or "booking_engine" in compare_modules
+            or "booking_cabinet" in compare_modules,
             booking_cabinet="booking_cabinet" in compare_modules,
             conversations="conversations" in compare_modules,
             public_booking="public_booking" in compare_modules,
@@ -231,10 +243,15 @@ def _deploy_wizard(*, generate_docker: bool, generate_cicd: bool, forced_project
     services = prompts.ask_deploy_services()
     if services is None:
         return "back"
-    action_label = "deployment files under deploy/" if generate_docker and not generate_cicd else "CI/CD workflows under .github/workflows/"
+    action_label = (
+        "deployment files under deploy/"
+        if generate_docker and not generate_cicd
+        else "CI/CD workflows under .github/workflows/"
+    )
     if not prompts.ask_confirm_action(f"Generate {action_label} for project '{os.path.basename(project_dir)}'?"):
         return "back"
     from codex_django_cli.commands.deploy import handle_generate_deploy
+
     handle_generate_deploy(
         name=os.path.basename(project_dir),
         project_root=os.getcwd(),
@@ -252,6 +269,7 @@ def _precommit_wizard() -> MenuResult:
     if not prompts.ask_confirm_action("Create .pre-commit-config.yaml and .secrets.baseline in the current repo root?"):
         return "back"
     from codex_django_cli.commands.quality import handle_configure_precommit
+
     handle_configure_precommit(os.getcwd())
     return "done"
 
@@ -265,9 +283,12 @@ def _repo_config_wizard(forced_project: str | None = None) -> MenuResult:
         return "back"
     include_pyproject = action in {"Generate pyproject.toml + .env.example", "Generate pyproject.toml only"}
     include_env_example = action in {"Generate pyproject.toml + .env.example", "Generate .env.example only"}
-    if not prompts.ask_confirm_action(f"Generate repo config files for project '{project_name}' in the current repo root?"):
+    if not prompts.ask_confirm_action(
+        f"Generate repo config files for project '{project_name}' in the current repo root?"
+    ):
         return "back"
     from codex_django_cli.commands.repo import handle_generate_repo_config
+
     handle_generate_repo_config(
         name=project_name,
         project_root=os.getcwd(),
@@ -279,8 +300,10 @@ def _repo_config_wizard(forced_project: str | None = None) -> MenuResult:
 
 def _handle_cli_args(args: list[str]) -> int:
     import argparse
+
     from codex_django_cli.commands.deploy import handle_generate_deploy
     from codex_django_cli.commands.init import handle_init
+
     parser = argparse.ArgumentParser(prog="codex-django")
     subparsers = parser.add_subparsers(dest="command")
     init_parser = subparsers.add_parser("init", help="Initialize a new project.")
@@ -300,7 +323,24 @@ def _handle_cli_args(args: list[str]) -> int:
     init_parser.add_argument("--with-sw", action="store_true", default=False)
     init_parser.add_argument("--with-cloud-db", action="store_true", default=False)
     init_parser.set_defaults(with_cabinet=True, with_conversations=True)
-    init_parser.set_defaults(func=lambda parsed: handle_init(name=parsed.name, base_dir=os.getcwd(), target_dir=parsed.target_dir, code_only=parsed.code, dev_mode=parsed.dev, overwrite=parsed.overwrite, enable_i18n=parsed.enable_i18n, languages=prompts.parse_language_codes(parsed.languages) if parsed.languages else None, with_cabinet=parsed.with_cabinet, with_booking=parsed.with_booking, with_conversations=parsed.with_conversations, with_public_booking=parsed.with_public_booking, with_sw=parsed.with_sw, with_cloud_db=parsed.with_cloud_db))
+    init_parser.set_defaults(
+        func=lambda parsed: handle_init(
+            name=parsed.name,
+            base_dir=os.getcwd(),
+            target_dir=parsed.target_dir,
+            code_only=parsed.code,
+            dev_mode=parsed.dev,
+            overwrite=parsed.overwrite,
+            enable_i18n=parsed.enable_i18n,
+            languages=prompts.parse_language_codes(parsed.languages) if parsed.languages else None,
+            with_cabinet=parsed.with_cabinet,
+            with_booking=parsed.with_booking,
+            with_conversations=parsed.with_conversations,
+            with_public_booking=parsed.with_public_booking,
+            with_sw=parsed.with_sw,
+            with_cloud_db=parsed.with_cloud_db,
+        )
+    )
     menu_parser.set_defaults(func=lambda parsed: _interactive_menu())
     deploy_parser = subparsers.add_parser("deploy", help="Generate Docker + CI/CD deployment files.")
     deploy_parser.add_argument("name", help="Project name (folder inside src/)")
@@ -310,7 +350,18 @@ def _handle_cli_args(args: list[str]) -> int:
     deploy_parser.add_argument("--with-worker", action="store_true", default=False)
     deploy_parser.add_argument("--no-docker", action="store_true", default=False)
     deploy_parser.add_argument("--no-cicd", action="store_true", default=False)
-    deploy_parser.set_defaults(func=lambda parsed: handle_generate_deploy(name=parsed.name, project_root=os.getcwd(), deploy_mode=parsed.mode, domain_name=parsed.domain, with_bot=parsed.with_bot, with_worker=parsed.with_worker, generate_docker=not parsed.no_docker, generate_cicd=not parsed.no_cicd))
+    deploy_parser.set_defaults(
+        func=lambda parsed: handle_generate_deploy(
+            name=parsed.name,
+            project_root=os.getcwd(),
+            deploy_mode=parsed.mode,
+            domain_name=parsed.domain,
+            with_bot=parsed.with_bot,
+            with_worker=parsed.with_worker,
+            generate_docker=not parsed.no_docker,
+            generate_cicd=not parsed.no_cicd,
+        )
+    )
     parsed = parser.parse_args(args)
     if hasattr(parsed, "func"):
         parsed.func(parsed)
@@ -321,9 +372,3 @@ def _handle_cli_args(args: list[str]) -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
-
-
-
-
-
-

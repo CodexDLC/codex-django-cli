@@ -82,8 +82,3 @@ class Message(models.Model):
     def __str__(self):
         preview = self.subject or self.body[:60]
         return f"[{self.get_status_display()}] {self.sender_name} — {preview}"
-
-
-
-
-

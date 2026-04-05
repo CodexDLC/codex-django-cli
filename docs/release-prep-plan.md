@@ -2,7 +2,7 @@
 
 ## Goal
 
-Use this file as the working release-prep tracker for the current `codex-django-cli` refactor.  
+Use this file as the working release-prep tracker for the current `codex-django-cli` refactor.
 The release pass must move layer by layer and avoid mixing documentation, runtime architecture, blueprint moves, test synchronization, and release notes.
 
 ## Tracking Rules

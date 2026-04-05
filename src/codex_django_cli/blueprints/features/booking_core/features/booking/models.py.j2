@@ -154,8 +154,3 @@ class MasterDayOff(MasterDayOffMixin):
         verbose_name = _("Day Off")
         verbose_name_plural = _("Days Off")
         unique_together: ClassVar[list[tuple[str, str]]] = [("master", "date")]
-
-
-
-
-

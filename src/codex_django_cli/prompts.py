@@ -70,7 +70,9 @@ def ask_deploy_mode() -> str | None:
         questionary.select(
             "Deployment scaffold — choose topology for files under deploy/ or .github/workflows/:",
             choices=[
-                questionary.Choice("Standalone  (one project = full stack: nginx, redis, postgres)", value="standalone"),
+                questionary.Choice(
+                    "Standalone  (one project = full stack: nginx, redis, postgres)", value="standalone"
+                ),
                 questionary.Choice("Stack       (multiple projects share nginx, redis, worker)", value="stack"),
                 "← Back",
             ],
@@ -122,7 +124,9 @@ def ask_install_modules(*, mode: str, installed_modules: dict[str, bool] | None 
         if installed_modules.get(module_name):
             label = f"{label} (already detected)"
         choices.append(questionary.Choice(label, value=module_name, checked=module_name in checked))
-    result = questionary.checkbox(prompt, choices=choices, instruction="Space to toggle, Enter to confirm, Esc to cancel").ask()
+    result = questionary.checkbox(
+        prompt, choices=choices, instruction="Space to toggle, Enter to confirm, Esc to cancel"
+    ).ask()
     if result is None:
         return None
     return cast(list[str], result)
@@ -178,7 +182,9 @@ def ask_extension_modules(installed_modules: dict[str, bool] | None = None) -> l
 
 
 def ask_enable_i18n() -> bool:
-    result = questionary.confirm("Enable i18n / modular locale support? Useful even with one language.", default=False).ask()
+    result = questionary.confirm(
+        "Enable i18n / modular locale support? Useful even with one language.", default=False
+    ).ask()
     return bool(result)
 
 

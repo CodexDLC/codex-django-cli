@@ -239,8 +239,3 @@ def cancel_appointment(booking_id: int) -> dict[str, Any] | None:
             removed = _APPOINTMENTS.pop(index)
             return dict(removed)
     return None
-
-
-
-
-

@@ -73,6 +73,3 @@ urlpatterns = [
 if getattr(settings, "CODEX_ALLAUTH_ENABLED", False):
 
     urlpatterns.insert(2, path("", include("allauth.urls")))
-
-
-

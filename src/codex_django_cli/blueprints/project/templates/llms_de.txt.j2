@@ -9,5 +9,3 @@ This file provides context for LLMs about this project.
 - Address: {% if site_settings is defined %}{{ site_settings.address_street|default('') }}, {{ site_settings.address_postal_code|default('') }} {{ site_settings.address_locality|default('') }}{% else %}Not configured{% endif %}
 - Phone: {% if site_settings is defined %}{{ site_settings.phone|default('') }}{% else %}Not configured{% endif %}
 - Email: {% if site_settings is defined %}{{ site_settings.email|default('') }}{% else %}Not configured{% endif %}
-
-

@@ -170,8 +170,3 @@ def provide_analytics_charts(request: Any) -> Any:
 @DashboardSelector.extend(cache_key="analytics_lists", cache_ttl=0)  # type: ignore[untyped-decorator]
 def provide_analytics_lists(request: Any) -> Any:
     return AnalyticsService.get_top_lists()
-
-
-
-
-

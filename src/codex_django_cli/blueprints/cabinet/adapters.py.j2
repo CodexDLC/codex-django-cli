@@ -20,4 +20,3 @@ class CabinetAccountAdapter(DefaultAccountAdapter):  # type: ignore[misc]
         if client_url and not (request.user.is_staff or request.user.is_superuser):
             return client_url
         return default_url
-
