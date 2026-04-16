@@ -14,7 +14,7 @@ def analytics_dashboard_view(request: Any) -> HttpResponse:
 
 
 class AnalyticsReportsView(TemplateView):
-    """Страница детальных отчетов."""
+    """Detailed analytics reports page."""
 
     template_name = "cabinet/analytics/reports.html"
 
@@ -24,6 +24,5 @@ class AnalyticsReportsView(TemplateView):
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        # Получаем данные детальных отчетов
         context.update(AnalyticsService.get_reports_context(self.request))
         return context
