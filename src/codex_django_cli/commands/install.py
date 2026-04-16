@@ -13,7 +13,7 @@ MODULE_MARKERS: dict[str, list[str]] = {
     "cabinet": ["cabinet/apps.py", "cabinet/urls.py"],
     "conversations": ["features/conversations/apps.py", "features/conversations/urls.py"],
     "booking_engine": ["features/booking/booking_settings.py", "features/booking/providers/runtime.py"],
-    "booking_cabinet": ["cabinet/views/booking.py", "cabinet/templates/cabinet/booking/list.html"],
+    "booking_cabinet": ["cabinet/booking_bridge.py", "cabinet/templates/cabinet/booking/list.html"],
     "public_booking": ["features/booking_public/urls.py", "features/booking_public/views.py"],
     "sw": ["templates/sw.js", "static/manifest.json"],
 }
@@ -161,6 +161,13 @@ def scaffold_new_project(
         engine.scaffold(
             "cabinet", target_dir=os.path.join(backend_dir, "cabinet"), context=context, overwrite=selection.overwrite
         )
+    if plan.booking:
+        engine.scaffold(
+            "cabinet_booking",
+            target_dir=os.path.join(backend_dir, "cabinet"),
+            context=context,
+            overwrite=selection.overwrite,
+        )
     if plan.conversations:
         engine.scaffold(
             "features/conversations", target_dir=backend_dir, context=context, overwrite=selection.overwrite
@@ -195,6 +202,13 @@ def _scaffold_modules_to_target(
     if plan.cabinet:
         engine.scaffold(
             "cabinet",
+            target_dir=os.path.join(target_dir, "cabinet"),
+            context=context,
+            overwrite=selection.overwrite or compare_copy,
+        )
+    if plan.booking:
+        engine.scaffold(
+            "cabinet_booking",
             target_dir=os.path.join(target_dir, "cabinet"),
             context=context,
             overwrite=selection.overwrite or compare_copy,

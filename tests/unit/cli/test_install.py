@@ -100,6 +100,7 @@ def test_scaffold_new_project_with_booking_and_public_booking(tmp_path: Path):
         assert names == [
             "project",
             "cabinet",
+            "cabinet_booking",
             "features/conversations",
             "features/booking_core",
             "features/booking_public",
@@ -163,7 +164,7 @@ def test_scaffold_existing_project_scaffolds_requested_modules(tmp_path: Path):
         assert plan.public_booking is True
         calls = mock_engine.scaffold.call_args_list
         names = [call.args[0] for call in calls]
-        assert names == ["cabinet", "features/conversations", "features/booking_core", "features/booking_public"]
+        assert names == ["cabinet", "cabinet_booking", "features/conversations", "features/booking_core", "features/booking_public"]
         assert calls[0].kwargs["overwrite"] is True
         assert calls[0].kwargs["context"]["enable_i18n"] is True
         assert any("Modules installed" in str(call.args[0]) for call in mock_print.call_args_list if call.args)
