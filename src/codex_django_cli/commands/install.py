@@ -147,6 +147,8 @@ def scaffold_new_project(
         "with_public_booking": plan.public_booking,
         "with_sw": plan.sw,
         "with_cloud_db": selection.cloud_db,
+        # with_notifications will be wired up in Этап 5; default False until then
+        "with_notifications": False,
     }
     if not selection.code_only:
         handle_generate_repo_config(
@@ -196,6 +198,8 @@ def _scaffold_modules_to_target(
         "with_public_booking": plan.public_booking,
         "with_sw": plan.sw,
         "enable_i18n": selection.i18n,
+        # with_notifications will be wired up in Этап 5; default False until then
+        "with_notifications": False,
     }
     engine = engine_module.CLIEngine()
 

@@ -1,0 +1,28 @@
+{%- if with_notifications %}
+import os
+
+# ═══════════════════════════════════════════
+# Notifications Settings
+# ═══════════════════════════════════════════
+
+# ARQ worker — Redis DSN for async task queue.
+NOTIFICATIONS_ARQ_REDIS_URL: str = os.environ.get(
+    "NOTIFICATIONS_ARQ_REDIS_URL",
+    os.environ.get("REDIS_URL", "redis://localhost:6379/1"),
+)
+
+# E-mail backend. Swap for smtp.EmailBackend in production.
+NOTIFICATIONS_EMAIL_BACKEND: str = os.environ.get(
+    "NOTIFICATIONS_EMAIL_BACKEND",
+    "django.core.mail.backends.console.EmailBackend",
+)
+
+NOTIFICATIONS_DEFAULT_FROM_EMAIL: str = os.environ.get(
+    "NOTIFICATIONS_DEFAULT_FROM_EMAIL",
+    "noreply@{{ project_name }}.local",
+)
+
+# Map EMAIL_BACKEND → Django setting so Django itself uses the same backend.
+EMAIL_BACKEND: str = NOTIFICATIONS_EMAIL_BACKEND
+DEFAULT_FROM_EMAIL: str = NOTIFICATIONS_DEFAULT_FROM_EMAIL
+{%- endif %}

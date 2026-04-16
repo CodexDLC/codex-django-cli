@@ -61,6 +61,12 @@ from .modules.logging import *  # noqa
 from .modules.admin import *  # noqa
 from .modules.sitemap import *  # noqa
 from .modules.codex import *  # noqa
+{%- if with_booking %}
+from .modules.booking import *  # noqa: F401, F403
+{%- endif %}
+{%- if with_notifications %}
+from .modules.notifications import *  # noqa: F401, F403
+{%- endif %}
 
 # ═══════════════════════════════════════════
 # General Settings

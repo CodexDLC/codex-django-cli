@@ -14,9 +14,10 @@ ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*"]
 ACCOUNT_EMAIL_VERIFICATION = "optional"
 ACCOUNT_UNIQUE_EMAIL = True
 
-LOGIN_URL = "/cabinet/login/"
-LOGIN_REDIRECT_URL = "/cabinet/"
-LOGOUT_REDIRECT_URL = "/cabinet/login/"
+CABINET_LOGIN_URL: str = os.environ.get("CABINET_LOGIN_URL", "/cabinet/login/")
+LOGIN_URL = CABINET_LOGIN_URL
+LOGIN_REDIRECT_URL: str = os.environ.get("LOGIN_REDIRECT_URL", "/cabinet/")
+LOGOUT_REDIRECT_URL: str = os.environ.get("LOGOUT_REDIRECT_URL", "/cabinet/login/")
 
 SOCIALACCOUNT_PROVIDERS = {
     "google": {

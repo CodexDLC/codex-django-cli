@@ -1,0 +1,32 @@
+{%- if with_booking %}
+import os
+
+# ═══════════════════════════════════════════
+# Booking Engine Settings
+# ═══════════════════════════════════════════
+
+# Link the booking settings model (project-owned concrete model).
+CODEX_BOOKING_SETTINGS_MODEL = "system.BookingSettings"
+
+# Redis-backed busy-slot cache. Enable in staging/prod via env.
+CODEX_REDIS_ENABLED = os.environ.get("CODEX_REDIS_ENABLED", "false").lower() == "true"
+
+# Slot grid granularity — matches AbstractBookingSettings.step_minutes default.
+BOOKING_DEFAULT_SLOT_MINUTES: int = int(os.environ.get("BOOKING_DEFAULT_SLOT_MINUTES", "30"))
+
+# How far ahead clients can book (days).
+BOOKING_MAX_ADVANCE_DAYS: int = int(os.environ.get("BOOKING_MAX_ADVANCE_DAYS", "60"))
+
+# Minimum advance notice before a slot can be booked (minutes).
+BOOKING_MIN_ADVANCE_MINUTES: int = int(os.environ.get("BOOKING_MIN_ADVANCE_MINUTES", "60"))
+
+# Buffer between consecutive appointments (minutes).
+BOOKING_DEFAULT_BUFFER_MINUTES: int = int(os.environ.get("BOOKING_DEFAULT_BUFFER_MINUTES", "0"))
+
+# Set to True to allow overlapping bookings for the same resource.
+BOOKING_OVERLAP_ALLOWED: bool = os.environ.get("BOOKING_OVERLAP_ALLOWED", "false").lower() == "true"
+
+# "solo"  — one resource per appointment chain
+# "multi" — multiple resources in a single chain (requires codex-services ChainFinder)
+BOOKING_CHAIN_MODE: str = os.environ.get("BOOKING_CHAIN_MODE", "solo")
+{%- endif %}
