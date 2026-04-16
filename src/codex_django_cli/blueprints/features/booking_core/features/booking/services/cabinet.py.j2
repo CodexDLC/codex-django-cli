@@ -33,6 +33,12 @@ from codex_django.booking.cabinet import (
 )
 from codex_django.cabinet import CalendarGridData, CalendarSlot
 from django.urls import reverse
+{%- if enable_i18n %}
+from django.utils.translation import gettext_lazy as _
+{%- else %}
+def _(message: str) -> str:
+    return message
+{%- endif %}
 
 from ..providers import get_booking_project_data_provider
 
@@ -612,34 +618,34 @@ class BookingCabinetBridgeAdapter(BookingBridge):
             quick_create = self._build_quick_create(request=request, schedule_date=schedule_date, col=col, row=row)
             return BookingModalState(
                 booking_id=0,
-                title="Create booking",
+                title=str(_("Create booking")),
                 mode=mode,
                 summary_items=[
-                    BookingSummaryItemState("Master", quick_create.prefill.resource_name),
-                    BookingSummaryItemState("Date", quick_create.prefill.booking_date),
-                    BookingSummaryItemState("Time", quick_create.prefill.start_time),
+                    BookingSummaryItemState(_("Master"), quick_create.prefill.resource_name),
+                    BookingSummaryItemState(_("Date"), quick_create.prefill.booking_date),
+                    BookingSummaryItemState(_("Time"), quick_create.prefill.start_time),
                 ],
                 quick_create=quick_create,
                 actions=[
                     BookingModalActionState(
-                        label="Create Appointment",
+                        label=str(_("Create Appointment")),
                         kind="execute",
                         value="create_from_slot",
                         method="POST",
                         style="btn-primary",
                         icon="bi-plus-circle",
                     ),
-                    BookingModalActionState(label="Close", kind="close", style="btn-secondary"),
+                    BookingModalActionState(label=str(_("Close")), kind="close", style="btn-secondary"),
                 ],
             )
 
         appt = self._get_appointment(booking_id)
         if not appt:
-            return BookingModalState(booking_id=booking_id, title="Not Found", mode=mode)
+            return BookingModalState(booking_id=booking_id, title=str(_("Not Found")), mode=mode)
 
         state = BookingModalState(
             booking_id=booking_id,
-            title=f"Booking #{booking_id}",
+            title=str(_("Booking #%(id)s") % {"id": booking_id}),
             mode=mode,
             profile=self._build_profile(appt),
             summary_items=self._build_summary(appt),
@@ -651,22 +657,22 @@ class BookingCabinetBridgeAdapter(BookingBridge):
                     fields=[
                         BookingFormFieldState(
                             name="reply_msg",
-                            label="Message to client (Optional)",
+                            label=str(_("Message to client (Optional)")),
                             field_type="textarea",
-                            placeholder="Write a personal note...",
+                            placeholder=str(_("Write a personal note...")),
                         )
                     ]
                 ),
                 actions=[
                     BookingModalActionState(
-                        label="Confirm Appointment",
+                        label=str(_("Confirm Appointment")),
                         kind="execute",
                         value="confirm",
                         method="POST",
                         style="btn-primary",
                         icon="bi-check-circle",
                     ),
-                    BookingModalActionState(label="Back", kind="open_mode", value="detail", style="btn-secondary"),
+                    BookingModalActionState(label=str(_("Back")), kind="open_mode", value="detail", style="btn-secondary"),
                 ],
             )
         if mode == "cancel":
@@ -676,34 +682,34 @@ class BookingCabinetBridgeAdapter(BookingBridge):
                     fields=[
                         BookingFormFieldState(
                             name="reason",
-                            label="Reason for cancellation",
+                            label=str(_("Reason for cancellation")),
                             field_type="select",
                             value="out_of_time",
                             options=[
-                                ("out_of_time", "No available time"),
-                                ("master_ill", "Specialist is ill"),
-                                ("client_request", "Client requested"),
-                                ("other", "Other reason"),
+                                ("out_of_time", str(_("No available time"))),
+                                ("master_ill", str(_("Specialist is ill"))),
+                                ("client_request", str(_("Client requested"))),
+                                ("other", str(_("Other reason"))),
                             ],
                         ),
                         BookingFormFieldState(
                             name="custom_reason",
-                            label="Comment",
+                            label=str(_("Comment")),
                             field_type="textarea",
-                            placeholder="Describe the reason...",
+                            placeholder=str(_("Describe the reason...")),
                         ),
                     ]
                 ),
                 actions=[
                     BookingModalActionState(
-                        label="Confirm Cancellation",
+                        label=str(_("Confirm Cancellation")),
                         kind="execute",
                         value="cancel",
                         method="POST",
                         style="btn-danger",
                         icon="bi-x-circle",
                     ),
-                    BookingModalActionState(label="Back", kind="open_mode", value="detail", style="btn-secondary"),
+                    BookingModalActionState(label=str(_("Back")), kind="open_mode", value="detail", style="btn-secondary"),
                 ],
             )
         if mode == "reschedule":
@@ -718,14 +724,14 @@ class BookingCabinetBridgeAdapter(BookingBridge):
                 ),
                 actions=[
                     BookingModalActionState(
-                        label="Confirm Reschedule",
+                        label=str(_("Confirm Reschedule")),
                         kind="execute",
                         value="reschedule",
                         method="POST",
                         style="btn-primary",
                         icon="bi-calendar-event",
                     ),
-                    BookingModalActionState(label="Back", kind="open_mode", value="detail", style="btn-secondary"),
+                    BookingModalActionState(label=str(_("Back")), kind="open_mode", value="detail", style="btn-secondary"),
                 ],
             )
 
@@ -733,7 +739,7 @@ class BookingCabinetBridgeAdapter(BookingBridge):
         if str(appt.get("status", "")) == "pending":
             actions.append(
                 BookingModalActionState(
-                    label="Confirm",
+                    label=str(_("Confirm")),
                     kind="open_mode",
                     value="confirm",
                     style="btn-success",
@@ -743,14 +749,14 @@ class BookingCabinetBridgeAdapter(BookingBridge):
         actions.extend(
             [
                 BookingModalActionState(
-                    label="Reschedule",
+                    label=str(_("Reschedule")),
                     kind="open_mode",
                     value="reschedule",
                     style="btn-outline-primary",
                     icon="bi-calendar-event",
                 ),
                 BookingModalActionState(
-                    label="Cancel",
+                    label=str(_("Cancel")),
                     kind="open_mode",
                     value="cancel",
                     style="btn-outline-danger",

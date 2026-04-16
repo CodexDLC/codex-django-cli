@@ -1,5 +1,6 @@
 from codex_django.notifications import BaseEmailContentMixin
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class EmailContent(BaseEmailContentMixin):
@@ -11,5 +12,5 @@ class EmailContent(BaseEmailContentMixin):
     """
 
     class Meta(BaseEmailContentMixin.Meta):
-        verbose_name = "Email Content"
-        verbose_name_plural = "Email Contents"
+        verbose_name = _("Email Content")
+        verbose_name_plural = _("Email Contents")

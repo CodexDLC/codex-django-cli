@@ -1,12 +1,13 @@
 from typing import ClassVar
 
 from codex_django.system.mixins import AbstractUserProfile
+from django.utils.translation import gettext_lazy as _
 
 
 class UserProfile(AbstractUserProfile):
     class Meta:
-        verbose_name = "Профиль пользователя"
-        verbose_name_plural = "Профили пользователей"
+        verbose_name = _("Профиль пользователя")
+        verbose_name_plural = _("Профили пользователей")
         ordering: ClassVar[list[str]] = ["-created_at"]
 
     def __str__(self) -> str:

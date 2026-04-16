@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 from codex_django.system.mixins import AbstractUserProfile
 
@@ -14,8 +15,8 @@ class UserProfile(AbstractUserProfile):
     # preferred_language = models.CharField(max_length=10, blank=True)
 
     class Meta:
-        verbose_name = "Профиль пользователя"
-        verbose_name_plural = "Профили пользователей"
+        verbose_name = _("Профиль пользователя")
+        verbose_name_plural = _("Профили пользователей")
         ordering = ["-created_at"]
 
     def __str__(self) -> str:
