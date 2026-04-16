@@ -174,3 +174,62 @@ def test_scaffold_existing_project_scaffolds_requested_modules(tmp_path: Path):
         assert calls[0].kwargs["overwrite"] is True
         assert calls[0].kwargs["context"]["enable_i18n"] is True
         assert any("Modules installed" in str(call.args[0]) for call in mock_print.call_args_list if call.args)
+
+
+@pytest.mark.unit
+def test_scaffold_new_project_standard_does_not_include_booking(tmp_path: Path):
+    with (
+        patch(
+            "codex_django_cli.commands.install._resolve_scaffold_paths",
+            return_value=(str(tmp_path / "root"), str(tmp_path / "root" / "src" / "demo")),
+        ),
+        patch("codex_django_cli.commands.install.os.path.exists", return_value=False),
+        patch("codex_django_cli.commands.repo.handle_generate_repo_config"),
+        patch("codex_django_cli.commands.install.console.print"),
+        patch("codex_django_cli.engine.CLIEngine") as mock_engine_cls,
+    ):
+        mock_engine = MagicMock()
+        mock_engine_cls.return_value = mock_engine
+
+        from codex_django_cli.commands.install import scaffold_new_project
+
+        plan = scaffold_new_project(
+            name="demo",
+            base_dir=str(tmp_path),
+            target_dir=None,
+            selection=InstallSelection(cabinet=True, booking=False, conversations=True),
+            languages=None,
+        )
+
+        assert plan is not None
+        assert plan.booking is False
+        assert plan.public_booking is False
+
+        names = [call.args[0] for call in mock_engine.scaffold.call_args_list]
+        assert "cabinet_booking" not in names
+        assert "features/booking_core" not in names
+        assert "features/booking_public" not in names
+
+
+@pytest.mark.unit
+def test_scaffold_existing_project_without_booking_skips_cabinet_booking(tmp_path: Path):
+    with (
+        patch("codex_django_cli.engine.CLIEngine") as mock_engine_cls,
+        patch("codex_django_cli.commands.install.console.print"),
+    ):
+        mock_engine = MagicMock()
+        mock_engine_cls.return_value = mock_engine
+
+        from codex_django_cli.commands.install import scaffold_existing_project
+
+        plan = scaffold_existing_project(
+            project_dir=str(tmp_path),
+            selection=InstallSelection(cabinet=True, booking=False, conversations=False),
+        )
+
+        assert plan.booking is False
+
+        names = [call.args[0] for call in mock_engine.scaffold.call_args_list]
+        assert "cabinet_booking" not in names
+        assert "features/booking_core" not in names
+        assert "features/booking_public" not in names
