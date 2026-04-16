@@ -1,4 +1,3 @@
-/* CODEX_DJANGO_CLI BLUEPRINT STATUS: MOVE_TO_CLI_BLUEPRINT. Reason: generated cabinet app asset source for codex-django-cli blueprints. */
 /* @provides cabinet.core.sidebar_sync
    @depends cabinet.core.dom */
 (function (window, document) {

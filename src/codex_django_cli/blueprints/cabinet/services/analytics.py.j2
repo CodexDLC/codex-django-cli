@@ -26,9 +26,11 @@ class AnalyticsService:
                 trend_direction="up",
                 icon="bi-currency-ruble",
             ),
+{%- if with_booking %}
             "bookings": MetricWidgetData(
-                label="Записей за месяц", value="342", trend_value="+5%", trend_direction="up", icon="bi-calendar-check"
+                label=_("Bookings this month"), value="342", trend_value="+5%", trend_direction="up", icon="bi-calendar-check"
             ),
+{%- endif %}
             "clients": MetricWidgetData(
                 label="Клиентов всего",
                 value="1 205",
@@ -118,6 +120,7 @@ class AnalyticsService:
             {"key": "quarter", "label": _("Quarter")},
         ]
         staff_options = ["All team", "Elena S.", "Anna M.", "Olga K."]
+{%- if with_booking %}
         rows = [
             {"label": "Week 1", "revenue_fmt": "35 000 ₽", "bookings": 42, "conversion": "68%"},
             {"label": "Week 2", "revenue_fmt": "31 500 ₽", "bookings": 38, "conversion": "64%"},
@@ -136,6 +139,24 @@ class AnalyticsService:
             "bookings": 171,
             "conversion": "68%",
         }
+{%- else %}
+        rows = [
+            {"label": "Week 1", "revenue_fmt": "35 000 ₽", "conversion": "68%"},
+            {"label": "Week 2", "revenue_fmt": "31 500 ₽", "conversion": "64%"},
+            {"label": "Week 3", "revenue_fmt": "40 000 ₽", "conversion": "72%"},
+            {"label": "Week 4", "revenue_fmt": "36 000 ₽", "conversion": "70%"},
+        ]
+        columns = [
+            {"key": "label", "label": _("Period"), "bold": True},
+            {"key": "revenue_fmt", "label": _("Revenue"), "align": "right"},
+            {"key": "conversion", "label": _("Conversion"), "align": "right"},
+        ]
+        summary_row = {
+            "label": _("Total"),
+            "revenue_fmt": "142 500 ₽",
+            "conversion": "68%",
+        }
+{%- endif %}
         return {
             "active_tab": tab,
             "active_period": active_period,
