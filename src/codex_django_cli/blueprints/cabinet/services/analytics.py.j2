@@ -1,3 +1,6 @@
+import functools
+import json
+from pathlib import Path
 from typing import Any
 
 from codex_django.cabinet import (
@@ -22,105 +25,70 @@ def _(message: str) -> str:
     return message
 {%- endif %}
 
+# ---------------------------------------------------------------------------
+# Demo fixture loader
+# ---------------------------------------------------------------------------
+# All demo numbers and labels live in cabinet/fixtures/demo_analytics.json.
+# To switch to real data: replace each method body in AnalyticsService with
+# a real DB query — the fixture file becomes dead code you can safely delete.
+
+_DEMO_FIXTURE_PATH = Path(__file__).parent.parent / "fixtures" / "demo_analytics.json"
+
+
+@functools.cache
+def _load_demo_fixture() -> dict[str, Any]:
+    """Read demo analytics fixture from disk (result is cached after first load)."""
+    return json.loads(_DEMO_FIXTURE_PATH.read_text(encoding="utf-8"))
+
+
+# ---------------------------------------------------------------------------
+# Service
+# ---------------------------------------------------------------------------
+
 
 class AnalyticsService:
     """Cabinet analytics — dashboard providers and report page data.
 
+    Demo data is loaded from cabinet/fixtures/demo_analytics.json.
     Each static method is independently testable without HTTP context.
     Dashboard providers are registered below via @DashboardSelector.extend.
+
+    Replacing with real DB queries
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Swap the body of any method for a real queryset — e.g.::
+
+        @staticmethod
+        def get_kpi_metrics() -> dict[str, MetricWidgetData]:
+            qs = RevenueRecord.objects.filter(...)
+            return {"revenue": MetricWidgetData(label=..., value=...)}
+
+    Delete fixtures/demo_analytics.json once all methods are replaced.
     """
 
     @staticmethod
     def get_kpi_metrics() -> dict[str, MetricWidgetData]:
+        # DEMO DATA — replace with real queryset. See fixtures/demo_analytics.json.
         return {
-            "revenue": MetricWidgetData(
-                label=_("Revenue this month"),
-                value="142 500",
-                unit="₽",
-                trend_value="+12%",
-                trend_label=_("vs last month"),
-                trend_direction="up",
-                icon="bi-currency-ruble",
-            ),
-{%- if with_booking %}
-            "bookings": MetricWidgetData(
-                label=_("Bookings this month"),
-                value="342",
-                trend_value="+5%",
-                trend_direction="up",
-                icon="bi-calendar-check",
-            ),
-{%- endif %}
-            "clients": MetricWidgetData(
-                label=_("Total clients"),
-                value="1 205",
-                trend_value="+24",
-                trend_label=_("this week"),
-                trend_direction="up",
-                icon="bi-people",
-            ),
-            "avg_check": MetricWidgetData(
-                label=_("Average check"),
-                value="2 450",
-                unit="₽",
-                trend_value="-3%",
-                trend_label=_("vs last month"),
-                trend_direction="down",
-                icon="bi-receipt",
-            ),
+            key: MetricWidgetData(**val)
+            for key, val in _load_demo_fixture()["kpi_metrics"].items()
         }
 
     @staticmethod
     def get_chart_data() -> dict[str, dict[str, Any]]:
         """Raw chart config dicts consumed by dashboard chart widgets."""
-        return {
-            "revenue_chart": {
-                "chart_id": "revenueChart",
-                "title": _("Revenue"),
-                "subtitle": _("last 7 days"),
-                "icon": "bi-graph-up",
-                "type": "line",
-                "kpi_value": "142 500 ₽",
-                "kpi_trend": "+12%",
-                "kpi_trend_label": _("vs last month"),
-                "chart_labels": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-                "chart_data": [12000, 15000, 11000, 18000, 22000, 31000, 28000],
-                "color": "#4f46e5",
-                "bg_color": "rgba(79, 70, 229, 0.1)",
-            },
-            "services_donut": {
-                "chart_id": "servicesDonut",
-                "title": _("Popular services"),
-                "icon": "bi-pie-chart",
-                "chart_labels": ["Haircut", "Coloring", "Styling", "Care"],
-                "chart_data": [45, 30, 15, 10],
-                "colors": ["#4f46e5", "#818cf8", "#c7d2fe", "#f1f5f9"],
-            },
-        }
+        # DEMO DATA — replace with real queryset. See fixtures/demo_analytics.json.
+        return _load_demo_fixture()["chart_data"]
 
     @staticmethod
     def get_top_lists() -> dict[str, ListWidgetData]:
+        # DEMO DATA — replace with real queryset. See fixtures/demo_analytics.json.
+        raw = _load_demo_fixture()["top_lists"]
         return {
-            "top_masters": ListWidgetData(
-                title=_("Top specialists"),
-                subtitle=_("this month"),
-                icon="bi-star",
-                items=[
-                    ListItem(label="Elena S.", value="120 000 ₽", avatar="ES", sublabel="45 sessions"),
-                    ListItem(label="Anna M.", value="98 000 ₽", avatar="AM", sublabel="38 sessions"),
-                    ListItem(label="Olga K.", value="75 000 ₽", avatar="OK", sublabel="30 sessions"),
-                ],
-            ),
-            "top_services": ListWidgetData(
-                title=_("Top services"),
-                subtitle=_("this month"),
-                icon="bi-scissors",
-                items=[
-                    ListItem(label="Manicure with coating", value="24 000 ₽", sublabel="48 times"),
-                    ListItem(label="Women's haircut", value="18 500 ₽", sublabel="32 times"),
-                    ListItem(label="Coloring", value="15 000 ₽", sublabel="12 times"),
-                ],
-            ),
+            key: ListWidgetData(
+                **{k: v for k, v in val.items() if k != "items"},
+                items=[ListItem(**item) for item in val["items"]],
+            )
+            for key, val in raw.items()
         }
 
     @staticmethod
@@ -145,6 +113,7 @@ class AnalyticsService:
         ]
 
 {%- if with_booking %}
+        # DEMO DATA — columns, rows and summary_row below are placeholders.
         columns = [
             TableColumn(key="label", label=str(_("Period")), bold=True),
             TableColumn(key="revenue_fmt", label=str(_("Revenue")), align="right"),
@@ -159,6 +128,7 @@ class AnalyticsService:
         ]
         summary_row = {"label": str(_("Total")), "revenue_fmt": "142 500 ₽", "bookings": 171, "conversion": "68%"}
 {%- else %}
+        # DEMO DATA — columns, rows and summary_row below are placeholders.
         columns = [
             TableColumn(key="label", label=str(_("Period")), bold=True),
             TableColumn(key="revenue_fmt", label=str(_("Revenue")), align="right"),

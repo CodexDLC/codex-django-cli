@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 import pytest
@@ -108,3 +109,42 @@ class TestBookingIsolation:
         assert analytics_file.exists(), "cabinet/services/analytics.py was not generated"
         content = analytics_file.read_text(encoding="utf-8")
         assert '"bookings"' in content, "analytics.py is missing booking metric but booking was requested"
+
+    # ── demo fixture ──────────────────────────────────────────────────────────
+
+    def test_demo_fixture_is_scaffolded(self, tmp_path: Path) -> None:
+        """Fixture file must be generated in cabinet/fixtures/demo_analytics.json."""
+        handle_init("testproj", str(tmp_path))
+        fixture = _backend_dir(tmp_path, "testproj") / "cabinet" / "fixtures" / "demo_analytics.json"
+
+        assert fixture.exists(), "cabinet/fixtures/demo_analytics.json was not generated"
+
+    def test_demo_fixture_is_valid_json(self, tmp_path: Path) -> None:
+        """Scaffolded fixture must parse as valid JSON with required top-level keys."""
+        handle_init("testproj", str(tmp_path))
+        fixture = _backend_dir(tmp_path, "testproj") / "cabinet" / "fixtures" / "demo_analytics.json"
+
+        data = json.loads(fixture.read_text(encoding="utf-8"))
+        assert "kpi_metrics" in data
+        assert "chart_data" in data
+        assert "top_lists" in data
+
+    def test_demo_fixture_has_no_bookings_without_booking(self, tmp_path: Path) -> None:
+        """Fixture must not contain 'bookings' KPI entry when booking=False."""
+        handle_init("testproj", str(tmp_path), with_booking=False)
+        fixture = _backend_dir(tmp_path, "testproj") / "cabinet" / "fixtures" / "demo_analytics.json"
+
+        data = json.loads(fixture.read_text(encoding="utf-8"))
+        assert "bookings" not in data["kpi_metrics"], (
+            "fixture kpi_metrics has 'bookings' key but booking was not requested"
+        )
+
+    def test_demo_fixture_has_bookings_with_booking(self, tmp_path: Path) -> None:
+        """Fixture must contain 'bookings' KPI entry when booking=True."""
+        handle_init("testproj", str(tmp_path), with_booking=True)
+        fixture = _backend_dir(tmp_path, "testproj") / "cabinet" / "fixtures" / "demo_analytics.json"
+
+        data = json.loads(fixture.read_text(encoding="utf-8"))
+        assert "bookings" in data["kpi_metrics"], (
+            "fixture kpi_metrics is missing 'bookings' key but booking was requested"
+        )

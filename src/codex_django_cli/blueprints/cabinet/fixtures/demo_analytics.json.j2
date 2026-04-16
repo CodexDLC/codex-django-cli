@@ -1,0 +1,83 @@
+{
+  "kpi_metrics": {
+    "revenue": {
+      "label": "Revenue this month",
+      "value": "142 500",
+      "unit": "₽",
+      "trend_value": "+12%",
+      "trend_label": "vs last month",
+      "trend_direction": "up",
+      "icon": "bi-currency-ruble"
+    },
+    "clients": {
+      "label": "Total clients",
+      "value": "1 205",
+      "trend_value": "+24",
+      "trend_label": "this week",
+      "trend_direction": "up",
+      "icon": "bi-people"
+    },
+    "avg_check": {
+      "label": "Average check",
+      "value": "2 450",
+      "unit": "₽",
+      "trend_value": "-3%",
+      "trend_label": "vs last month",
+      "trend_direction": "down",
+      "icon": "bi-receipt"
+    }{% if with_booking %},
+    "bookings": {
+      "label": "Bookings this month",
+      "value": "342",
+      "trend_value": "+5%",
+      "trend_direction": "up",
+      "icon": "bi-calendar-check"
+    }{% endif %}
+  },
+  "chart_data": {
+    "revenue_chart": {
+      "chart_id": "revenueChart",
+      "title": "Revenue",
+      "subtitle": "last 7 days",
+      "icon": "bi-graph-up",
+      "type": "line",
+      "kpi_value": "142 500 ₽",
+      "kpi_trend": "+12%",
+      "kpi_trend_label": "vs last month",
+      "chart_labels": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+      "chart_data": [12000, 15000, 11000, 18000, 22000, 31000, 28000],
+      "color": "#4f46e5",
+      "bg_color": "rgba(79, 70, 229, 0.1)"
+    },
+    "services_donut": {
+      "chart_id": "servicesDonut",
+      "title": "Popular services",
+      "icon": "bi-pie-chart",
+      "chart_labels": ["Haircut", "Coloring", "Styling", "Care"],
+      "chart_data": [45, 30, 15, 10],
+      "colors": ["#4f46e5", "#818cf8", "#c7d2fe", "#f1f5f9"]
+    }
+  },
+  "top_lists": {
+    "top_masters": {
+      "title": "Top specialists",
+      "subtitle": "this month",
+      "icon": "bi-star",
+      "items": [
+        {"label": "Elena S.", "value": "120 000 ₽", "avatar": "ES", "sublabel": "45 sessions"},
+        {"label": "Anna M.", "value": "98 000 ₽", "avatar": "AM", "sublabel": "38 sessions"},
+        {"label": "Olga K.", "value": "75 000 ₽", "avatar": "OK", "sublabel": "30 sessions"}
+      ]
+    },
+    "top_services": {
+      "title": "Top services",
+      "subtitle": "this month",
+      "icon": "bi-scissors",
+      "items": [
+        {"label": "Manicure with coating", "value": "24 000 ₽", "sublabel": "48 times"},
+        {"label": "Women's haircut", "value": "18 500 ₽", "sublabel": "32 times"},
+        {"label": "Coloring", "value": "15 000 ₽", "sublabel": "12 times"}
+      ]
+    }
+  }
+}
