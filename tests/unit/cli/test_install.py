@@ -212,6 +212,24 @@ def test_scaffold_new_project_standard_does_not_include_booking(tmp_path: Path):
 
 
 @pytest.mark.unit
+def test_resolve_install_selection_notifications_flag():
+    plan = resolve_install_selection(
+        InstallSelection(cabinet=True, notifications=True, conversations=False),
+        base_mode=False,
+    )
+    assert plan.notifications is True
+    assert "notifications" in plan.module_labels()
+    assert describe_plan(plan) == "base, cabinet, notifications"
+
+
+@pytest.mark.unit
+def test_resolve_install_selection_notifications_off_by_default():
+    plan = resolve_install_selection(InstallSelection(), base_mode=False)
+    assert plan.notifications is False
+    assert "notifications" not in plan.module_labels()
+
+
+@pytest.mark.unit
 def test_scaffold_existing_project_without_booking_skips_cabinet_booking(tmp_path: Path):
     with (
         patch("codex_django_cli.engine.CLIEngine") as mock_engine_cls,

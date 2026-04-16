@@ -74,3 +74,40 @@ class TestSettingsModules:
             "LOGIN_URL must not be hardcoded; use CABINET_LOGIN_URL env var"
         )
         assert "CABINET_LOGIN_URL" in content, "CABINET_LOGIN_URL env-backed variable must be present in codex.py"
+
+    # ── notifications ─────────────────────────────────────────────────────────
+
+    def test_notifications_settings_file_generated_with_notifications(self, tmp_path: Path) -> None:
+        handle_init("testproj", str(tmp_path), with_notifications=True)
+        notif_file = _settings_modules_dir(tmp_path, "testproj") / "notifications.py"
+
+        assert notif_file.exists(), "core/settings/modules/notifications.py not generated"
+        content = notif_file.read_text(encoding="utf-8")
+        assert "NOTIFICATIONS_ARQ_REDIS_URL" in content
+        assert "NOTIFICATIONS_EMAIL_BACKEND" in content
+
+    def test_notifications_settings_empty_without_notifications(self, tmp_path: Path) -> None:
+        handle_init("testproj", str(tmp_path), with_notifications=False)
+        notif_file = _settings_modules_dir(tmp_path, "testproj") / "notifications.py"
+
+        if notif_file.exists():
+            content = notif_file.read_text(encoding="utf-8").strip()
+            assert "NOTIFICATIONS_ARQ_REDIS_URL" not in content, (
+                "notifications.py should not contain settings when notifications=False"
+            )
+
+    def test_base_settings_imports_notifications_when_enabled(self, tmp_path: Path) -> None:
+        handle_init("testproj", str(tmp_path), with_notifications=True)
+        base = _base_settings(tmp_path, "testproj")
+
+        assert base.exists()
+        content = base.read_text(encoding="utf-8")
+        assert "from .modules.notifications import" in content
+
+    def test_base_settings_no_notifications_import_when_disabled(self, tmp_path: Path) -> None:
+        handle_init("testproj", str(tmp_path), with_notifications=False)
+        base = _base_settings(tmp_path, "testproj")
+
+        assert base.exists()
+        content = base.read_text(encoding="utf-8")
+        assert "from .modules.notifications import" not in content

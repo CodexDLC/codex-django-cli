@@ -9,8 +9,8 @@ import questionary
 MODULE_LABELS: dict[str, str] = {
     "cabinet": "Cabinet app-layer",
     "conversations": "Conversations feature",
-    "booking_engine": "Booking engine",
-    "booking_cabinet": "Booking cabinet integration",
+    "booking": "Booking (engine + cabinet integration)",
+    "notifications": "Notifications (ARQ worker + email)",
     "public_booking": "Public booking pages",
     "sw": "Service worker files (sw.js, manifest)",
 }
@@ -112,11 +112,11 @@ def ask_install_modules(*, mode: str, installed_modules: dict[str, bool] | None 
     installed_modules = installed_modules or {}
     if mode == "init":
         prompt = "Init project — choose modules for the new Django project:"
-        module_names = ["cabinet", "conversations", "booking_engine", "booking_cabinet", "sw"]
+        module_names = ["cabinet", "conversations", "booking", "notifications", "sw"]
         checked = {"cabinet", "conversations"}
     else:
         prompt = "Extend project — choose modules to add into the existing Django project:"
-        module_names = ["cabinet", "conversations", "booking_engine", "booking_cabinet", "sw"]
+        module_names = ["cabinet", "conversations", "booking", "notifications", "sw"]
         checked = set()
     choices = []
     for module_name in module_names:

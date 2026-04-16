@@ -12,8 +12,8 @@ console = Console()
 MODULE_MARKERS: dict[str, list[str]] = {
     "cabinet": ["cabinet/apps.py", "cabinet/urls.py"],
     "conversations": ["features/conversations/apps.py", "features/conversations/urls.py"],
-    "booking_engine": ["features/booking/booking_settings.py", "features/booking/providers/runtime.py"],
-    "booking_cabinet": ["cabinet/booking_bridge.py", "cabinet/templates/cabinet/booking/list.html"],
+    "booking": ["features/booking/booking_settings.py", "features/booking/providers/runtime.py"],
+    "notifications": ["features/notifications/apps.py"],
     "public_booking": ["features/booking_public/urls.py", "features/booking_public/views.py"],
     "sw": ["templates/sw.js", "static/manifest.json"],
 }
@@ -23,7 +23,7 @@ MODULE_MARKERS: dict[str, list[str]] = {
 class InstallSelection:
     cabinet: bool = True
     booking: bool = False
-    booking_cabinet: bool = False
+    notifications: bool = False
     conversations: bool = True
     public_booking: bool = False
     sw: bool = False
@@ -38,6 +38,7 @@ class InstallSelection:
 class ResolvedInstallPlan:
     cabinet: bool
     booking: bool
+    notifications: bool
     conversations: bool
     public_booking: bool
     sw: bool
@@ -50,6 +51,8 @@ class ResolvedInstallPlan:
             labels.append("conversations")
         if self.booking:
             labels.append("booking")
+        if self.notifications:
+            labels.append("notifications")
         if self.public_booking:
             labels.append("public-booking")
         if self.sw:
@@ -66,12 +69,13 @@ def detect_project_modules(project_dir: str) -> dict[str, bool]:
 
 def resolve_install_selection(selection: InstallSelection, *, base_mode: bool) -> ResolvedInstallPlan:
     with_conversations = True if base_mode else selection.conversations
-    with_booking = selection.booking or selection.booking_cabinet or selection.public_booking
-    with_cabinet = selection.cabinet or selection.booking_cabinet or with_booking
+    with_booking = selection.booking or selection.public_booking
+    with_cabinet = selection.cabinet or with_booking
     with_public_booking = selection.public_booking and with_booking
     return ResolvedInstallPlan(
         cabinet=with_cabinet,
         booking=with_booking,
+        notifications=selection.notifications,
         conversations=with_conversations,
         public_booking=with_public_booking,
         sw=selection.sw,
@@ -143,12 +147,11 @@ def scaffold_new_project(
         "languages": normalized_languages,
         "with_cabinet": plan.cabinet,
         "with_booking": plan.booking,
+        "with_notifications": plan.notifications,
         "with_conversations": plan.conversations,
         "with_public_booking": plan.public_booking,
         "with_sw": plan.sw,
         "with_cloud_db": selection.cloud_db,
-        # with_notifications will be wired up in Этап 5; default False until then
-        "with_notifications": False,
     }
     if not selection.code_only:
         handle_generate_repo_config(
@@ -194,12 +197,11 @@ def _scaffold_modules_to_target(
     context = {
         "with_cabinet": plan.cabinet,
         "with_booking": plan.booking,
+        "with_notifications": plan.notifications,
         "with_conversations": plan.conversations,
         "with_public_booking": plan.public_booking,
         "with_sw": plan.sw,
         "enable_i18n": selection.i18n,
-        # with_notifications will be wired up in Этап 5; default False until then
-        "with_notifications": False,
     }
     engine = engine_module.CLIEngine()
 

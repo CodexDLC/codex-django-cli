@@ -105,8 +105,8 @@ def _build_selection_from_modules(
 
     return InstallSelection(
         cabinet="cabinet" in modules,
-        booking="booking" in modules or "booking_engine" in modules or "booking_cabinet" in modules,
-        booking_cabinet="booking_cabinet" in modules,
+        booking="booking" in modules,
+        notifications="notifications" in modules,
         conversations="conversations" in modules,
         public_booking="public_booking" in modules,
         sw="sw" in modules,
@@ -154,6 +154,7 @@ def _init_wizard() -> MenuResult:
         languages=languages,
         with_cabinet=selection.cabinet,
         with_booking=selection.booking,
+        with_notifications=selection.notifications,
         with_conversations=selection.conversations,
         with_public_booking=selection.public_booking,
         with_sw=selection.sw,
@@ -199,10 +200,8 @@ def _extend_wizard(forced_project: str | None = None) -> MenuResult:
     if install_modules:
         install_selection = InstallSelection(
             cabinet="cabinet" in install_modules,
-            booking="booking" in install_modules
-            or "booking_engine" in install_modules
-            or "booking_cabinet" in install_modules,
-            booking_cabinet="booking_cabinet" in install_modules,
+            booking="booking" in install_modules,
+            notifications="notifications" in install_modules,
             conversations="conversations" in install_modules,
             public_booking="public_booking" in install_modules,
             sw="sw" in install_modules,
@@ -215,10 +214,8 @@ def _extend_wizard(forced_project: str | None = None) -> MenuResult:
     if compare_modules:
         compare_selection = InstallSelection(
             cabinet="cabinet" in compare_modules,
-            booking="booking" in compare_modules
-            or "booking_engine" in compare_modules
-            or "booking_cabinet" in compare_modules,
-            booking_cabinet="booking_cabinet" in compare_modules,
+            booking="booking" in compare_modules,
+            notifications="notifications" in compare_modules,
             conversations="conversations" in compare_modules,
             public_booking="public_booking" in compare_modules,
             sw="sw" in compare_modules,
@@ -317,6 +314,7 @@ def _handle_cli_args(args: list[str]) -> int:
     init_parser.add_argument("--no-i18n", dest="enable_i18n", action="store_false")
     init_parser.add_argument("--languages", default=None)
     init_parser.add_argument("--with-booking", action="store_true", default=False)
+    init_parser.add_argument("--with-notifications", action="store_true", default=False)
     init_parser.add_argument("--with-public-booking", action="store_true", default=False)
     init_parser.add_argument("--without-cabinet", dest="with_cabinet", action="store_false")
     init_parser.add_argument("--without-conversations", dest="with_conversations", action="store_false")
@@ -335,6 +333,7 @@ def _handle_cli_args(args: list[str]) -> int:
             languages=prompts.parse_language_codes(parsed.languages) if parsed.languages else None,
             with_cabinet=parsed.with_cabinet,
             with_booking=parsed.with_booking,
+            with_notifications=parsed.with_notifications,
             with_conversations=parsed.with_conversations,
             with_public_booking=parsed.with_public_booking,
             with_sw=parsed.with_sw,

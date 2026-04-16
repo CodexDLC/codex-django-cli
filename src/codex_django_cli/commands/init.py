@@ -20,6 +20,7 @@ def handle_init(
     languages: list[str] | None = None,
     with_cabinet: bool = True,
     with_booking: bool = False,
+    with_notifications: bool = False,
     with_conversations: bool = True,
     with_public_booking: bool = False,
     with_sw: bool = False,
@@ -29,6 +30,7 @@ def handle_init(
     selection = InstallSelection(
         cabinet=with_cabinet,
         booking=with_booking,
+        notifications=with_notifications,
         conversations=with_conversations,
         public_booking=with_public_booking,
         sw=with_sw,
