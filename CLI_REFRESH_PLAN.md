@@ -28,21 +28,19 @@
 - **Adapter pattern** для booking: библиотека не импортирует модели, проект регистрирует адаптеры.
 - **Booking split** (Block 6 ✅): solo/multi сервисы, ChainFinder из codex-services.
 - Публичный API собран в `codex_django.cabinet` и `codex_django.booking`.
+- **v0.4.4 (2026-04-16):** добавлен `codex_django.cabinet.reports` — типизированные контракты для страниц отчётов (`ReportPageData`, `ReportChartData`, `ReportTableData`, `ReportTabData`, `ReportSummaryCardData`, `ChartAxisData`, `ChartDatasetData`, `ReportPeriod`, `resolve_report_period`). Готовые шаблоны: `cabinet/reports/page.html`, `chart.html`, `table.html`. Все экспортированы из `codex_django.cabinet`.
+- **v0.4.4 (2026-04-16):** `codex_django.cabinet.context_processors` теперь инжектирует topbar-ссылки (`cabinet_site_url`, `cabinet_staff_switch_url`, `cabinet_client_switch_url`, `cabinet_login_url`, `cabinet_logout_url`) — конфигурируются через `CODEX_CABINET_SITE_URL`, `CODEX_CABINET_STAFF_URL_NAME`, `CODEX_CABINET_CLIENT_URL_NAME`, `CODEX_CABINET_LOGIN_URL_NAME`, `CODEX_CABINET_LOGOUT_URL_NAME`.
 
 **Что устарело в CLI:**
-1. **Баг "standard init ставит booking в cabinet"** — частично зафикшен (booking вынесен в отдельный блюпринт `cabinet_booking/`), но остались рудименты:
-   - `cabinet/services/booking.py.j2` — **дубликат** того, что теперь в `cabinet_booking/services/booking.py.j2`.
-   - `cabinet/views/booking.py.j2` — дубликат, не удалён.
-   - `cabinet/booking_bridge.py.j2` — **отсутствует в HEAD** (удалён корректно), остался только в `cabinet_booking/`.
-   - `cabinet/services/analytics.py.j2` и `cabinet/context_processors.py.j2` — mock-данные содержат hardcoded «bookings» без обёртки в `{%- if with_booking %}`.
-   - `MODULE_MARKERS["booking_cabinet"]` указывает на `cabinet/booking_bridge.py` — путь корректный только если booking установлен.
-   - Нет negative-теста «standard init → в выходе нет `cabinet/booking/*`, `booking_bridge.py`, `services/booking.py`».
-2. **Блюпринты не на Cabinet 2.0 API** — `cabinet.py.j2` hook-файлы требуют проверки/переписывания под `declare()`.
-3. **Hardcoded константы** — `LOGIN_URL = "/cabinet/login/"` (settings/modules/codex.py.j2), имена app, demo-данные на русском.
-4. **Нет `settings/modules/booking.py.j2`, `notifications.py.j2`** — вся конфигурация booking/notifications размазана.
-5. **Рудиментные комментарии** `{# CODEX_DJANGO_CLI BLUEPRINT STATUS: MOVE_TO_CLI_BLUEPRINT #}` в шаблонах (шаблон уже в блюпринте — это устаревший маркер).
-6. **Нет DRF API scaffold** — только Django views.
-7. **i18n частично нарушена** — hardcoded русские строки в analytics, context_processors.
+1. ✅ **Баг "standard init ставит booking в cabinet"** — закрыт: split в `cabinet_booking/`, негативные тесты добавлены (Этап 0–1).
+2. ✅ **Блюпринты не на Cabinet 2.0 API** — все `cabinet.py.j2` используют `declare()`, импорт из публичного API (Этап 3).
+3. ✅ **Hardcoded константы** — `LOGIN_URL` параметризован через `CABINET_LOGIN_URL` env (Этап 4). Русские строки в analytics заменены на английские (Этап 3–4).
+4. ✅ **Нет `settings/modules/booking.py.j2`, `notifications.py.j2`** — созданы (Этап 4).
+5. ✅ **Рудиментные комментарии** `MOVE_TO_CLI_BLUEPRINT` — удалены из 22 файлов (Этап 2).
+6. **Нет DRF API scaffold** — только Django views. → Этап 7.
+7. **i18n частично нарушена** — hardcoded строки частично исправлены в analytics (Этап 4), полный проход → Этап 8.
+8. ✅ **analytics.py.j2 не использует новые types из codex-django 0.4.4** — `ReportPageData`, `ReportChartData` и др. подключены (Этап 4, hotfix).
+9. ✅ **codex.py.j2 не содержит CODEX_CABINET_SITE_URL и switch-URL** — добавлены (Этап 4, hotfix).
 
 **Итог:** готовим **v0.4.0** (minor bump: ломающие изменения в модели блюпринтов, но CLI surface стабилен).
 

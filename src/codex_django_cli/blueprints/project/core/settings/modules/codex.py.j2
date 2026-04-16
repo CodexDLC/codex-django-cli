@@ -30,8 +30,31 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
+# ═══════════════════════════════════════════
+# Cabinet Shell Navigation (codex_django 0.4.4+)
+# ═══════════════════════════════════════════
+# These are consumed by codex_django.cabinet.context_processors to inject
+# site link and staff/client switch links into the topbar.
+
+# Link to the public-facing website shown in the cabinet topbar.
+CODEX_CABINET_SITE_URL: str = os.environ.get("CODEX_CABINET_SITE_URL", "/")
+
+# Named URL (or literal path) for login/logout inside the cabinet shell.
+CODEX_CABINET_LOGIN_URL_NAME: str = os.environ.get(
+    "CODEX_CABINET_LOGIN_URL_NAME", "account_login"
+)
+CODEX_CABINET_LOGOUT_URL_NAME: str = os.environ.get(
+    "CODEX_CABINET_LOGOUT_URL_NAME", "account_logout"
+)
+
+# Named URL (or literal path) for switching between staff and client spaces.
+CODEX_CABINET_STAFF_URL_NAME: str = os.environ.get(
+    "CODEX_CABINET_STAFF_URL_NAME", "cabinet:dashboard"
+)
+CODEX_CABINET_CLIENT_URL_NAME: str = os.environ.get(
+    "CODEX_CABINET_CLIENT_URL_NAME", "cabinet:client_home"
+)
+
 # Cabinet adapter hooks are scaffold-owned now.
 # Keep commented defaults as extension points for project-specific redirects.
 # ACCOUNT_ADAPTER = "cabinet.adapters.CabinetAccountAdapter"
-# CABINET_DEFAULT_URL = "/cabinet/"
-# CABINET_CLIENT_URL = "/cabinet/my/"
