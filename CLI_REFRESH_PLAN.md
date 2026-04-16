@@ -37,7 +37,7 @@
 3. ✅ **Hardcoded константы** — `LOGIN_URL` параметризован через `CABINET_LOGIN_URL` env (Этап 4). Русские строки в analytics заменены на английские (Этап 3–4).
 4. ✅ **Нет `settings/modules/booking.py.j2`, `notifications.py.j2`** — созданы (Этап 4).
 5. ✅ **Рудиментные комментарии** `MOVE_TO_CLI_BLUEPRINT` — удалены из 22 файлов (Этап 2).
-6. **Нет DRF API scaffold** — только Django views. → Этап 7.
+6. ~~**Нет DRF API scaffold**~~ — DRF не используется, этап удалён.
 7. **i18n частично нарушена** — hardcoded строки частично исправлены в analytics (Этап 4), полный проход → Этап 8.
 8. ✅ **analytics.py.j2 не использует новые types из codex-django 0.4.4** — `ReportPageData`, `ReportChartData` и др. подключены (Этап 4, hotfix).
 9. ✅ **codex.py.j2 не содержит CODEX_CABINET_SITE_URL и switch-URL** — добавлены (Этап 4, hotfix).
@@ -287,40 +287,15 @@
 
 ---
 
-## Этап 7. DRF API scaffold
+## ~~Этап 7. DRF API scaffold~~ — ОТМЕНЁН
 
-**Цель:** опциональная генерация REST API через Django REST Framework.
-
-**Входные файлы:**
-- Новый блюпринт `src/codex_django_cli/blueprints/api/` (или расширение существующих с `api/` subfolder).
-- [src/codex_django_cli/blueprints/project/core/settings/modules/](src/codex_django_cli/blueprints/project/core/settings/modules/) — добавить `api.py.j2` с DRF-настройками.
-- [src/codex_django_cli/prompts.py](src/codex_django_cli/prompts.py) — добавить опцию `api` в меню.
-
-**Задачи:**
-- [ ] Создать блюпринт `blueprints/api/` с scaffold для:
-  - `api/serializers/cabinet.py.j2`, `api/serializers/booking.py.j2`, `api/serializers/conversations.py.j2`.
-  - `api/views/cabinet.py.j2`, `api/views/booking.py.j2`, `api/views/conversations.py.j2` (ViewSet'ы).
-  - `api/urls.py.j2` — DRF DefaultRouter с опциональной регистрацией под Jinja условиями.
-  - `api/permissions.py.j2` — базовые IsAuthenticated + custom permissions.
-- [ ] Создать `project/core/settings/modules/api.py.j2`:
-  - `REST_FRAMEWORK = { "DEFAULT_AUTHENTICATION_CLASSES": [...], "DEFAULT_PAGINATION_CLASS": ..., "PAGE_SIZE": ... }`.
-- [ ] Добавить `djangorestframework>=3.15` в `project/pyproject.toml.j2` условно (под `{% if with_api %}`).
-- [ ] В [install.py](src/codex_django_cli/commands/install.py) и `InstallSelection`: добавить `api: bool = False`, `plan.api` + `engine.scaffold("api", ...)`.
-- [ ] В [prompts.py](src/codex_django_cli/prompts.py) MODULE_LABELS: `"api": "REST API (DRF)"`.
-- [ ] В [main.py:_handle_cli_args](src/codex_django_cli/main.py#L301): `--with-api`.
-
-**Тесты:**
-- [ ] `tests/unit/cli/test_install.py`: `test_api_scaffolded_when_requested`.
-- [ ] `tests/integration/cli/test_api_blueprint.py`:
-  - Генерация с `with_api=True, with_cabinet=True, with_booking=True` → файлы `api/serializers/booking.py`, `api/views/booking.py`, `api/urls.py` существуют.
-  - `core/settings/modules/api.py` содержит `REST_FRAMEWORK`.
-  - Без `with_api` — директории `api/` нет.
-
-**Коммит:** `feat(blueprints): add optional DRF API scaffold`
+> DRF не используется в проектах на этой библиотеке. Scaffold не должен
+> навязывать конкретный API-фреймворк. Если нужен REST — разработчик
+> добавляет его самостоятельно. Этап удалён из плана.
 
 ---
 
-## Этап 8. i18n: `gettext_lazy` для всех user-facing строк
+## Этап 7. i18n: `gettext_lazy` для всех user-facing строк
 
 **Цель:** все hardcoded русские/английские строки в Python-блюпринтах обёрнуты в `_()` / `gettext_lazy()`.
 
@@ -345,7 +320,7 @@
 
 ---
 
-## Этап 9. Документация + CHANGELOG
+## Этап 8. Документация + CHANGELOG
 
 **Цель:** доки и changelog отражают v0.4.0.
 
@@ -361,7 +336,7 @@
   - Описать контекст каждого блюпринта: какие переменные Jinja он ожидает.
   - Зависимости между блюпринтами.
 - [ ] Обновить [CHANGELOG.md](CHANGELOG.md) — раздел `## [0.4.0] - YYYY-MM-DD`:
-  - **Added:** `cabinet_booking/` extracted; `settings/modules/booking.py` и `notifications.py`; DRF API blueprint; `notifications` option в меню.
+  - **Added:** `cabinet_booking/` extracted; `settings/modules/booking.py` и `notifications.py`; demo fixtures в `cabinet/fixtures/`; `notifications` option в меню.
   - **Changed:** упрощена модель селекции модулей (`booking` вместо `booking_engine`+`booking_cabinet`); Cabinet 2.0 API (`declare()`) в hook-файлах.
   - **Removed:** `booking_cabinet` флаг; рудиментные комментарии `MOVE_TO_CLI_BLUEPRINT`; hardcoded demo-данные в Python-слое.
   - **Fixed:** standard-init больше не генерирует booking-слой в cabinet; `LOGIN_URL` параметризована.
@@ -372,7 +347,7 @@
 
 ---
 
-## Этап 10. Ручная проверка на тестовом стенде
+## Этап 9. Ручная проверка на тестовом стенде
 
 **Цель:** проверить генерацию на реальном проекте, где `pyproject.toml` уже ссылается на `codex-django` и `codex-django-cli` через `path=...`.
 
@@ -394,13 +369,9 @@
 - [ ] Сценарий C — **extend existing project:**
   - Взять проект из Сценария A → добавить booking через `codex-django menu → Extend → [booking]`.
   - Проверить идемпотентность и корректность структуры.
-- [ ] Сценарий D — **init --with-api:**
-  - `codex-django init test_api --with-api --with-booking`.
-  - Проверить наличие `api/serializers/booking.py`, `api/views/booking.py`, `api/urls.py`.
-  - `python manage.py check` — 0 ошибок.
-  - DRF endpoint `/api/v1/bookings/` доступен после миграций.
-- [ ] Сценарий E — **i18n проверка:**
+- [ ] Сценарий D — **i18n проверка:**
   - `codex-django init test_i18n --i18n --languages "en,ru,de,uk"`.
+
   - `python manage.py makemessages -l ru` — генерируются .po файлы со всеми строками.
   - `python manage.py compilemessages` — успех.
 - [ ] Записать найденные баги обратно как точечные задачи перед релизом. Повторить соответствующие сценарии.
@@ -409,7 +380,7 @@
 
 ---
 
-## Этап 11. Релиз 0.4.0
+## Этап 10. Релиз 0.4.0
 
 **Выполняется только после подтверждения Этапа 10 пользователем.**
 
