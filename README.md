@@ -62,14 +62,32 @@ pip install "codex-django[cli]"
 codex-django init myproject --i18n --languages en,ru
 ```
 
+## CLI flags
+
+```bash
+codex-django init myproject [OPTIONS]
+
+Options:
+  --i18n / --no-i18n          Enable translation-aware scaffold (default: off)
+  --languages CODES           Comma-separated language codes, e.g. en,ru,de
+  --with-booking              Include booking engine + cabinet integration
+  --with-notifications        Include ARQ worker + email notification scaffold
+  --with-public-booking       Include public-facing booking pages
+  --without-cabinet           Skip cabinet scaffold
+  --without-conversations     Skip conversations feature
+  --with-sw                   Include service worker + manifest
+  --with-cloud-db             Add dj-database-url for cloud DB (Neon/Heroku/Render)
+  --overwrite                 Overwrite existing files
+```
+
 ## Modules
 
 | Module | Extra | Description |
 | :--- | :--- | :--- |
-| `codex_django_cli.main` | - | Interactive entrypoint, menu flow, and legacy command dispatch. |
+| `codex_django_cli.main` | - | Interactive entrypoint, menu flow, and CLI argument dispatch. |
 | `codex_django_cli.engine` | - | Blueprint renderer and file generation engine for scaffold assets. |
-| `codex_django_cli.commands` | - | Init, app scaffolding, deploy helpers, quality tools, and notifications bootstrap. |
-| `codex_django_cli.blueprints` | - | Packaged project, feature, deployment, and repository templates used by the CLI. |
+| `codex_django_cli.commands` | - | Init, install orchestration, deploy helpers, and quality tools. |
+| `codex_django_cli.blueprints` | - | Packaged project, cabinet, feature, deployment, and repository templates. |
 
 ## Documentation
 

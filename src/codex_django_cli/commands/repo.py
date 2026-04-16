@@ -6,8 +6,6 @@ import os
 
 from rich.console import Console
 
-from codex_django_cli.engine import CLIEngine
-
 console = Console()
 
 
@@ -35,6 +33,8 @@ def handle_generate_repo_config(
     overwrite: bool = False,
 ) -> None:
     """Generate repository-level config files for a project."""
+    from codex_django_cli.engine import CLIEngine  # noqa: PLC0415
+
     engine = CLIEngine()
     context = {"project_name": name}
 

@@ -25,11 +25,12 @@ So understanding the CLI means understanding how blueprints are partitioned.
 
 ## Top-Level Blueprint Families
 
-The current blueprint space is split into six main families:
+The current blueprint space is split into seven main families:
 
 - `repo`
 - `project`
 - `cabinet`
+- `cabinet_booking`
 - `features`
 - `apps`
 - `deploy`
@@ -66,32 +67,35 @@ This family defines the starting runtime architecture of a fresh codex-django pr
 
 ### `cabinet`
 
-`cabinet/` is now a dedicated top-level blueprint family.
-It contains the project-local cabinet shell, views, services, templates, static assets, and routing glue that used to be partially embedded under `project/`.
+`cabinet/` is a dedicated top-level blueprint family.
+It contains the project-local cabinet shell: views, services, templates, static assets, routing glue, and a `fixtures/` subdirectory with demo data.
 
-This matters because cabinet is no longer just an implementation detail of the base project scaffold.
-It is an explicit extension layer that can be installed, reinstalled, or compared independently.
+Key sub-paths:
+
+- `services/analytics.py.j2` — `AnalyticsService` with dashboard providers and `get_report_page()` returning typed `ReportPageData`.
+- `fixtures/demo_analytics.json.j2` — demo numbers and labels for the analytics dashboard. Rendered once at scaffold time; the service reads from this file at runtime. Replace service method bodies with real DB queries and delete the fixture when ready.
+
+This family does **not** include any booking-specific cabinet views — those live in `cabinet_booking/`.
+
+### `cabinet_booking`
+
+`cabinet_booking/` is scaffolded only when `with_booking=True`.
+It contains the booking-cabinet integration layer: booking bridge, booking views, services, and templates that extend the base cabinet with appointment management.
+
+Keeping it separate from `cabinet/` means a standard init without booking produces a clean cabinet with zero booking artefacts.
 
 ### `features`
 
-`features/` contains advanced or compound feature scaffolds such as:
+`features/` contains advanced or compound feature scaffolds:
 
-- `booking`
-- `booking_core`
-- `booking_public`
-- `conversations`
-- `client_cabinet`
+- `booking_core` — booking domain models, providers, runtime services, and settings model.
+- `booking_public` — public-facing booking pages and multi-step flow templates.
+- `conversations` — conversations models, migrations, services, selectors, and cabinet integration.
+- `notifications` — ARQ worker scaffolding, `EmailContent` model, and notification selectors.
+- `client_cabinet` — specialized cabinet-facing extension for client-space views.
 
 These blueprints are more architectural than `apps/default` because they often modify several target areas at once.
-
-For example:
-
-- `booking_core` defines the booking domain and service layer
-- `booking_public` adds public booking pages and multi-step templates
-- `conversations` injects feature code plus cabinet-facing integration
-- `client_cabinet` remains part of the blueprint tree as a specialized cabinet-facing extension surface
-
-So `features/` is the layer where the CLI expresses cross-cutting feature bundles rather than isolated apps.
+`features/` is the layer where the CLI expresses cross-cutting feature bundles rather than isolated apps.
 
 ### `apps`
 
@@ -147,6 +151,34 @@ flowchart TD
     E --> G["target project structure"]
     F --> G
 ```
+
+## Jinja Context Variables
+
+Every blueprint is rendered with the following context dictionary.
+Templates use these variables in `{%- if ... %}` blocks to conditionally include or exclude sections.
+
+| Variable | Type | Description |
+| :--- | :--- | :--- |
+| `project_name` | `str` | Snake-case project name used for app `name =` and imports. |
+| `enable_i18n` | `bool` | Render `gettext_lazy` imports and `SET_LANGUAGE` URLs. |
+| `languages` | `list[str]` | Language codes, e.g. `["en", "ru"]`. First code is the default. |
+| `with_cabinet` | `bool` | Scaffold the `cabinet/` blueprint. |
+| `with_booking` | `bool` | Scaffold `cabinet_booking/` + `features/booking_core`. |
+| `with_notifications` | `bool` | Scaffold `features/notifications` + `settings/modules/notifications.py`. |
+| `with_conversations` | `bool` | Scaffold `features/conversations`. |
+| `with_public_booking` | `bool` | Scaffold `features/booking_public`. |
+| `with_sw` | `bool` | Scaffold service worker + manifest. |
+| `with_cloud_db` | `bool` | Add `dj-database-url` dependency in `pyproject.toml`. |
+
+## Architectural Principles
+
+Generated code follows the **Thin Views / Service Layer** pattern:
+
+- **Views** only call service or selector methods and return HTTP responses.
+- **`services/<domain>.py`** — write operations and business logic. Each method is independently testable without HTTP context.
+- **`selectors/<domain>.py`** — read-only queries. Each method is independently testable without HTTP context.
+
+This means a developer can unit-test `AnalyticsService.get_kpi_metrics()` or `BookingCabinetWorkflowService.get_modal_state()` without starting a Django server.
 
 ## Role In The CLI
 

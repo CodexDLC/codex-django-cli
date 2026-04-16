@@ -7,6 +7,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-04-16
+
+### Added
+- **`cabinet_booking/` blueprint**: Booking cabinet integration extracted into its own top-level blueprint family, separate from the base `cabinet/` scaffold. Scaffolded only when `with_booking=True`; standard init no longer generates booking artefacts in cabinet.
+- **`settings/modules/booking.py`**: Dedicated settings module for booking configuration (`BOOKING_DEFAULT_SLOT_MINUTES`, `BOOKING_MAX_ADVANCE_DAYS`, `BOOKING_CHAIN_MODE`, etc.) — all env-backed, generated only when `with_booking=True`.
+- **`settings/modules/notifications.py`**: Dedicated settings module for ARQ worker + email notification config — generated only when `with_notifications=True`.
+- **`cabinet/fixtures/demo_analytics.json`**: Demo data extracted from `AnalyticsService` into a scaffolded JSON fixture. Service methods read from disk on first call (`functools.cache`). Replace method bodies with real DB queries when ready; delete the fixture file — no other changes required.
+- **`notifications` module option**: Added `notifications` flag to `InstallSelection`, `ResolvedInstallPlan`, CLI (`--with-notifications`), and interactive menu.
+- **`get_report_page()` in `AnalyticsService`**: Returns fully typed `ReportPageData` using `codex_django.cabinet` report types (`ReportChartData`, `ReportTableData`, `ReportTabData`, `ReportSummaryCardData`, `ChartDatasetData`, `TableColumn`, `resolve_report_period`).
+- **Cabinet shell URL settings** in `codex.py`: `CODEX_CABINET_SITE_URL`, `CODEX_CABINET_LOGIN_URL_NAME`, `CODEX_CABINET_LOGOUT_URL_NAME`, `CODEX_CABINET_STAFF_URL_NAME`, `CODEX_CABINET_CLIENT_URL_NAME` — all env-backed (codex-django 0.4.4+).
+- **i18n coverage**: All `verbose_name` / `verbose_name_plural` in model Meta classes now wrapped in `gettext_lazy`. `apps.py` blueprints include `verbose_name`. Booking cabinet modal UI strings (`label=`, `title=`, `placeholder=`, select options) wrapped in `_()`. Zero Cyrillic strings outside `_()` in blueprint `.py.j2` files.
+- **New integration tests**: booking isolation (8), cabinet API surface (4), settings modules (9), demo fixture JSON validity (4). Total: +25 tests vs 0.3.0.
+
+### Changed
+- **Module selection model simplified**: `booking_engine` + `booking_cabinet` merged into single `booking` flag. One selection scaffolds both the booking engine and cabinet integration.
+- **Analytics views**: `AnalyticsReportsView` now uses library template `cabinet/reports/page.html` (0.4.4+) and passes typed `context["report"] = ReportPageData`.
+- **`LOGIN_URL` parametrised**: No longer hardcoded `/cabinet/login/`; now reads from `CABINET_LOGIN_URL` env var with the same default.
+- **Thin Views / Service Layer enforced**: All generated views call service/selector methods only. Business logic lives in `services/`, read queries in `selectors/`. Each method is independently testable without HTTP context.
+
+### Removed
+- **`booking_cabinet` flag** from `InstallSelection` — replaced by unified `booking` flag.
+- **Hardcoded demo data in Python layer** — moved to `cabinet/fixtures/demo_analytics.json.j2`.
+- **DRF API scaffold stage** — removed from roadmap; DRF is not part of this project's stack.
+
+### Fixed
+- **Standard init no longer generates booking layer in cabinet** — `test_scaffold_new_project_standard_does_not_include_booking` guards this regression.
+- **`analytics.py.j2` booking metric isolation** — `"bookings"` KPI and table column only present when `with_booking=True`; verified by fixture JSON tests.
+- **`booking/cabinet` import path** — `services/cabinet.py.j2` now imports from `codex_django.booking.cabinet` (public API), not from internal `booking.cabinet.types`.
+
 ## [0.3.0] - 2026-04-05
 
 ### Added

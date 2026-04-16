@@ -32,6 +32,7 @@ class TestHandleInit:
                 "languages": ["en"],
                 "with_cabinet": True,
                 "with_booking": False,
+                "with_notifications": False,
                 "with_conversations": True,
                 "with_public_booking": False,
                 "with_sw": False,
