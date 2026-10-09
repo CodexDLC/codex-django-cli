@@ -1,0 +1,85 @@
+from typing import ClassVar
+
+from django.conf import settings
+from django.db import models
+{%- if enable_i18n %}
+from django.utils.translation import gettext_lazy as _
+{%- else %}
+def _(message: str) -> str:
+    return message
+{%- endif %}
+
+
+class MessagingCampaign(models.Model):
+    class Status(models.TextChoices):
+        DRAFT = "draft", _("Draft")
+        SCHEDULED = "scheduled", _("Scheduled")
+        SENDING = "sending", _("Sending")
+        SENT = "sent", _("Sent")
+        FAILED = "failed", _("Failed")
+        CANCELLED = "cancelled", _("Cancelled")
+
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="messaging_campaigns",
+        verbose_name=_("created by"),
+    )
+    subject = models.CharField(_("subject"), max_length=255)
+    body_text = models.TextField(_("body text"), blank=True)
+    template_key = models.CharField(_("template key"), max_length=128, blank=True)
+    locale = models.CharField(_("locale"), max_length=8, default="en")
+    audience_filter = models.JSONField(_("audience filter"), default=dict, blank=True)
+    status = models.CharField(_("status"), max_length=16, choices=Status.choices, default=Status.DRAFT, db_index=True)
+    send_at = models.DateTimeField(_("send at"), null=True, blank=True)
+    sent_at = models.DateTimeField(_("sent at"), null=True, blank=True)
+    arq_parent_job_id = models.CharField(_("ARQ parent job ID"), max_length=128, blank=True)
+    created_at = models.DateTimeField(_("created at"), auto_now_add=True)
+    updated_at = models.DateTimeField(_("updated at"), auto_now=True)
+
+    class Meta:
+        verbose_name = _("Messaging campaign")
+        verbose_name_plural = _("Messaging campaigns")
+        ordering: ClassVar[list[str]] = ["-updated_at"]
+
+    def __str__(self) -> str:
+        return self.subject
+
+
+class MessagingCampaignRecipient(models.Model):
+    class Status(models.TextChoices):
+        QUEUED = "queued", _("Queued")
+        SENT = "sent", _("Sent")
+        FAILED = "failed", _("Failed")
+        BOUNCED = "bounced", _("Bounced")
+        SKIPPED = "skipped", _("Skipped")
+
+    campaign = models.ForeignKey(
+        MessagingCampaign,
+        on_delete=models.CASCADE,
+        related_name="recipients",
+        verbose_name=_("campaign"),
+    )
+    recipient_id = models.CharField(_("recipient ID"), max_length=64, db_index=True)
+    email = models.EmailField(_("email"))
+    first_name = models.CharField(_("first name"), max_length=128, blank=True)
+    last_name = models.CharField(_("last name"), max_length=128, blank=True)
+    locale = models.CharField(_("locale"), max_length=8, default="en")
+    status = models.CharField(_("status"), max_length=16, choices=Status.choices, default=Status.QUEUED, db_index=True)
+    notification_id = models.CharField(_("notification ID"), max_length=128, blank=True, db_index=True)
+    error_message = models.TextField(_("error message"), blank=True)
+    provider_message_id = models.CharField(_("provider message ID"), max_length=128, blank=True)
+    unsubscribe_token = models.CharField(_("unsubscribe token"), max_length=128, blank=True)
+    arq_job_id = models.CharField(_("ARQ job ID"), max_length=128, blank=True)
+    created_at = models.DateTimeField(_("created at"), auto_now_add=True)
+    updated_at = models.DateTimeField(_("updated at"), auto_now=True)
+
+    class Meta:
+        verbose_name = _("Campaign recipient")
+        verbose_name_plural = _("Campaign recipients")
+        ordering: ClassVar[list[str]] = ["email"]
+
+    def __str__(self) -> str:
+        return self.email

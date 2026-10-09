@@ -47,15 +47,10 @@ class SiteSettingsAdmin(admin.ModelAdmin):
         (_("Технические настройки"), {
             "fields": ("app_mode_enabled", "maintenance_mode", "head_scripts", "body_scripts")
         }),
-        (_("Почта (SMTP)"), {
+        (_("Почта"), {
             "fields": (
-                "smtp_host", "smtp_port", "smtp_user", "smtp_password",
-                "smtp_from_email", "smtp_use_tls", "smtp_use_ssl", "sendgrid_api_key",
+                "email_from", "email_sender_name", "email_reply_to",
             ),
-            "classes": ("collapse",)
-        }),
-        (_("Юридическая информация"), {
-            "fields": ("impressum_html", "privacy_html", "terms_html", "cookie_policy_html"),
             "classes": ("collapse",)
         }),
     )

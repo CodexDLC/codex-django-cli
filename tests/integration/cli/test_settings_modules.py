@@ -17,6 +17,10 @@ def _base_settings(project_root: Path, name: str) -> Path:
     return project_root / name / "src" / name / "core" / "settings" / "base.py"
 
 
+def _project_root(project_root: Path, name: str) -> Path:
+    return project_root / name
+
+
 @pytest.mark.integration
 class TestSettingsModules:
     """Verify settings modules are scaffolded and wired correctly."""
@@ -111,3 +115,45 @@ class TestSettingsModules:
         assert base.exists()
         content = base.read_text(encoding="utf-8")
         assert "from .modules.notifications import" not in content
+
+    # ── admin profile ────────────────────────────────────────────────────────
+
+    def test_unfold_admin_profile_generates_settings_and_dependency(self, tmp_path: Path) -> None:
+        handle_init("testproj", str(tmp_path), with_unfold=True)
+        root = _project_root(tmp_path, "testproj")
+        modules_dir = _settings_modules_dir(tmp_path, "testproj")
+
+        pyproject = (root / "pyproject.toml").read_text(encoding="utf-8")
+        apps = (modules_dir / "apps.py").read_text(encoding="utf-8")
+        base = _base_settings(tmp_path, "testproj").read_text(encoding="utf-8")
+
+        assert '"codex-django[admin,cli]>=0.7.0,<1.0.0"' in pyproject
+        assert '"django-unfold' not in pyproject
+        assert (modules_dir / "admin.py").exists()
+        assert '"unfold"' in apps
+        assert "from .modules.admin import" in base
+
+    def test_vanilla_admin_profile_skips_unfold_settings_and_dependency(self, tmp_path: Path) -> None:
+        handle_init("testproj", str(tmp_path), with_unfold=False)
+        root = _project_root(tmp_path, "testproj")
+        modules_dir = _settings_modules_dir(tmp_path, "testproj")
+
+        pyproject = (root / "pyproject.toml").read_text(encoding="utf-8")
+        apps = (modules_dir / "apps.py").read_text(encoding="utf-8")
+        base = _base_settings(tmp_path, "testproj").read_text(encoding="utf-8")
+
+        assert '"codex-django[cli]>=0.7.0,<1.0.0"' in pyproject
+        assert "django-unfold" not in pyproject
+        assert not (modules_dir / "admin.py").exists()
+        assert '"unfold"' not in apps
+        assert "from .modules.admin import" not in base
+
+    def test_conversations_admin_matches_vanilla_admin_profile(self, tmp_path: Path) -> None:
+        handle_init("testproj", str(tmp_path), with_unfold=False)
+        admin_file = (
+            _project_root(tmp_path, "testproj") / "src" / "testproj" / "features" / "conversations" / "admin.py"
+        )
+
+        content = admin_file.read_text(encoding="utf-8")
+        assert "from unfold.admin import" not in content
+        assert "ModelAdmin = admin.ModelAdmin" in content

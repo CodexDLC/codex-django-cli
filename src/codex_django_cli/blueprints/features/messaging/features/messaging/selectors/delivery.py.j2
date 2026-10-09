@@ -1,0 +1,23 @@
+from collections.abc import Mapping
+from typing import Any
+
+from django.db.models import Q, QuerySet
+
+from ..models import EmailLog
+
+
+def list_delivery_events(*, filters: Mapping[str, Any] | None = None) -> QuerySet[EmailLog]:
+    filters = filters or {}
+    queryset = EmailLog.objects.all()
+    search_query = str(filters.get("q") or "").strip()
+    if search_query:
+        queryset = queryset.filter(
+            Q(recipient__icontains=search_query)
+            | Q(subject__icontains=search_query)
+            | Q(event_type__icontains=search_query)
+            | Q(provider_message_id__icontains=search_query)
+        )
+    status = str(filters.get("status") or "").strip()
+    if status:
+        queryset = queryset.filter(status=status)
+    return queryset

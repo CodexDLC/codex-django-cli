@@ -1,0 +1,30 @@
+from typing import ClassVar
+
+from codex_django.messaging.mixins import AbstractEmailSettings, EmailSettingsSyncMixin
+from django.db import models
+{%- if enable_i18n %}
+from django.utils.translation import gettext_lazy as _
+{%- else %}
+def _(message: str) -> str:
+    return message
+{%- endif %}
+
+
+class EmailSettings(EmailSettingsSyncMixin, AbstractEmailSettings):
+    email_from = models.EmailField(_("From address"), default="noreply@example.com")
+    email_sender_name = models.CharField(_("Sender name"), max_length=128, default="Messaging")
+    email_reply_to = models.EmailField(_("Reply-To"), blank=True, default="")
+    site_base_url = models.URLField(_("Site base URL"), default="https://example.com")
+    logo_url = models.CharField(_("Logo URL"), max_length=255, blank=True, default="")
+    url_path_confirm = models.CharField(_("Confirm URL path"), max_length=255, blank=True, default="")
+    url_path_cancel = models.CharField(_("Cancel URL path"), max_length=255, blank=True, default="")
+    url_path_reschedule = models.CharField(_("Reschedule URL path"), max_length=255, blank=True, default="")
+    url_path_contact_form = models.CharField(_("Contact form URL path"), max_length=255, blank=True, default="")
+
+    class Meta:
+        verbose_name = _("Email settings")
+        verbose_name_plural = _("Email settings")
+        ordering: ClassVar[list[str]] = ["pk"]
+
+    def __str__(self) -> str:
+        return self.email_sender_name

@@ -25,7 +25,7 @@ class TestHandleInit:
             handle_init("myproject", str(tmp_path))
 
             calls = mock_engine.scaffold.call_args_list
-            assert len(calls) == 3
+            assert len(calls) == 4
             base_context = {
                 "project_name": "myproject",
                 "enable_i18n": False,
@@ -34,8 +34,10 @@ class TestHandleInit:
                 "with_booking": False,
                 "with_notifications": False,
                 "with_conversations": True,
+                "with_messaging": False,
                 "with_public_booking": False,
                 "with_sw": False,
+                "with_unfold": True,
                 "with_cloud_db": False,
             }
             assert calls[0].args[0] == "project"
@@ -44,14 +46,20 @@ class TestHandleInit:
                 "context": base_context,
                 "overwrite": False,
             }
-            assert calls[1].args[0] == "cabinet"
+            assert calls[1].args[0] == "project_admin_unfold"
             assert calls[1].kwargs == {
+                "target_dir": str(tmp_path / "myproject" / "src" / "myproject"),
+                "context": base_context,
+                "overwrite": False,
+            }
+            assert calls[2].args[0] == "cabinet"
+            assert calls[2].kwargs == {
                 "target_dir": str(tmp_path / "myproject" / "src" / "myproject" / "cabinet"),
                 "context": base_context,
                 "overwrite": False,
             }
-            assert calls[2].args[0] == "features/conversations"
-            assert calls[2].kwargs == {
+            assert calls[3].args[0] == "features/conversations"
+            assert calls[3].kwargs == {
                 "target_dir": str(tmp_path / "myproject" / "src" / "myproject"),
                 "context": base_context,
                 "overwrite": False,
@@ -62,6 +70,7 @@ class TestHandleInit:
                 include_pyproject=True,
                 include_env_example=True,
                 overwrite=False,
+                with_unfold=True,
             )
 
     def test_skips_if_target_exists(self, tmp_path: Path):
@@ -113,6 +122,7 @@ class TestHandleInit:
                 include_pyproject=True,
                 include_env_example=True,
                 overwrite=False,
+                with_unfold=True,
             )
 
     def test_dev_mode_valid(self, tmp_path: Path):
@@ -145,7 +155,7 @@ class TestHandleInit:
             from codex_django_cli.commands.init import handle_init
 
             handle_init("myproject", str(tmp_path), code_only=True)
-            assert mock_engine.scaffold.call_count == 3
+            assert mock_engine.scaffold.call_count == 4
             mock_repo_config.assert_not_called()
 
     def test_i18n_languages_context(self, tmp_path: Path):

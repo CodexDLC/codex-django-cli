@@ -1,0 +1,149 @@
+from __future__ import annotations
+
+from typing import Any
+
+from codex_django.messaging.cabinet import MessagingActionResult, MessagingCabinetPresenter
+from django.contrib import messages
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
+from django.shortcuts import redirect, render
+from django.urls import reverse
+from django.views import View
+
+from ..services import get_messaging_bridge, get_messaging_workflow_service
+
+
+class MessagingCabinetView(View):
+    template_name = ""
+    presenter_class = MessagingCabinetPresenter
+
+    def setup(self, request: HttpRequest, *args: Any, **kwargs: Any) -> None:
+        request.cabinet_module = "messaging"
+        super().setup(request, *args, **kwargs)
+
+    @property
+    def bridge(self):
+        return get_messaging_bridge()
+
+    @property
+    def presenter(self) -> MessagingCabinetPresenter:
+        return self.presenter_class()
+
+    def render_context(self, request: HttpRequest, context: dict[str, Any]) -> HttpResponse:
+        return render(request, self.template_name, context)
+
+    def redirect_from_result(self, result: MessagingActionResult, fallback_url: str) -> HttpResponseRedirect:
+        if result.ok:
+            messages.success(self.request, result.message)
+        else:
+            messages.error(self.request, result.message)
+        return redirect(result.target_url or fallback_url)
+
+
+class MessagingMailboxView(MessagingCabinetView):
+    template_name = "cabinet/messaging/mailbox.html"
+
+    def get(self, request: HttpRequest) -> HttpResponse:
+        state = self.bridge.get_mailbox_state(
+            user=request.user,
+            folder=str(request.GET.get("folder") or "inbox"),
+            filters=request.GET,
+        )
+        return self.render_context(request, self.presenter.mailbox_context(state))
+
+
+class MessagingThreadView(MessagingMailboxView):
+    def get(self, request: HttpRequest, thread_id: int) -> HttpResponse:
+        state = self.bridge.get_mailbox_state(
+            user=request.user,
+            folder=str(request.GET.get("folder") or "inbox"),
+            thread_id=str(thread_id),
+            filters=request.GET,
+        )
+        return self.render_context(request, self.presenter.mailbox_context(state))
+
+    def post(self, request: HttpRequest, thread_id: int) -> HttpResponseRedirect:
+        result = get_messaging_workflow_service().dispatch(
+            str(request.POST.get("action") or "reply"),
+            user=request.user,
+            thread_id=str(thread_id),
+            payload=request.POST,
+        )
+        return self.redirect_from_result(
+            result,
+            reverse("cabinet:messaging_thread", kwargs={"thread_id": thread_id}),
+        )
+
+
+class MessagingCampaignListView(MessagingCabinetView):
+    template_name = "cabinet/messaging/campaigns.html"
+
+    def get(self, request: HttpRequest) -> HttpResponse:
+        state = self.bridge.get_campaign_list_state(
+            user=request.user,
+            status=str(request.GET.get("status") or "all"),
+            filters=request.GET,
+        )
+        return self.render_context(request, self.presenter.campaign_list_context(state))
+
+
+class MessagingCampaignFormView(MessagingCabinetView):
+    template_name = "cabinet/messaging/campaign_form.html"
+
+    def get(self, request: HttpRequest) -> HttpResponse:
+        state = self.bridge.get_campaign_composer_state(user=request.user)
+        return self.render_context(request, self.presenter.campaign_composer_context(state))
+
+    def post(self, request: HttpRequest) -> HttpResponseRedirect:
+        result = get_messaging_workflow_service().save_campaign(user=request.user, payload=request.POST)
+        return self.redirect_from_result(result, reverse("cabinet:messaging_campaigns"))
+
+
+class MessagingCampaignDetailView(MessagingCampaignFormView):
+    def get(self, request: HttpRequest, campaign_id: int) -> HttpResponse:
+        state = self.bridge.get_campaign_composer_state(user=request.user, campaign_id=str(campaign_id))
+        return self.render_context(request, self.presenter.campaign_composer_context(state))
+
+    def post(self, request: HttpRequest, campaign_id: int) -> HttpResponseRedirect:
+        workflow = get_messaging_workflow_service()
+        action = str(request.POST.get("action") or "save_campaign")
+        result = workflow.dispatch(action, user=request.user, campaign_id=str(campaign_id), payload=request.POST)
+        return self.redirect_from_result(
+            result,
+            reverse("cabinet:messaging_campaign_detail", kwargs={"campaign_id": campaign_id}),
+        )
+
+
+class MessagingRecipientsView(MessagingCabinetView):
+    template_name = "cabinet/messaging/recipients.html"
+
+    def get(self, request: HttpRequest) -> HttpResponse:
+        state = self.bridge.get_recipient_list_state(user=request.user, filters=request.GET)
+        return self.render_context(request, self.presenter.recipient_list_context(state))
+
+    def post(self, request: HttpRequest) -> HttpResponseRedirect:
+        result = get_messaging_workflow_service().save_recipient(
+            user=request.user,
+            recipient_id=str(request.POST.get("recipient_id") or ""),
+            payload=request.POST,
+        )
+        return self.redirect_from_result(result, reverse("cabinet:messaging_recipients"))
+
+
+class MessagingDeliveryLogView(MessagingCabinetView):
+    template_name = "cabinet/messaging/delivery_log.html"
+
+    def get(self, request: HttpRequest) -> HttpResponse:
+        state = self.bridge.get_delivery_log_state(user=request.user, filters=request.GET)
+        return self.render_context(request, self.presenter.delivery_log_context(state))
+
+
+class MessagingSettingsView(MessagingCabinetView):
+    template_name = "cabinet/messaging/settings.html"
+
+    def get(self, request: HttpRequest) -> HttpResponse:
+        state = self.bridge.get_settings_state(user=request.user)
+        return self.render_context(request, self.presenter.settings_context(state))
+
+    def post(self, request: HttpRequest) -> HttpResponseRedirect:
+        result = get_messaging_workflow_service().save_settings(user=request.user, payload=request.POST)
+        return self.redirect_from_result(result, reverse("cabinet:messaging_settings"))

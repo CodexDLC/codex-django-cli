@@ -140,3 +140,35 @@ def test_cli_help_exits_cleanly(sterile_env: dict):
     )
 
     assert result.returncode == 0
+
+
+@pytest.mark.e2e
+def test_booking_and_messaging_scaffold_passes_django_startup_check(sterile_env: dict):
+    cli = sterile_env["cli"]
+    python = sterile_env["python"]
+    work_dir = sterile_env["work_dir"]
+
+    result = subprocess.run(
+        [str(cli), "init", "startupproj", "--with-booking", "--with-messaging", "--without-unfold"],
+        cwd=str(work_dir),
+        capture_output=True,
+        text=True,
+    )
+    assert result.returncode == 0, result.stderr
+
+    project = work_dir / "startupproj"
+    manage_py = project / "src" / "startupproj" / "manage.py"
+    install = subprocess.run(
+        [str(python), "-m", "pip", "install", "--quiet", "-e", "."],
+        cwd=str(project),
+        capture_output=True,
+        text=True,
+    )
+    assert install.returncode == 0, install.stdout + install.stderr
+    check = subprocess.run(
+        [str(python), str(manage_py), "check"],
+        cwd=str(project),
+        capture_output=True,
+        text=True,
+    )
+    assert check.returncode == 0, check.stdout + check.stderr

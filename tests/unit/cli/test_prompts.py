@@ -100,6 +100,16 @@ class TestPromptWrappers:
             result = prompts.ask_deploy_services()
             assert result is None
 
+    def test_ask_with_unfold_defaults_to_true(self):
+        from codex_django_cli import prompts
+
+        with patch("codex_django_cli.prompts.questionary") as mock_q:
+            mock_q.confirm.return_value = self._make_select(True)
+            result = prompts.ask_with_unfold()
+            assert result is True
+            _, kwargs = mock_q.confirm.call_args
+            assert kwargs["default"] is True
+
     def test_ask_project_name_returns_text(self):
         from codex_django_cli import prompts
 
@@ -190,6 +200,30 @@ class TestPromptWrappers:
             mock_q.checkbox.return_value = self._make_checkbox(["cabinet", "booking_engine"])
             result = prompts.ask_install_modules(mode="init")
             assert result == ["cabinet", "booking_engine"]
+
+    def test_ask_install_modules_init_mode_includes_messaging(self):
+        from codex_django_cli import prompts
+
+        with patch("codex_django_cli.prompts.questionary.checkbox") as mock_checkbox:
+            mock_checkbox.return_value = self._make_checkbox(["messaging"])
+            result = prompts.ask_install_modules(mode="init")
+            _, kwargs = mock_checkbox.call_args
+            choices = kwargs["choices"]
+
+            assert result == ["messaging"]
+            assert any(choice.value == "messaging" for choice in choices)
+            assert any(choice.title == "Messaging cabinet feature" for choice in choices)
+
+    def test_ask_install_modules_extend_mode_includes_messaging(self):
+        from codex_django_cli import prompts
+
+        with patch("codex_django_cli.prompts.questionary.checkbox") as mock_checkbox:
+            mock_checkbox.return_value = self._make_checkbox([])
+            prompts.ask_install_modules(mode="extend", installed_modules={"messaging": True})
+            _, kwargs = mock_checkbox.call_args
+            choices = kwargs["choices"]
+
+            assert any(choice.title == "Messaging cabinet feature (already detected)" for choice in choices)
 
     def test_ask_install_modules_extend_mode_empty(self):
         from codex_django_cli import prompts

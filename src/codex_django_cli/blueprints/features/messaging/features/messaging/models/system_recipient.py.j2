@@ -1,0 +1,22 @@
+from typing import ClassVar
+
+from codex_django.messaging.mixins import AbstractSystemRecipient
+from django.db import models
+{%- if enable_i18n %}
+from django.utils.translation import gettext_lazy as _
+{%- else %}
+def _(message: str) -> str:
+    return message
+{%- endif %}
+
+
+class SystemRecipient(AbstractSystemRecipient):
+    locale = models.CharField(_("locale"), max_length=8, default="en")
+
+    class Meta:
+        verbose_name = _("System recipient")
+        verbose_name_plural = _("System recipients")
+        ordering: ClassVar[list[str]] = ["email"]
+
+    def __str__(self) -> str:
+        return self.email

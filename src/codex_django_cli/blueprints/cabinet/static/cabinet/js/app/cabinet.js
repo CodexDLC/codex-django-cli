@@ -1,6 +1,6 @@
 /*
  * Compiled JS — DO NOT EDIT
- * Sources: core/dom_helpers.js, core/htmx_csrf.js, core/sidebar_sync.js, widgets/client_lookup.js, widgets/date_time_picker.js, widgets/tabbed_assignment.js, builders/booking_shared.js, app/cabinet.entry.js
+ * Sources: core/dom_helpers.js, core/htmx_csrf.js, core/sidebar_sync.js, widgets/client_lookup.js, widgets/date_time_picker.js, widgets/tabbed_assignment.js, app/cabinet.entry.js
  * Minified: False
  */
 
@@ -263,31 +263,6 @@
                 }
             },
         };
-    };
-})(window);
-
-
-
-
-(function (window) {
-    window.CabinetBookingBuilders = window.CabinetBookingBuilders || {};
-
-    window.CabinetBookingBuilders.createDayLookupMaps = function createDayLookupMaps(days) {
-        const dayLabels = {};
-        const dayMonthKeys = {};
-        const monthLabels = {};
-        const monthKeys = [];
-
-        (days || []).forEach((day) => {
-            dayLabels[day.iso] = day.label;
-            dayMonthKeys[day.iso] = day.month_key;
-            if (!monthLabels[day.month_key]) {
-                monthLabels[day.month_key] = day.month_label;
-                monthKeys.push(day.month_key);
-            }
-        });
-
-        return { dayLabels, dayMonthKeys, monthLabels, monthKeys };
     };
 })(window);
 

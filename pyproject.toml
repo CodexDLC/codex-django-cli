@@ -33,7 +33,7 @@ Issues = "https://github.com/codexdlc/codex-django/issues"
 [project.optional-dependencies]
 dev = [
     "codex-django-cli",
-    "codex-core>=0.3.0,<0.4.0",
+    "codex-core>=0.5.0,<1.0.0",
     "pytest>=8.0",
     "pytest-cov",
     "ruff>=0.4",

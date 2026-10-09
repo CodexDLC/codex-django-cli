@@ -1,0 +1,24 @@
+from django.urls import path
+
+from .views.cabinet import (
+    MessagingCampaignDetailView,
+    MessagingCampaignFormView,
+    MessagingCampaignListView,
+    MessagingDeliveryLogView,
+    MessagingMailboxView,
+    MessagingRecipientsView,
+    MessagingSettingsView,
+    MessagingThreadView,
+)
+
+
+urlpatterns = [
+    path("", MessagingMailboxView.as_view(), name="messaging_mailbox"),
+    path("thread/<int:thread_id>/", MessagingThreadView.as_view(), name="messaging_thread"),
+    path("campaigns/", MessagingCampaignListView.as_view(), name="messaging_campaigns"),
+    path("campaigns/new/", MessagingCampaignFormView.as_view(), name="messaging_campaign_new"),
+    path("campaigns/<int:campaign_id>/", MessagingCampaignDetailView.as_view(), name="messaging_campaign_detail"),
+    path("recipients/", MessagingRecipientsView.as_view(), name="messaging_recipients"),
+    path("delivery-log/", MessagingDeliveryLogView.as_view(), name="messaging_delivery_log"),
+    path("settings/", MessagingSettingsView.as_view(), name="messaging_settings"),
+]

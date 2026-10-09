@@ -1,5 +1,15 @@
 # Release Prep Plan
 
+## Current work: agent skills (2026-10-09)
+
+This section records the current unreleased skill work. The older layer tracker below describes a prior `0.3.0` preparation pass and is retained as history; it does not select the next release version.
+
+- Added a project-owned `docs/agent-skills/cli-development` entrypoint and discovery links in `AGENTS.md` and `CLAUDE.md`.
+- Added a versioned CLI consumer skill under `src/codex_django_cli/agent_skills/resources`, with install, status, update, and delete commands. The installer tracks owned files by hash, preserves unrelated `AGENTS.md` text and unowned files, and refuses to replace local managed edits.
+- Added the `codex-django skills` command, README instructions, lifecycle tests, and an Unreleased changelog entry. No release or version bump was made.
+- Verification: full unit/integration suite reported 157 passed; focused skill/main tests reported 34 passed; Ruff, mypy, and diff checks passed. Both wheel and sdist contain the skill payload and installer. A wheel installed into an isolated target imported from that target and passed install/status/update/delete against a separate consumer project while preserving its `AGENTS.md` bytes.
+- The local build generated `0.3.1.dev14+g4341052a4.d20261009` artifacts from VCS metadata. This is a build result, not a release-version decision. Legacy install-chain E2E was not run for this skill change.
+
 ## Goal
 
 Use this file as the working release-prep tracker for the current `codex-django-cli` refactor.

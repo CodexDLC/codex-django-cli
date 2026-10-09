@@ -1,7 +1,7 @@
 from codex_django.system.mixins.settings import (
     AbstractSiteSettings,
     SiteContactSettingsMixin,
-    SiteEmailSettingsMixin,
+    SiteEmailIdentityMixin,
     SiteGeoSettingsMixin,
     SiteMarketingSettingsMixin,
     SiteSocialSettingsMixin,
@@ -22,7 +22,7 @@ class SiteSettings(
     SiteSocialSettingsMixin,
     SiteMarketingSettingsMixin,
     SiteTechnicalSettingsMixin,
-    SiteEmailSettingsMixin,
+    SiteEmailIdentityMixin,
 ):
     """
     Global site settings.

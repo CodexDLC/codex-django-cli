@@ -1,0 +1,44 @@
+from typing import ClassVar
+
+from django.conf import settings
+from django.db import models
+{%- if enable_i18n %}
+from django.utils.translation import gettext_lazy as _
+{%- else %}
+def _(message: str) -> str:
+    return message
+{%- endif %}
+
+from .message import Message
+from .thread import Thread
+
+
+class MessageReply(models.Model):
+    thread = models.ForeignKey(Thread, on_delete=models.CASCADE, related_name="replies", verbose_name=_("thread"))
+    message = models.ForeignKey(
+        Message,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="replies",
+        verbose_name=_("message"),
+    )
+    body = models.TextField(_("body"))
+    sent_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="messaging_replies",
+        verbose_name=_("sent by"),
+    )
+    is_inbound = models.BooleanField(_("inbound"), default=False)
+    created_at = models.DateTimeField(_("created at"), auto_now_add=True)
+
+    class Meta:
+        verbose_name = _("Reply")
+        verbose_name_plural = _("Replies")
+        ordering: ClassVar[list[str]] = ["created_at"]
+
+    def __str__(self) -> str:
+        return f"{self.thread_id}: {self.body[:48]}"

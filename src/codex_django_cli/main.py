@@ -20,6 +20,10 @@ MenuResult = Literal["done", "back", "exit"]
 def main(args: list[str] | None = None, forced_project: str | None = None) -> int:
     if args is None:
         args = sys.argv[1:]
+    if args and args[0] == "skills":
+        from codex_django_cli.agent_skills.cli import main as skills_main
+
+        return skills_main(args[1:])
     if args and args[0] == "menu":
         args = args[1:]
         if not args:
@@ -99,7 +103,7 @@ def _resolve_project_name(forced_project: str | None = None) -> str | None:
 
 
 def _build_selection_from_modules(
-    modules: list[str], *, overwrite: bool, enable_i18n: bool, with_cloud_db: bool
+    modules: list[str], *, overwrite: bool, enable_i18n: bool, with_cloud_db: bool, with_unfold: bool
 ) -> InstallSelection:
     from codex_django_cli.commands.install import InstallSelection
 
@@ -108,8 +112,10 @@ def _build_selection_from_modules(
         booking="booking" in modules,
         notifications="notifications" in modules,
         conversations="conversations" in modules,
+        messaging="messaging" in modules,
         public_booking="public_booking" in modules,
         sw="sw" in modules,
+        unfold_admin=with_unfold,
         overwrite=overwrite,
         i18n=enable_i18n,
         cloud_db=with_cloud_db,
@@ -133,12 +139,17 @@ def _init_wizard() -> MenuResult:
             return "back"
         modules = selected_modules
     with_cloud_db = prompts.ask_with_cloud_db()
+    with_unfold = prompts.ask_with_unfold()
     enable_i18n = prompts.ask_enable_i18n()
     languages = prompts.ask_languages(enable_i18n) if enable_i18n else None
     from codex_django_cli.commands.install import describe_plan, resolve_install_selection
 
     selection = _build_selection_from_modules(
-        modules, overwrite=overwrite, enable_i18n=enable_i18n, with_cloud_db=with_cloud_db
+        modules,
+        overwrite=overwrite,
+        enable_i18n=enable_i18n,
+        with_cloud_db=with_cloud_db,
+        with_unfold=with_unfold,
     )
     resolved = resolve_install_selection(selection, base_mode=True)
     if not prompts.ask_confirm_plan(describe_plan(resolved)):
@@ -156,8 +167,10 @@ def _init_wizard() -> MenuResult:
         with_booking=selection.booking,
         with_notifications=selection.notifications,
         with_conversations=selection.conversations,
+        with_messaging=selection.messaging,
         with_public_booking=selection.public_booking,
         with_sw=selection.sw,
+        with_unfold=selection.unfold_admin,
         with_cloud_db=with_cloud_db,
     )
     return "done"
@@ -203,8 +216,10 @@ def _extend_wizard(forced_project: str | None = None) -> MenuResult:
             booking="booking" in install_modules,
             notifications="notifications" in install_modules,
             conversations="conversations" in install_modules,
+            messaging="messaging" in install_modules,
             public_booking="public_booking" in install_modules,
             sw="sw" in install_modules,
+            unfold_admin=detected_modules.get("unfold_admin", False),
         )
         resolved_install = resolve_install_selection(install_selection, base_mode=False)
         if not prompts.ask_confirm_plan(f"install: {describe_plan(resolved_install)}"):
@@ -217,8 +232,10 @@ def _extend_wizard(forced_project: str | None = None) -> MenuResult:
             booking="booking" in compare_modules,
             notifications="notifications" in compare_modules,
             conversations="conversations" in compare_modules,
+            messaging="messaging" in compare_modules,
             public_booking="public_booking" in compare_modules,
             sw="sw" in compare_modules,
+            unfold_admin=detected_modules.get("unfold_admin", False),
         )
         resolved_compare = resolve_install_selection(compare_selection, base_mode=False)
         if not prompts.ask_confirm_plan(f"compare copy: {describe_plan(resolved_compare)}"):
@@ -305,6 +322,7 @@ def _handle_cli_args(args: list[str]) -> int:
     subparsers = parser.add_subparsers(dest="command")
     init_parser = subparsers.add_parser("init", help="Initialize a new project.")
     menu_parser = subparsers.add_parser("menu", help="Launch interactive scaffold menu.")
+    subparsers.add_parser("skills", help="Manage this CLI's optional project agent skill.")
     init_parser.add_argument("name", help="Name of the project (folder inside src/)")
     init_parser.add_argument("target_dir", nargs="?", default=None)
     init_parser.add_argument("--code", action="store_true", help="Only scaffold core code (no repo wrappers)")
@@ -315,12 +333,15 @@ def _handle_cli_args(args: list[str]) -> int:
     init_parser.add_argument("--languages", default=None)
     init_parser.add_argument("--with-booking", action="store_true", default=False)
     init_parser.add_argument("--with-notifications", action="store_true", default=False)
+    init_parser.add_argument("--with-messaging", action="store_true", default=False)
     init_parser.add_argument("--with-public-booking", action="store_true", default=False)
     init_parser.add_argument("--without-cabinet", dest="with_cabinet", action="store_false")
     init_parser.add_argument("--without-conversations", dest="with_conversations", action="store_false")
     init_parser.add_argument("--with-sw", action="store_true", default=False)
+    init_parser.add_argument("--with-unfold", dest="with_unfold", action="store_true")
+    init_parser.add_argument("--without-unfold", dest="with_unfold", action="store_false")
     init_parser.add_argument("--with-cloud-db", action="store_true", default=False)
-    init_parser.set_defaults(with_cabinet=True, with_conversations=True)
+    init_parser.set_defaults(with_cabinet=True, with_conversations=True, with_unfold=True)
     init_parser.set_defaults(
         func=lambda parsed: handle_init(
             name=parsed.name,
@@ -335,8 +356,10 @@ def _handle_cli_args(args: list[str]) -> int:
             with_booking=parsed.with_booking,
             with_notifications=parsed.with_notifications,
             with_conversations=parsed.with_conversations,
+            with_messaging=parsed.with_messaging,
             with_public_booking=parsed.with_public_booking,
             with_sw=parsed.with_sw,
+            with_unfold=parsed.with_unfold,
             with_cloud_db=parsed.with_cloud_db,
         )
     )

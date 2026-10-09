@@ -31,12 +31,13 @@ def handle_generate_repo_config(
     include_pyproject: bool = True,
     include_env_example: bool = True,
     overwrite: bool = False,
+    with_unfold: bool = True,
 ) -> None:
     """Generate repository-level config files for a project."""
     from codex_django_cli.engine import CLIEngine  # noqa: PLC0415
 
     engine = CLIEngine()
-    context = {"project_name": name}
+    context = {"project_name": name, "with_unfold": with_unfold}
 
     if include_pyproject:
         pyproject_path, is_compare = _resolve_output_path(

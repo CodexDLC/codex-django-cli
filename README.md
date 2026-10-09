@@ -23,6 +23,15 @@ pip install "codex-django[cli]"
 
 Requires Python 3.12 or newer.
 
+The package also ships optional guidance for coding agents that work with this CLI. From a consuming project's root, install and check its managed copy with:
+
+```bash
+codex-django skills install --project .
+codex-django skills status --project .
+```
+
+After a package upgrade, use `codex-django skills update --project .`; use `codex-django skills delete --project .` to remove installer-owned content. `python -m codex_django_cli.agent_skills` offers the same lifecycle. The installer preserves unrelated `AGENTS.md` text and refuses to replace locally edited managed files. Keep application rules in a separate project skill. This CLI skill covers scaffolding; the runtime `codex-django` package has separate guidance.
+
 ## Development
 
 ```bash
@@ -72,6 +81,8 @@ Options:
   --languages CODES           Comma-separated language codes, e.g. en,ru,de
   --with-booking              Include booking engine + cabinet integration
   --with-notifications        Include ARQ worker + email notification scaffold
+  --with-messaging            Include the messaging cabinet feature (requires codex-django 0.7.0+)
+  --with-unfold / --without-unfold  Select Unfold or Django's built-in admin (default: Unfold)
   --with-public-booking       Include public-facing booking pages
   --without-cabinet           Skip cabinet scaffold
   --without-conversations     Skip conversations feature

@@ -12,6 +12,7 @@ console = Console()
 MODULE_MARKERS: dict[str, list[str]] = {
     "cabinet": ["cabinet/apps.py", "cabinet/urls.py"],
     "conversations": ["features/conversations/apps.py", "features/conversations/urls.py"],
+    "messaging": ["features/messaging/apps.py", "features/messaging/cabinet_urls.py"],
     "booking": ["features/booking/booking_settings.py", "features/booking/providers/runtime.py"],
     "notifications": ["features/notifications/apps.py"],
     "public_booking": ["features/booking_public/urls.py", "features/booking_public/views.py"],
@@ -25,8 +26,10 @@ class InstallSelection:
     booking: bool = False
     notifications: bool = False
     conversations: bool = True
+    messaging: bool = False
     public_booking: bool = False
     sw: bool = False
+    unfold_admin: bool = True
     code_only: bool = False
     overwrite: bool = False
     dev_mode: bool = False
@@ -36,19 +39,25 @@ class InstallSelection:
 
 @dataclass(frozen=True)
 class ResolvedInstallPlan:
+    unfold_admin: bool
     cabinet: bool
     booking: bool
     notifications: bool
     conversations: bool
+    messaging: bool
     public_booking: bool
     sw: bool
 
     def module_labels(self) -> list[str]:
         labels = ["base"]
+        if self.unfold_admin:
+            labels.append("unfold-admin")
         if self.cabinet:
             labels.append("cabinet")
         if self.conversations:
             labels.append("conversations")
+        if self.messaging:
+            labels.append("messaging")
         if self.booking:
             labels.append("booking")
         if self.notifications:
@@ -64,19 +73,27 @@ def detect_project_modules(project_dir: str) -> dict[str, bool]:
     detected: dict[str, bool] = {}
     for module_name, markers in MODULE_MARKERS.items():
         detected[module_name] = any(os.path.exists(os.path.join(project_dir, marker)) for marker in markers)
+    apps_module = os.path.join(project_dir, "core", "settings", "modules", "apps.py")
+    detected["unfold_admin"] = False
+    if os.path.exists(apps_module):
+        with open(apps_module, encoding="utf-8") as handle:
+            detected["unfold_admin"] = '"unfold"' in handle.read()
     return detected
 
 
 def resolve_install_selection(selection: InstallSelection, *, base_mode: bool) -> ResolvedInstallPlan:
-    with_conversations = True if base_mode else selection.conversations
+    with_conversations = selection.conversations
+    with_messaging = selection.messaging
     with_booking = selection.booking or selection.public_booking
-    with_cabinet = selection.cabinet or with_booking
+    with_cabinet = selection.cabinet or with_booking or with_messaging
     with_public_booking = selection.public_booking and with_booking
     return ResolvedInstallPlan(
+        unfold_admin=selection.unfold_admin,
         cabinet=with_cabinet,
         booking=with_booking,
         notifications=selection.notifications,
         conversations=with_conversations,
+        messaging=with_messaging,
         public_booking=with_public_booking,
         sw=selection.sw,
     )
@@ -149,8 +166,10 @@ def scaffold_new_project(
         "with_booking": plan.booking,
         "with_notifications": plan.notifications,
         "with_conversations": plan.conversations,
+        "with_messaging": plan.messaging,
         "with_public_booking": plan.public_booking,
         "with_sw": plan.sw,
+        "with_unfold": plan.unfold_admin,
         "with_cloud_db": selection.cloud_db,
     }
     if not selection.code_only:
@@ -160,8 +179,16 @@ def scaffold_new_project(
             include_pyproject=True,
             include_env_example=True,
             overwrite=selection.overwrite,
+            with_unfold=plan.unfold_admin,
         )
     engine.scaffold("project", target_dir=backend_dir, context=context, overwrite=selection.overwrite)
+    if plan.unfold_admin:
+        engine.scaffold(
+            "project_admin_unfold",
+            target_dir=backend_dir,
+            context=context,
+            overwrite=selection.overwrite,
+        )
     if plan.cabinet:
         engine.scaffold(
             "cabinet", target_dir=os.path.join(backend_dir, "cabinet"), context=context, overwrite=selection.overwrite
@@ -177,6 +204,8 @@ def scaffold_new_project(
         engine.scaffold(
             "features/conversations", target_dir=backend_dir, context=context, overwrite=selection.overwrite
         )
+    if plan.messaging:
+        engine.scaffold("features/messaging", target_dir=backend_dir, context=context, overwrite=selection.overwrite)
     if plan.booking:
         engine.scaffold("features/booking_core", target_dir=backend_dir, context=context, overwrite=selection.overwrite)
     if plan.public_booking:
@@ -199,8 +228,10 @@ def _scaffold_modules_to_target(
         "with_booking": plan.booking,
         "with_notifications": plan.notifications,
         "with_conversations": plan.conversations,
+        "with_messaging": plan.messaging,
         "with_public_booking": plan.public_booking,
         "with_sw": plan.sw,
+        "with_unfold": plan.unfold_admin,
         "enable_i18n": selection.i18n,
     }
     engine = engine_module.CLIEngine()
@@ -222,6 +253,13 @@ def _scaffold_modules_to_target(
     if plan.conversations:
         engine.scaffold(
             "features/conversations",
+            target_dir=target_dir,
+            context=context,
+            overwrite=selection.overwrite or compare_copy,
+        )
+    if plan.messaging:
+        engine.scaffold(
+            "features/messaging",
             target_dir=target_dir,
             context=context,
             overwrite=selection.overwrite or compare_copy,

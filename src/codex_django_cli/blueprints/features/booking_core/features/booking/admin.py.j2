@@ -14,24 +14,24 @@ from .models import (
 )
 
 
-class MasterWorkingDayInline(admin.TabularInline[MasterWorkingDay, Master]):
+class MasterWorkingDayInline(admin.TabularInline):
     model = MasterWorkingDay
     extra = 0
 
 
-class MasterDayOffInline(admin.TabularInline[MasterDayOff, Master]):
+class MasterDayOffInline(admin.TabularInline):
     model = MasterDayOff
     extra = 0
 
 
 @admin.register(ServiceCategory)
-class ServiceCategoryAdmin(admin.ModelAdmin[ServiceCategory]):
+class ServiceCategoryAdmin(admin.ModelAdmin):
     list_display = ("name",)
     search_fields = ("name",)
 
 
 @admin.register(Master)
-class MasterAdmin(admin.ModelAdmin[Master]):
+class MasterAdmin(admin.ModelAdmin):
     list_display = ("name", "user", "status")
     list_filter = ("status", "categories")
     search_fields = ("name", "user__email")
@@ -39,7 +39,7 @@ class MasterAdmin(admin.ModelAdmin[Master]):
 
 
 @admin.register(Service)
-class ServiceAdmin(admin.ModelAdmin[Service]):
+class ServiceAdmin(admin.ModelAdmin):
     list_display = ("name", "category", "duration")
     list_filter = ("category",)
     search_fields = ("name",)
@@ -47,7 +47,7 @@ class ServiceAdmin(admin.ModelAdmin[Service]):
 
 
 @admin.register(Appointment)
-class AppointmentAdmin(admin.ModelAdmin[Appointment]):
+class AppointmentAdmin(admin.ModelAdmin):
     list_display = ("client", "master", "service", "datetime_start", "status")
     list_filter = ("status", "master")
     search_fields = ("client__email", "master__name")
@@ -56,7 +56,7 @@ class AppointmentAdmin(admin.ModelAdmin[Appointment]):
 
 
 @admin.register(BookingSettings)
-class BookingSettingsAdmin(admin.ModelAdmin[BookingSettings]):
+class BookingSettingsAdmin(admin.ModelAdmin):
     fieldsets = [
         (
             "Resource Slot Grid",
@@ -73,10 +73,27 @@ class BookingSettingsAdmin(admin.ModelAdmin[BookingSettings]):
             "Default Resource Working Hours",
             {
                 "fields": [
-                    "work_start_weekdays",
-                    "work_end_weekdays",
+                    "monday_is_closed",
+                    "work_start_monday",
+                    "work_end_monday",
+                    "tuesday_is_closed",
+                    "work_start_tuesday",
+                    "work_end_tuesday",
+                    "wednesday_is_closed",
+                    "work_start_wednesday",
+                    "work_end_wednesday",
+                    "thursday_is_closed",
+                    "work_start_thursday",
+                    "work_end_thursday",
+                    "friday_is_closed",
+                    "work_start_friday",
+                    "work_end_friday",
+                    "saturday_is_closed",
                     "work_start_saturday",
                     "work_end_saturday",
+                    "sunday_is_closed",
+                    "work_start_sunday",
+                    "work_end_sunday",
                 ]
             },
         ),

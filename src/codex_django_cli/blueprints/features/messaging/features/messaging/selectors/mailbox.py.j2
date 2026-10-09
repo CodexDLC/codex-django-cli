@@ -1,0 +1,46 @@
+from collections.abc import Mapping
+from typing import Any
+
+from django.db.models import Q, QuerySet
+
+from ..models import Thread
+
+
+def list_threads(*, folder: str = "inbox", filters: Mapping[str, Any] | None = None) -> QuerySet[Thread]:
+    filters = filters or {}
+    queryset = Thread.objects.all().prefetch_related("messages", "replies")
+    search_query = str(filters.get("q") or "").strip()
+    if search_query:
+        queryset = queryset.filter(
+            Q(subject__icontains=search_query)
+            | Q(sender_name__icontains=search_query)
+            | Q(sender_email__icontains=search_query)
+            | Q(messages__body__icontains=search_query)
+        ).distinct()
+    if folder == "unread":
+        return queryset.filter(is_read=False, is_archived=False)
+    if folder == "processed":
+        return queryset.filter(status=Thread.Status.PROCESSED, is_archived=False)
+    if folder == "spam":
+        return queryset.filter(status=Thread.Status.SPAM, is_archived=False)
+    if folder == "archived":
+        return queryset.filter(is_archived=True)
+    if folder == "all":
+        return queryset
+    return queryset.filter(is_archived=False).exclude(status=Thread.Status.SPAM)
+
+
+def get_thread(thread_id: str | int) -> Thread:
+    return Thread.objects.prefetch_related("messages", "replies").get(pk=thread_id)
+
+
+def get_thread_counts() -> dict[str, int]:
+    queryset = Thread.objects.all()
+    return {
+        "inbox": queryset.filter(is_archived=False).exclude(status=Thread.Status.SPAM).count(),
+        "unread": queryset.filter(is_read=False, is_archived=False).count(),
+        "processed": queryset.filter(status=Thread.Status.PROCESSED, is_archived=False).count(),
+        "spam": queryset.filter(status=Thread.Status.SPAM, is_archived=False).count(),
+        "archived": queryset.filter(is_archived=True).count(),
+        "all": queryset.count(),
+    }

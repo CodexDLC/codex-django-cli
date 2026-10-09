@@ -1,0 +1,20 @@
+from collections.abc import Mapping
+from typing import Any
+
+from django.db.models import Q, QuerySet
+
+from ..models import SystemRecipient
+
+
+def list_system_recipients(*, filters: Mapping[str, Any] | None = None) -> QuerySet[SystemRecipient]:
+    filters = filters or {}
+    queryset = SystemRecipient.objects.all()
+    search_query = str(filters.get("q") or "").strip()
+    if search_query:
+        queryset = queryset.filter(
+            Q(email__icontains=search_query) | Q(name__icontains=search_query) | Q(kind__icontains=search_query)
+        )
+    kind = str(filters.get("kind") or "").strip()
+    if kind:
+        queryset = queryset.filter(kind=kind)
+    return queryset

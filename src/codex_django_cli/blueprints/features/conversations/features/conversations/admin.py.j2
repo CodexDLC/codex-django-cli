@@ -7,7 +7,13 @@ from django.utils.translation import gettext_lazy as _
 def _(message: str) -> str:
     return message
 {%- endif %}
+
+{%- if with_unfold %}
 from unfold.admin import ModelAdmin, TabularInline
+{%- else %}
+ModelAdmin = admin.ModelAdmin
+TabularInline = admin.TabularInline
+{%- endif %}
 
 from .models import Message, MessageReply
 

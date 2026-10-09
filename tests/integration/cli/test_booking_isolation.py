@@ -16,6 +16,10 @@ _BOOKING_ONLY_PATHS = [
     "cabinet/services/booking.py",
 ]
 _BOOKING_TEMPLATES_DIR = "cabinet/templates/cabinet/booking"
+_BOOKING_RESIDUE_PATHS = [
+    "cabinet/static/cabinet/js/builders/booking_shared.js",
+    "cabinet/templates/cabinet/client/appointments.html",
+]
 
 
 def _backend_dir(project_root: Path, name: str) -> Path:
@@ -34,6 +38,9 @@ class TestBookingIsolation:
         for rel in _BOOKING_ONLY_PATHS:
             assert not (backend / rel).exists(), f"Unexpected booking file on disk: {rel}"
 
+        for rel in _BOOKING_RESIDUE_PATHS:
+            assert not (backend / rel).exists(), f"Unexpected booking residue on disk: {rel}"
+
         assert not (backend / _BOOKING_TEMPLATES_DIR).exists(), (
             f"Unexpected booking templates directory on disk: {_BOOKING_TEMPLATES_DIR}"
         )
@@ -48,6 +55,33 @@ class TestBookingIsolation:
         assert "from .views.booking" not in content, (
             "cabinet/urls.py contains booking import but booking was not requested"
         )
+        assert "ClientAppointmentsView" not in content, (
+            "cabinet/urls.py contains client appointment view but booking was not requested"
+        )
+        assert "client_appointments" not in content, (
+            "cabinet/urls.py contains client appointment route but booking was not requested"
+        )
+
+    def test_standard_init_without_booking_client_sidebar_has_no_appointments(self, tmp_path: Path) -> None:
+        """Generated client sidebar must not point at appointment URLs when booking=False."""
+        handle_init("testproj", str(tmp_path), with_booking=False)
+        cabinet_file = _backend_dir(tmp_path, "testproj") / "system" / "cabinet.py"
+
+        assert cabinet_file.exists(), "system/cabinet.py was not generated"
+        content = cabinet_file.read_text(encoding="utf-8")
+        assert "client_appointments" not in content, (
+            "system/cabinet.py contains client appointment sidebar link but booking was not requested"
+        )
+
+    def test_standard_init_without_booking_cabinet_js_has_no_booking_builder(self, tmp_path: Path) -> None:
+        """Generated cabinet JS must not include booking helper code when booking=False."""
+        handle_init("testproj", str(tmp_path), with_booking=False)
+        cabinet_js = _backend_dir(tmp_path, "testproj") / "cabinet" / "static" / "cabinet" / "js" / "app" / "cabinet.js"
+
+        assert cabinet_js.exists(), "cabinet/static/cabinet/js/app/cabinet.js was not generated"
+        content = cabinet_js.read_text(encoding="utf-8")
+        assert "booking_shared" not in content
+        assert "CabinetBookingBuilders" not in content
 
     def test_standard_init_without_booking_apps_has_no_booking_app(self, tmp_path: Path) -> None:
         """Generated apps.py must not list features.booking when booking=False."""

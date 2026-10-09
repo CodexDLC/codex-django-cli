@@ -22,8 +22,10 @@ def handle_init(
     with_booking: bool = False,
     with_notifications: bool = False,
     with_conversations: bool = True,
+    with_messaging: bool = False,
     with_public_booking: bool = False,
     with_sw: bool = False,
+    with_unfold: bool = True,
     with_cloud_db: bool = False,
 ) -> None:
     """Scaffold a new codex-django project using module-selection orchestration."""
@@ -32,8 +34,10 @@ def handle_init(
         booking=with_booking,
         notifications=with_notifications,
         conversations=with_conversations,
+        messaging=with_messaging,
         public_booking=with_public_booking,
         sw=with_sw,
+        unfold_admin=with_unfold,
         code_only=code_only,
         overwrite=overwrite,
         dev_mode=dev_mode,

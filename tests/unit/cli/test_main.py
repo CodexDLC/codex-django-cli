@@ -65,6 +65,7 @@ def test_interactive_menu_init(tmp_path: Path):
         patch.object(prompts_module, "ask_project_name", return_value="myproject"),
         patch.object(prompts_module, "ask_init_mode", return_value="⚡  Standard"),
         patch.object(prompts_module, "ask_with_cloud_db", return_value=False),
+        patch.object(prompts_module, "ask_with_unfold", return_value=True),
         patch.object(prompts_module, "ask_enable_i18n", return_value=False),
         patch.object(prompts_module, "ask_confirm_plan", return_value=True),
         patch("codex_django_cli.main.os.getcwd", return_value=str(tmp_path)),
@@ -82,8 +83,10 @@ def test_interactive_menu_init(tmp_path: Path):
             with_booking=False,
             with_notifications=False,
             with_conversations=True,
+            with_messaging=False,
             with_public_booking=False,
             with_sw=False,
+            with_unfold=True,
             with_cloud_db=False,
         )
         assert result == 0
@@ -247,8 +250,10 @@ def test_cli_init(tmp_path: Path):
             with_booking=False,
             with_notifications=False,
             with_conversations=True,
+            with_messaging=False,
             with_public_booking=False,
             with_sw=False,
+            with_unfold=True,
             with_cloud_db=False,
         )
         assert result == 0
@@ -264,6 +269,17 @@ def test_cli_init_i18n(tmp_path: Path):
         mock_handle.assert_called_once()
         assert mock_handle.call_args.kwargs["enable_i18n"] is True
         assert result == 0
+
+
+@pytest.mark.unit
+def test_cli_init_without_unfold(tmp_path: Path):
+    with (
+        patch("codex_django_cli.main.os.getcwd", return_value=str(tmp_path)),
+        patch("codex_django_cli.commands.init.handle_init") as mock_handle,
+    ):
+        result = _handle_cli_args(["init", "myproject", "--without-unfold"])
+        assert result == 0
+        assert mock_handle.call_args.kwargs["with_unfold"] is False
 
 
 @pytest.mark.unit

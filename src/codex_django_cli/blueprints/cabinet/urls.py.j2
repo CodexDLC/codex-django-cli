@@ -13,7 +13,7 @@ from .views.booking import (
     NewBookingView,
 )
 {%- endif %}
-from .views.client import ClientAppointmentsView, ClientHomeView
+from .views.client import ClientHomeView
 {%- if with_conversations %}
 from .views.conversations import (
     AllMessagesView,
@@ -39,7 +39,6 @@ urlpatterns = [
     path("", include("codex_django.cabinet.urls")),
     path("", include("cabinet.auth_urls")),
     path("my/", ClientHomeView.as_view(), name="client_home"),
-    path("my/appointments/", ClientAppointmentsView.as_view(), name="client_appointments"),
     # Analytics
     path("analytics/", analytics_dashboard_view, name="analytics_dashboard"),
     path("analytics/reports/", AnalyticsReportsView.as_view(), name="analytics_reports"),
@@ -65,6 +64,10 @@ urlpatterns = [
     path("conversations/<int:pk>/action/<str:action>/", ThreadActionView.as_view(), name="conversations_action"),
     path("conversations/actions/bulk/", InboxBulkActionView.as_view(), name="conversations_bulk_action"),
     path("conversations/check-inbox/", manual_check_view, name="conversations_check_inbox"),
+{%- endif %}
+{%- if with_messaging %}
+    # Messaging
+    path("messaging/", include("features.messaging.cabinet_urls")),
 {%- endif %}
     # Users / Clients
     path("users/", UserListView.as_view(), name="users_list"),

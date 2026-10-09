@@ -1,0 +1,17 @@
+from codex_django.cabinet import declare
+from codex_django.messaging.cabinet import build_messaging_sidebar, build_messaging_topbar
+from django.urls import reverse_lazy
+
+
+declare(
+    module="messaging",
+    space="staff",
+    topbar=build_messaging_topbar(reverse_lazy("cabinet:messaging_mailbox")),
+    sidebar=build_messaging_sidebar(
+        mailbox_url=reverse_lazy("cabinet:messaging_mailbox"),
+        campaigns_url=reverse_lazy("cabinet:messaging_campaigns"),
+        recipients_url=reverse_lazy("cabinet:messaging_recipients"),
+        delivery_log_url=reverse_lazy("cabinet:messaging_delivery_log"),
+    ),
+    settings_url="cabinet:messaging_settings",
+)

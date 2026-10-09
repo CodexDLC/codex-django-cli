@@ -12,12 +12,13 @@ from codex_django_cli.commands.install import (
     _normalize_languages,
     _resolve_scaffold_paths,
     describe_plan,
+    detect_project_modules,
     resolve_install_selection,
 )
 
 
 @pytest.mark.unit
-def test_resolve_install_selection_base_mode_forces_conversations_and_cabinet_for_booking():
+def test_resolve_install_selection_base_mode_respects_conversations_flag_and_forces_cabinet_for_booking():
     plan = resolve_install_selection(
         InstallSelection(cabinet=False, booking=False, conversations=False, public_booking=True, sw=True),
         base_mode=True,
@@ -25,11 +26,11 @@ def test_resolve_install_selection_base_mode_forces_conversations_and_cabinet_fo
 
     assert plan.cabinet is True
     assert plan.booking is True
-    assert plan.conversations is True
+    assert plan.conversations is False
     assert plan.public_booking is True
     assert plan.sw is True
-    assert plan.module_labels() == ["base", "cabinet", "conversations", "booking", "public-booking", "sw"]
-    assert describe_plan(plan) == "base, cabinet, conversations, booking, public-booking, sw"
+    assert plan.module_labels() == ["base", "unfold-admin", "cabinet", "booking", "public-booking", "sw"]
+    assert describe_plan(plan) == "base, unfold-admin, cabinet, booking, public-booking, sw"
 
 
 @pytest.mark.unit
@@ -44,7 +45,7 @@ def test_resolve_install_selection_existing_project_respects_conversations_flag(
     assert plan.conversations is False
     assert plan.public_booking is False
     assert plan.sw is False
-    assert plan.module_labels() == ["base"]
+    assert plan.module_labels() == ["base", "unfold-admin"]
 
 
 @pytest.mark.unit
@@ -99,6 +100,7 @@ def test_scaffold_new_project_with_booking_and_public_booking(tmp_path: Path):
         names = [call.args[0] for call in calls]
         assert names == [
             "project",
+            "project_admin_unfold",
             "cabinet",
             "cabinet_booking",
             "features/conversations",
@@ -116,6 +118,7 @@ def test_scaffold_new_project_with_booking_and_public_booking(tmp_path: Path):
             include_pyproject=True,
             include_env_example=True,
             overwrite=False,
+            with_unfold=True,
         )
         assert any("Modules:" in str(call.args[0]) for call in mock_print.call_args_list if call.args)
 
@@ -154,7 +157,12 @@ def test_scaffold_existing_project_scaffolds_requested_modules(tmp_path: Path):
         plan = scaffold_existing_project(
             project_dir=str(tmp_path),
             selection=InstallSelection(
-                cabinet=False, booking=False, conversations=True, public_booking=True, overwrite=True, i18n=True
+                cabinet=False,
+                booking=False,
+                conversations=True,
+                public_booking=True,
+                overwrite=True,
+                i18n=True,
             ),
         )
 
@@ -219,7 +227,7 @@ def test_resolve_install_selection_notifications_flag():
     )
     assert plan.notifications is True
     assert "notifications" in plan.module_labels()
-    assert describe_plan(plan) == "base, cabinet, notifications"
+    assert describe_plan(plan) == "base, unfold-admin, cabinet, notifications"
 
 
 @pytest.mark.unit
@@ -227,6 +235,14 @@ def test_resolve_install_selection_notifications_off_by_default():
     plan = resolve_install_selection(InstallSelection(), base_mode=False)
     assert plan.notifications is False
     assert "notifications" not in plan.module_labels()
+
+
+@pytest.mark.unit
+def test_resolve_install_selection_can_disable_unfold_admin():
+    plan = resolve_install_selection(InstallSelection(unfold_admin=False), base_mode=True)
+
+    assert plan.unfold_admin is False
+    assert "unfold-admin" not in plan.module_labels()
 
 
 @pytest.mark.unit
@@ -251,3 +267,50 @@ def test_scaffold_existing_project_without_booking_skips_cabinet_booking(tmp_pat
         assert "cabinet_booking" not in names
         assert "features/booking_core" not in names
         assert "features/booking_public" not in names
+
+
+@pytest.mark.unit
+def test_resolve_install_selection_messaging_forces_cabinet_and_labels_module():
+    plan = resolve_install_selection(
+        InstallSelection(cabinet=False, conversations=False, messaging=True),
+        base_mode=False,
+    )
+
+    assert plan.cabinet is True
+    assert plan.messaging is True
+    assert plan.module_labels() == ["base", "unfold-admin", "cabinet", "messaging"]
+    assert describe_plan(plan) == "base, unfold-admin, cabinet, messaging"
+
+
+@pytest.mark.unit
+def test_detect_project_modules_detects_messaging(tmp_path: Path):
+    messaging_dir = tmp_path / "features" / "messaging"
+    messaging_dir.mkdir(parents=True)
+    (messaging_dir / "cabinet_urls.py").write_text("", encoding="utf-8")
+
+    detected = detect_project_modules(str(tmp_path))
+
+    assert detected["messaging"] is True
+
+
+@pytest.mark.unit
+def test_scaffold_existing_project_scaffolds_messaging(tmp_path: Path):
+    with (
+        patch("codex_django_cli.engine.CLIEngine") as mock_engine_cls,
+        patch("codex_django_cli.commands.install.console.print"),
+    ):
+        mock_engine = MagicMock()
+        mock_engine_cls.return_value = mock_engine
+
+        from codex_django_cli.commands.install import scaffold_existing_project
+
+        plan = scaffold_existing_project(
+            project_dir=str(tmp_path),
+            selection=InstallSelection(cabinet=False, conversations=False, messaging=True),
+        )
+
+        assert plan.cabinet is True
+        assert plan.messaging is True
+        names = [call.args[0] for call in mock_engine.scaffold.call_args_list]
+        assert "cabinet" in names
+        assert "features/messaging" in names

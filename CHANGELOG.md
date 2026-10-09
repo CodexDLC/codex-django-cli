@@ -7,9 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.4.0] - 2026-04-16
+## [0.4.0] - 2026-10-09
 
 ### Added
+- Versioned `codex-django-cli` consumer skill with focused scaffolding and blueprint references, plus offline install, update, status, and delete commands. Managed-file hashes protect local edits and unrelated project instructions.
+- Project-owned CLI development skill under `docs/agent-skills` to keep source maintenance guidance separate from installed consumer content.
+- Optional messaging cabinet blueprint with project-owned models, selectors, services, views, and templates backed by the `codex-django` 0.7.0 runtime contract.
 - **`cabinet_booking/` blueprint**: Booking cabinet integration extracted into its own top-level blueprint family, separate from the base `cabinet/` scaffold. Scaffolded only when `with_booking=True`; standard init no longer generates booking artefacts in cabinet.
 - **`settings/modules/booking.py`**: Dedicated settings module for booking configuration (`BOOKING_DEFAULT_SLOT_MINUTES`, `BOOKING_MAX_ADVANCE_DAYS`, `BOOKING_CHAIN_MODE`, etc.) — all env-backed, generated only when `with_booking=True`.
 - **`settings/modules/notifications.py`**: Dedicated settings module for ARQ worker + email notification config — generated only when `with_notifications=True`.
@@ -21,6 +24,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **New integration tests**: booking isolation (8), cabinet API surface (4), settings modules (9), demo fixture JSON validity (4). Total: +25 tests vs 0.3.0.
 
 ### Changed
+- Generated projects require `codex-django>=0.7.0,<1.0.0`, and the CLI development environment uses `codex-core>=0.5.0,<1.0.0`.
+- Admin scaffolding can use Unfold or Django's built-in admin via `--with-unfold` / `--without-unfold`.
+- Booking-specific client appointments moved out of the base cabinet scaffold; the booking option owns that flow.
 - **Module selection model simplified**: `booking_engine` + `booking_cabinet` merged into single `booking` flag. One selection scaffolds both the booking engine and cabinet integration.
 - **Analytics views**: `AnalyticsReportsView` now uses library template `cabinet/reports/page.html` (0.4.4+) and passes typed `context["report"] = ReportPageData`.
 - **`LOGIN_URL` parametrised**: No longer hardcoded `/cabinet/login/`; now reads from `CABINET_LOGIN_URL` env var with the same default.
@@ -32,6 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **DRF API scaffold stage** — removed from roadmap; DRF is not part of this project's stack.
 
 ### Fixed
+- Messaging projects register `features.messaging` in `INSTALLED_APPS` so generated models load during Django startup.
 - **Standard init no longer generates booking layer in cabinet** — `test_scaffold_new_project_standard_does_not_include_booking` guards this regression.
 - **`analytics.py.j2` booking metric isolation** — `"bookings"` KPI and table column only present when `with_booking=True`; verified by fixture JSON tests.
 - **`booking/cabinet` import path** — `services/cabinet.py.j2` now imports from `codex_django.booking.cabinet` (public API), not from internal `booking.cabinet.types`.

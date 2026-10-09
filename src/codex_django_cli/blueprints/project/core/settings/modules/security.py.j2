@@ -1,4 +1,6 @@
 import os
+from base64 import urlsafe_b64encode
+from hashlib import sha256
 from urllib.parse import urlparse
 
 # ═══════════════════════════════════════════
@@ -6,7 +8,11 @@ from urllib.parse import urlparse
 # ═══════════════════════════════════════════
 
 SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-CHANGE-ME")
-FIELD_ENCRYPTION_KEY = os.environ.get("FIELD_ENCRYPTION_KEY", "")
+
+# Keep fresh scaffolds runnable without extra manual secret generation.
+# Production should still override this via FIELD_ENCRYPTION_KEY.
+_default_field_encryption_key = urlsafe_b64encode(sha256(SECRET_KEY.encode("utf-8")).digest()).decode()
+FIELD_ENCRYPTION_KEY = os.environ.get("FIELD_ENCRYPTION_KEY", _default_field_encryption_key)
 
 # Main switch for the whole system
 DEBUG = os.environ.get("DEBUG", "True").lower() in ("true", "1", "yes")

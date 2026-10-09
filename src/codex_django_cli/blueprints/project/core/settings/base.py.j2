@@ -58,7 +58,9 @@ from .modules.internationalization import *  # noqa
 from .modules.static import *  # noqa
 from .modules.templates import *  # noqa
 from .modules.logging import *  # noqa
+{%- if with_unfold %}
 from .modules.admin import *  # noqa
+{%- endif %}
 from .modules.sitemap import *  # noqa
 from .modules.codex import *  # noqa
 {%- if with_booking %}

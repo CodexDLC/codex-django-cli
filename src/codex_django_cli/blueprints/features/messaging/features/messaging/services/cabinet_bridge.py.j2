@@ -1,0 +1,409 @@
+from __future__ import annotations
+
+from collections.abc import Mapping
+from typing import Any
+
+from codex_django.messaging.cabinet import (
+    CampaignComposerState,
+    CampaignDetailState,
+    CampaignListState,
+    CampaignRowState,
+    CampaignStatusSummaryState,
+    DeliveryLogRowState,
+    DeliveryLogState,
+    MailboxActionState,
+    MailboxDetailState,
+    MailboxState,
+    MailboxThreadState,
+    MessageState,
+    MessagingActionResult,
+    MessagingBridge,
+    MessagingCabinetPresenter,
+    MessagingCabinetWorkflowService,
+    MessagingSettingsSection,
+    MessagingSettingsState,
+    RecipientListState,
+    RecipientRowState,
+    ReplyComposerState,
+    build_default_mailbox_folders,
+)
+from django.urls import reverse
+from django.utils import timezone
+
+from ..models import EmailSettings, Message, MessageReply, MessagingCampaign, SystemRecipient, Thread
+from ..selectors.campaigns import get_campaign, get_status_counts, list_campaigns
+from ..selectors.delivery import list_delivery_events
+from ..selectors.mailbox import get_thread, get_thread_counts, list_threads
+from ..selectors.recipients import list_system_recipients
+
+
+class ProjectMessagingBridge(MessagingBridge):
+    """Convert project ORM rows into runtime messaging cabinet state."""
+
+    presenter_class = MessagingCabinetPresenter
+    workflow_class = MessagingCabinetWorkflowService
+
+    def get_mailbox_state(
+        self,
+        *,
+        user: Any,
+        folder: str = "inbox",
+        thread_id: str | None = None,
+        filters: Mapping[str, Any] | None = None,
+    ) -> MailboxState:
+        filters = filters or {}
+        threads = list(list_threads(folder=folder, filters=filters)[:50])
+        selected_thread = get_thread(thread_id) if thread_id else (threads[0] if threads else None)
+        counts = get_thread_counts()
+        base_url = reverse("cabinet:messaging_mailbox")
+        folders = build_default_mailbox_folders(base_url=base_url, active_folder=folder)
+        folders = [
+            MailboxThreadFolderAdapter.with_count(item, counts.get(item.key, 0))
+            for item in folders
+        ]
+        return MailboxState(
+            title="Mailbox",
+            folders=folders,
+            threads=[self._thread_state(thread) for thread in threads],
+            selected=self._detail_state(selected_thread) if selected_thread else None,
+            search_query=str(filters.get("q") or ""),
+            active_folder=folder,
+        )
+
+    def get_campaign_list_state(
+        self,
+        *,
+        user: Any,
+        status: str = "all",
+        filters: Mapping[str, Any] | None = None,
+    ) -> CampaignListState:
+        rows = list(list_campaigns(status=status, filters=filters)[:100])
+        return CampaignListState(
+            create_url=reverse("cabinet:messaging_campaign_new"),
+            status_filters=[
+                CampaignStatusSummaryState(
+                    key=str(item["key"]),
+                    label=str(item["label"]),
+                    count=int(item["count"]),
+                    active=bool(item["active"]),
+                    url=f"{reverse('cabinet:messaging_campaigns')}?status={item['key']}",
+                )
+                for item in get_status_counts(active_status=status)
+            ],
+            rows=[self._campaign_row_state(campaign) for campaign in rows],
+        )
+
+    def get_campaign_detail_state(self, *, user: Any, campaign_id: str) -> CampaignDetailState:
+        campaign = get_campaign(campaign_id)
+        return CampaignDetailState(
+            campaign=self._campaign_row_state(campaign),
+            body_preview=campaign.body_text,
+            recipients=list(campaign.recipients.all()[:50]),
+            actions=[
+                MailboxActionState(
+                    key="send_campaign",
+                    label="Send campaign",
+                    url=reverse("cabinet:messaging_campaign_detail", kwargs={"campaign_id": campaign.pk}),
+                    variant="primary",
+                )
+            ],
+        )
+
+    def get_campaign_composer_state(
+        self,
+        *,
+        user: Any,
+        campaign_id: str | None = None,
+    ) -> CampaignComposerState:
+        campaign = get_campaign(campaign_id) if campaign_id else None
+        action_url = (
+            reverse("cabinet:messaging_campaign_detail", kwargs={"campaign_id": campaign.pk})
+            if campaign
+            else reverse("cabinet:messaging_campaign_new")
+        )
+        return CampaignComposerState(
+            campaign_id=str(campaign.pk) if campaign else "",
+            action_url=action_url,
+            subject=campaign.subject if campaign else "",
+            body_text=campaign.body_text if campaign else "",
+            template_key=campaign.template_key if campaign else "",
+            locale=campaign.locale if campaign else "en",
+            available_locales=[("en", "English")],
+            audience_summary="Project selectors control the final recipient set.",
+            submit_label="Save campaign",
+        )
+
+    def get_recipient_list_state(
+        self,
+        *,
+        user: Any,
+        filters: Mapping[str, Any] | None = None,
+    ) -> RecipientListState:
+        recipients = list(list_system_recipients(filters=filters)[:100])
+        return RecipientListState(
+            rows=[
+                RecipientRowState(
+                    id=str(recipient.pk),
+                    email=recipient.email,
+                    name=recipient.name,
+                    kind=recipient.kind,
+                    locale=recipient.locale,
+                    enabled=recipient.enabled,
+                    note=recipient.note,
+                )
+                for recipient in recipients
+            ],
+            total_count=len(recipients),
+        )
+
+    def get_delivery_log_state(
+        self,
+        *,
+        user: Any,
+        filters: Mapping[str, Any] | None = None,
+    ) -> DeliveryLogState:
+        events = list(list_delivery_events(filters=filters)[:100])
+        return DeliveryLogState(
+            rows=[
+                DeliveryLogRowState(
+                    id=str(event.pk),
+                    recipient=event.recipient,
+                    event_type=event.event_type,
+                    channel=event.channel,
+                    status=event.status,
+                    subject=event.subject,
+                    queued_at=self._format_datetime(event.queued_at),
+                    sent_at=self._format_datetime(event.sent_at),
+                    error_message=event.error_message,
+                    provider_message_id=event.provider_message_id,
+                )
+                for event in events
+            ]
+        )
+
+    def get_settings_state(self, *, user: Any) -> MessagingSettingsState:
+        settings = EmailSettings.load()
+        fields = [
+            "email_from",
+            "email_sender_name",
+            "email_reply_to",
+            "site_base_url",
+            "logo_url",
+            "url_path_contact_form",
+        ]
+        return MessagingSettingsState(
+            action_url=reverse("cabinet:messaging_settings"),
+            sections=[
+                MessagingSettingsSection(
+                    key="identity",
+                    title="Email identity",
+                    description="Project-owned sender identity and public URLs.",
+                    fields=fields,
+                )
+            ],
+            values={field: getattr(settings, field) for field in fields},
+        )
+
+    def reply_to_thread(self, *, user: Any, thread_id: str, body: str) -> MessagingActionResult:
+        thread = get_thread(thread_id)
+        MessageReply.objects.create(thread=thread, body=body, sent_by=user if getattr(user, "is_authenticated", False) else None)
+        Message.objects.create(
+            thread=thread,
+            direction=Message.Direction.OUTBOUND,
+            sender_name=str(user) if getattr(user, "is_authenticated", False) else "",
+            body=body,
+            channel=thread.channel,
+            source="cabinet",
+        )
+        thread.is_read = True
+        thread.status = Thread.Status.PROCESSED
+        thread.save(update_fields=["is_read", "status", "updated_at"])
+        return self._ok("thread.reply", "Reply saved.", reverse("cabinet:messaging_thread", kwargs={"thread_id": thread.pk}))
+
+    def mark_thread_read(self, *, user: Any, thread_id: str) -> MessagingActionResult:
+        return self._update_thread(thread_id, is_read=True, code="thread.read", message="Thread marked read.")
+
+    def mark_thread_processed(self, *, user: Any, thread_id: str) -> MessagingActionResult:
+        return self._update_thread(
+            thread_id,
+            is_read=True,
+            status=Thread.Status.PROCESSED,
+            code="thread.processed",
+            message="Thread marked processed.",
+        )
+
+    def mark_thread_spam(self, *, user: Any, thread_id: str) -> MessagingActionResult:
+        return self._update_thread(
+            thread_id,
+            status=Thread.Status.SPAM,
+            code="thread.spam",
+            message="Thread marked spam.",
+        )
+
+    def archive_thread(self, *, user: Any, thread_id: str) -> MessagingActionResult:
+        return self._update_thread(thread_id, is_archived=True, code="thread.archived", message="Thread archived.")
+
+    def create_campaign(self, *, user: Any, payload: Mapping[str, Any]) -> MessagingActionResult:
+        campaign = MessagingCampaign.objects.create(
+            created_by=user if getattr(user, "is_authenticated", False) else None,
+            subject=str(payload.get("subject") or ""),
+            body_text=str(payload.get("body_text") or payload.get("body") or ""),
+            template_key=str(payload.get("template_key") or ""),
+            locale=str(payload.get("locale") or "en"),
+        )
+        return self._ok(
+            "campaign.created",
+            "Campaign saved.",
+            reverse("cabinet:messaging_campaign_detail", kwargs={"campaign_id": campaign.pk}),
+        )
+
+    def update_campaign(self, *, user: Any, campaign_id: str, payload: Mapping[str, Any]) -> MessagingActionResult:
+        campaign = get_campaign(campaign_id)
+        campaign.subject = str(payload.get("subject") or campaign.subject)
+        campaign.body_text = str(payload.get("body_text") or payload.get("body") or campaign.body_text)
+        campaign.template_key = str(payload.get("template_key") or "")
+        campaign.locale = str(payload.get("locale") or campaign.locale)
+        campaign.save(update_fields=["subject", "body_text", "template_key", "locale", "updated_at"])
+        return self._ok(
+            "campaign.updated",
+            "Campaign saved.",
+            reverse("cabinet:messaging_campaign_detail", kwargs={"campaign_id": campaign.pk}),
+        )
+
+    def send_campaign(self, *, user: Any, campaign_id: str) -> MessagingActionResult:
+        campaign = get_campaign(campaign_id)
+        campaign.status = MessagingCampaign.Status.SENT
+        campaign.sent_at = timezone.now()
+        campaign.save(update_fields=["status", "sent_at", "updated_at"])
+        return self._ok("campaign.sent", "Campaign marked sent.", reverse("cabinet:messaging_campaigns"))
+
+    def send_test_campaign(self, *, user: Any, campaign_id: str, email: str) -> MessagingActionResult:
+        return self._ok(
+            "campaign_test.queued",
+            f"Test send queued for {email}.",
+            reverse("cabinet:messaging_campaign_detail", kwargs={"campaign_id": campaign_id}),
+        )
+
+    def update_recipient(
+        self, *, user: Any, recipient_id: str, payload: Mapping[str, Any]
+    ) -> MessagingActionResult:
+        recipient = SystemRecipient.objects.get(pk=recipient_id)
+        recipient.email = str(payload.get("email") or recipient.email)
+        recipient.name = str(payload.get("name") or recipient.name)
+        recipient.kind = str(payload.get("kind") or recipient.kind)
+        recipient.locale = str(payload.get("locale") or recipient.locale)
+        recipient.enabled = str(payload.get("enabled", "on")) in {"1", "true", "on", "yes"}
+        recipient.note = str(payload.get("note") or recipient.note)
+        recipient.save(update_fields=["email", "name", "kind", "locale", "enabled", "note"])
+        return self._ok("recipient.updated", "Recipient saved.", reverse("cabinet:messaging_recipients"))
+
+    def update_settings(self, *, user: Any, payload: Mapping[str, Any]) -> MessagingActionResult:
+        settings = EmailSettings.load()
+        fields = {
+            "email_from",
+            "email_sender_name",
+            "email_reply_to",
+            "site_base_url",
+            "logo_url",
+            "url_path_contact_form",
+        }
+        for field in fields:
+            if field in payload:
+                setattr(settings, field, str(payload.get(field) or ""))
+        settings.save(update_fields=[*fields])
+        return self._ok("settings.updated", "Messaging settings saved.", reverse("cabinet:messaging_settings"))
+
+    def _thread_state(self, thread: Thread) -> MailboxThreadState:
+        latest = thread.messages.order_by("-created_at").first()
+        return MailboxThreadState(
+            id=str(thread.pk),
+            url=reverse("cabinet:messaging_thread", kwargs={"thread_id": thread.pk}),
+            subject=thread.subject or "(No subject)",
+            preview=(latest.body[:160] if latest else ""),
+            sender_name=thread.sender_name,
+            sender_email=thread.sender_email,
+            received_at=self._format_datetime(thread.last_activity_at),
+            status=thread.status,
+            status_label=thread.get_status_display(),
+            unread=not thread.is_read,
+            channel=thread.channel,
+            topic=thread.topic,
+            source=thread.source,
+        )
+
+    def _detail_state(self, thread: Thread) -> MailboxDetailState:
+        return MailboxDetailState(
+            thread=self._thread_state(thread),
+            messages=[
+                MessageState(
+                    id=str(message.pk),
+                    direction=message.direction,
+                    sender_label=message.sender_name or message.sender_email,
+                    recipient_label=message.recipient_email,
+                    subject=message.subject,
+                    body=message.body,
+                    created_at=self._format_datetime(message.created_at),
+                    channel=message.channel,
+                )
+                for message in thread.messages.all()
+            ],
+            composer=ReplyComposerState(
+                action_url=reverse("cabinet:messaging_thread", kwargs={"thread_id": thread.pk}),
+                placeholder="Write a reply...",
+            ),
+            actions=[
+                MailboxActionState(key="mark_read", label="Mark read", url=reverse("cabinet:messaging_thread", kwargs={"thread_id": thread.pk})),
+                MailboxActionState(key="mark_processed", label="Mark processed", url=reverse("cabinet:messaging_thread", kwargs={"thread_id": thread.pk})),
+                MailboxActionState(key="archive", label="Archive", url=reverse("cabinet:messaging_thread", kwargs={"thread_id": thread.pk})),
+            ],
+        )
+
+    def _campaign_row_state(self, campaign: MessagingCampaign) -> CampaignRowState:
+        return CampaignRowState(
+            id=str(campaign.pk),
+            url=reverse("cabinet:messaging_campaign_detail", kwargs={"campaign_id": campaign.pk}),
+            subject=campaign.subject,
+            status=campaign.status,
+            status_label=campaign.get_status_display(),
+            locale=campaign.locale,
+            recipient_count=int(getattr(campaign, "recipient_total", campaign.recipients.count())),
+            sent_count=int(getattr(campaign, "sent_total", campaign.recipients.filter(status="sent").count())),
+            failed_count=int(getattr(campaign, "failed_total", campaign.recipients.filter(status="failed").count())),
+            scheduled_at=self._format_datetime(campaign.send_at),
+            sent_at=self._format_datetime(campaign.sent_at),
+            updated_at=self._format_datetime(campaign.updated_at),
+        )
+
+    def _update_thread(self, thread_id: str, *, code: str, message: str, **changes: Any) -> MessagingActionResult:
+        thread = get_thread(thread_id)
+        for field, value in changes.items():
+            setattr(thread, field, value)
+        thread.save(update_fields=[*changes.keys(), "updated_at"])
+        return self._ok(code, message, reverse("cabinet:messaging_thread", kwargs={"thread_id": thread.pk}))
+
+    @staticmethod
+    def _ok(code: str, message: str, target_url: str) -> MessagingActionResult:
+        return MessagingActionResult(ok=True, code=code, message=message, target_url=target_url)
+
+    @staticmethod
+    def _format_datetime(value: Any) -> str:
+        if not value:
+            return ""
+        return timezone.localtime(value).strftime("%Y-%m-%d %H:%M")
+
+
+class MailboxThreadFolderAdapter:
+    @staticmethod
+    def with_count(folder: Any, count: int) -> Any:
+        return type(folder)(
+            key=folder.key,
+            label=folder.label,
+            url=folder.url,
+            icon=folder.icon,
+            count=count,
+            active=folder.active,
+        )
+
+
+def get_messaging_bridge() -> ProjectMessagingBridge:
+    return ProjectMessagingBridge()

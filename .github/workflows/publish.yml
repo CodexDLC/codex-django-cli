@@ -36,6 +36,27 @@ jobs:
       - name: Build sdist and wheel
         run: uv build --no-sources
 
+      - name: Verify built version matches tag
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          from zipfile import ZipFile
+
+          expected = os.environ["RELEASE_TAG"].removeprefix("v")
+          wheels = list(Path("dist").glob("*.whl"))
+          if len(wheels) != 1:
+              raise SystemExit(f"Expected one wheel, found {len(wheels)}")
+          with ZipFile(wheels[0]) as wheel:
+              metadata_path = next(name for name in wheel.namelist() if name.endswith(".dist-info/METADATA"))
+              metadata = wheel.read(metadata_path).decode("utf-8")
+          actual = next(line.split(": ", 1)[1] for line in metadata.splitlines() if line.startswith("Version: "))
+          if actual != expected:
+              raise SystemExit(f"Tag {expected} does not match built wheel version {actual}")
+          PY
+
       - name: Check artifacts
         run: uvx twine check dist/*
 

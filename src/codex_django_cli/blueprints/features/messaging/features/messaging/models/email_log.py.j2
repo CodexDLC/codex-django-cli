@@ -1,0 +1,19 @@
+from typing import ClassVar
+
+from codex_django.messaging.mixins import AbstractEmailLog
+{%- if enable_i18n %}
+from django.utils.translation import gettext_lazy as _
+{%- else %}
+def _(message: str) -> str:
+    return message
+{%- endif %}
+
+
+class EmailLog(AbstractEmailLog):
+    class Meta:
+        verbose_name = _("Email log")
+        verbose_name_plural = _("Email logs")
+        ordering: ClassVar[list[str]] = ["-queued_at"]
+
+    def __str__(self) -> str:
+        return f"{self.recipient} - {self.status}"

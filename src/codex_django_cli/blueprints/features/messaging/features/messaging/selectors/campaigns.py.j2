@@ -1,0 +1,46 @@
+from collections.abc import Mapping
+from typing import Any
+
+from django.db.models import Count, Q, QuerySet
+
+from ..models import MessagingCampaign
+
+
+def list_campaigns(*, status: str = "all", filters: Mapping[str, Any] | None = None) -> QuerySet[MessagingCampaign]:
+    filters = filters or {}
+    queryset = MessagingCampaign.objects.annotate(
+        recipient_total=Count("recipients"),
+        sent_total=Count("recipients", filter=Q(recipients__status="sent")),
+        failed_total=Count("recipients", filter=Q(recipients__status="failed")),
+    )
+    if status != "all":
+        queryset = queryset.filter(status=status)
+    search_query = str(filters.get("q") or "").strip()
+    if search_query:
+        queryset = queryset.filter(Q(subject__icontains=search_query) | Q(template_key__icontains=search_query))
+    return queryset
+
+
+def get_campaign(campaign_id: str | int) -> MessagingCampaign:
+    return MessagingCampaign.objects.prefetch_related("recipients").get(pk=campaign_id)
+
+
+def get_status_counts(*, active_status: str = "all") -> list[dict[str, str | int | bool]]:
+    queryset = MessagingCampaign.objects.all()
+    definitions = [
+        ("all", "All"),
+        ("draft", "Draft"),
+        ("scheduled", "Scheduled"),
+        ("sending", "Sending"),
+        ("sent", "Sent"),
+        ("failed", "Failed"),
+    ]
+    return [
+        {
+            "key": key,
+            "label": label,
+            "count": queryset.count() if key == "all" else queryset.filter(status=key).count(),
+            "active": key == active_status,
+        }
+        for key, label in definitions
+    ]

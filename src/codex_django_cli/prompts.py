@@ -9,8 +9,9 @@ import questionary
 MODULE_LABELS: dict[str, str] = {
     "cabinet": "Cabinet app-layer",
     "conversations": "Conversations feature",
+    "messaging": "Messaging cabinet feature",
     "booking": "Booking (engine + cabinet integration)",
-    "notifications": "Notifications (ARQ worker + email)",
+    "notifications": "Notifications (deprecated legacy ARQ/email option)",
     "public_booking": "Public booking pages",
     "sw": "Service worker files (sw.js, manifest)",
 }
@@ -112,11 +113,11 @@ def ask_install_modules(*, mode: str, installed_modules: dict[str, bool] | None 
     installed_modules = installed_modules or {}
     if mode == "init":
         prompt = "Init project — choose modules for the new Django project:"
-        module_names = ["cabinet", "conversations", "booking", "notifications", "sw"]
+        module_names = ["cabinet", "conversations", "messaging", "booking", "notifications", "sw"]
         checked = {"cabinet", "conversations"}
     else:
         prompt = "Extend project — choose modules to add into the existing Django project:"
-        module_names = ["cabinet", "conversations", "booking", "notifications", "sw"]
+        module_names = ["cabinet", "conversations", "messaging", "booking", "notifications", "sw"]
         checked = set()
     choices = []
     for module_name in module_names:
@@ -186,6 +187,10 @@ def ask_enable_i18n() -> bool:
         "Enable i18n / modular locale support? Useful even with one language.", default=False
     ).ask()
     return bool(result)
+
+
+def ask_with_unfold() -> bool:
+    return bool(questionary.confirm("Use django-unfold for the generated admin UI?", default=True).ask())
 
 
 def ask_languages(enable_i18n: bool) -> list[str]:

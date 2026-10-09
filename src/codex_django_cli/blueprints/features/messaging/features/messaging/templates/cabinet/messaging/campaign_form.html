@@ -1,0 +1,13 @@
+{% extends "cabinet/base_cabinet.html" %}
+
+{% block title %}Campaign{% endblock %}
+
+{% block cabinet_content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h4 mb-0">Campaign</h1>
+  <a class="btn btn-light btn-sm border" href="{% url 'cabinet:messaging_campaigns' %}">
+    <i class="bi bi-arrow-left me-1"></i>Campaigns
+  </a>
+</div>
+{% include "cabinet/messaging/components/campaign_composer.html" with campaign=campaign %}
+{% endblock %}

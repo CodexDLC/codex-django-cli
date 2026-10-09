@@ -1,0 +1,11 @@
+from codex_django.messaging.cabinet import MessagingCabinetWorkflowService
+
+from .cabinet_bridge import get_messaging_bridge
+
+
+class ProjectMessagingCabinetWorkflowService(MessagingCabinetWorkflowService):
+    """Project extension point for messaging cabinet write workflows."""
+
+
+def get_messaging_workflow_service() -> ProjectMessagingCabinetWorkflowService:
+    return ProjectMessagingCabinetWorkflowService(get_messaging_bridge())
