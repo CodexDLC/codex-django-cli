@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -795,6 +795,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#cabinet_booking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cabinet_booking
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#features" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -859,6 +870,28 @@
     <span class="md-ellipsis">
       
         Runtime Flow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jinja-context-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Jinja Context Variables
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architectural-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architectural Principles
       
     </span>
   </a>
@@ -1625,6 +1658,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#cabinet_booking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cabinet_booking
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#features" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1696,6 +1740,28 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#jinja-context-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Jinja Context Variables
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architectural-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architectural Principles
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#role-in-the-cli" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1742,11 +1808,12 @@ It is the fact that project structure, project extension, repository shell gener
 </ul>
 <p>So understanding the CLI means understanding how blueprints are partitioned.</p>
 <h2 id="top-level-blueprint-families">Top-Level Blueprint Families</h2>
-<p>The current blueprint space is split into six main families:</p>
+<p>The current blueprint space is split into seven main families:</p>
 <ul>
 <li><code>repo</code></li>
 <li><code>project</code></li>
 <li><code>cabinet</code></li>
+<li><code>cabinet_booking</code></li>
 <li><code>features</code></li>
 <li><code>apps</code></li>
 <li><code>deploy</code></li>
@@ -1777,28 +1844,29 @@ This includes the initial structure for:</p>
 </ul>
 <p>This family defines the starting runtime architecture of a fresh codex-django project before optional install layers are applied.</p>
 <h3 id="cabinet"><code>cabinet</code></h3>
-<p><code>cabinet/</code> is now a dedicated top-level blueprint family.
-It contains the project-local cabinet shell, views, services, templates, static assets, and routing glue that used to be partially embedded under <code>project/</code>.</p>
-<p>This matters because cabinet is no longer just an implementation detail of the base project scaffold.
-It is an explicit extension layer that can be installed, reinstalled, or compared independently.</p>
+<p><code>cabinet/</code> is a dedicated top-level blueprint family.
+It contains the project-local cabinet shell: views, services, templates, static assets, routing glue, and a <code>fixtures/</code> subdirectory with demo data.</p>
+<p>Key sub-paths:</p>
+<ul>
+<li><code>services/analytics.py.j2</code> — <code>AnalyticsService</code> with dashboard providers and <code>get_report_page()</code> returning typed <code>ReportPageData</code>.</li>
+<li><code>fixtures/demo_analytics.json.j2</code> — demo numbers and labels for the analytics dashboard. Rendered once at scaffold time; the service reads from this file at runtime. Replace service method bodies with real DB queries and delete the fixture when ready.</li>
+</ul>
+<p>This family does <strong>not</strong> include any booking-specific cabinet views — those live in <code>cabinet_booking/</code>.</p>
+<h3 id="cabinet_booking"><code>cabinet_booking</code></h3>
+<p><code>cabinet_booking/</code> is scaffolded only when <code>with_booking=True</code>.
+It contains the booking-cabinet integration layer: booking bridge, booking views, services, and templates that extend the base cabinet with appointment management.</p>
+<p>Keeping it separate from <code>cabinet/</code> means a standard init without booking produces a clean cabinet with zero booking artefacts.</p>
 <h3 id="features"><code>features</code></h3>
-<p><code>features/</code> contains advanced or compound feature scaffolds such as:</p>
+<p><code>features/</code> contains advanced or compound feature scaffolds:</p>
 <ul>
-<li><code>booking</code></li>
-<li><code>booking_core</code></li>
-<li><code>booking_public</code></li>
-<li><code>conversations</code></li>
-<li><code>client_cabinet</code></li>
+<li><code>booking_core</code> — booking domain models, providers, runtime services, and settings model.</li>
+<li><code>booking_public</code> — public-facing booking pages and multi-step flow templates.</li>
+<li><code>conversations</code> — conversations models, migrations, services, selectors, and cabinet integration.</li>
+<li><code>notifications</code> — ARQ worker scaffolding, <code>EmailContent</code> model, and notification selectors.</li>
+<li><code>client_cabinet</code> — specialized cabinet-facing extension for client-space views.</li>
 </ul>
-<p>These blueprints are more architectural than <code>apps/default</code> because they often modify several target areas at once.</p>
-<p>For example:</p>
-<ul>
-<li><code>booking_core</code> defines the booking domain and service layer</li>
-<li><code>booking_public</code> adds public booking pages and multi-step templates</li>
-<li><code>conversations</code> injects feature code plus cabinet-facing integration</li>
-<li><code>client_cabinet</code> remains part of the blueprint tree as a specialized cabinet-facing extension surface</li>
-</ul>
-<p>So <code>features/</code> is the layer where the CLI expresses cross-cutting feature bundles rather than isolated apps.</p>
+<p>These blueprints are more architectural than <code>apps/default</code> because they often modify several target areas at once.
+<code>features/</code> is the layer where the CLI expresses cross-cutting feature bundles rather than isolated apps.</p>
 <h3 id="apps"><code>apps</code></h3>
 <p><code>apps/</code> contains reusable blueprints for adding a standard feature app to an existing project.
 In the current CLI shape it is no longer the main interactive growth path, but it remains part of the blueprint library as a lower-level reusable scaffold family.</p>
@@ -1841,6 +1909,78 @@ It is a staged project-construction model.</p>
     D --&gt; F["copy static files"]
     E --&gt; G["target project structure"]
     F --&gt; G</code></pre>
+<h2 id="jinja-context-variables">Jinja Context Variables</h2>
+<p>Every blueprint is rendered with the following context dictionary.
+Templates use these variables in <code>{%- if ... %}</code> blocks to conditionally include or exclude sections.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Variable</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>project_name</code></td>
+<td style="text-align: left;"><code>str</code></td>
+<td style="text-align: left;">Snake-case project name used for app <code>name =</code> and imports.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>enable_i18n</code></td>
+<td style="text-align: left;"><code>bool</code></td>
+<td style="text-align: left;">Render <code>gettext_lazy</code> imports and <code>SET_LANGUAGE</code> URLs.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>languages</code></td>
+<td style="text-align: left;"><code>list[str]</code></td>
+<td style="text-align: left;">Language codes, e.g. <code>["en", "ru"]</code>. First code is the default.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>with_cabinet</code></td>
+<td style="text-align: left;"><code>bool</code></td>
+<td style="text-align: left;">Scaffold the <code>cabinet/</code> blueprint.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>with_booking</code></td>
+<td style="text-align: left;"><code>bool</code></td>
+<td style="text-align: left;">Scaffold <code>cabinet_booking/</code> + <code>features/booking_core</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>with_notifications</code></td>
+<td style="text-align: left;"><code>bool</code></td>
+<td style="text-align: left;">Scaffold <code>features/notifications</code> + <code>settings/modules/notifications.py</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>with_conversations</code></td>
+<td style="text-align: left;"><code>bool</code></td>
+<td style="text-align: left;">Scaffold <code>features/conversations</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>with_public_booking</code></td>
+<td style="text-align: left;"><code>bool</code></td>
+<td style="text-align: left;">Scaffold <code>features/booking_public</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>with_sw</code></td>
+<td style="text-align: left;"><code>bool</code></td>
+<td style="text-align: left;">Scaffold service worker + manifest.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>with_cloud_db</code></td>
+<td style="text-align: left;"><code>bool</code></td>
+<td style="text-align: left;">Add <code>dj-database-url</code> dependency in <code>pyproject.toml</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="architectural-principles">Architectural Principles</h2>
+<p>Generated code follows the <strong>Thin Views / Service Layer</strong> pattern:</p>
+<ul>
+<li><strong>Views</strong> only call service or selector methods and return HTTP responses.</li>
+<li><strong><code>services/&lt;domain&gt;.py</code></strong> — write operations and business logic. Each method is independently testable without HTTP context.</li>
+<li><strong><code>selectors/&lt;domain&gt;.py</code></strong> — read-only queries. Each method is independently testable without HTTP context.</li>
+</ul>
+<p>This means a developer can unit-test <code>AnalyticsService.get_kpi_metrics()</code> or <code>BookingCabinetWorkflowService.get_modal_state()</code> without starting a Django server.</p>
 <h2 id="role-in-the-cli">Role In The CLI</h2>
 <p>Blueprints are the most durable part of the CLI architecture.
 Menus, commands, and prompts may evolve, but the blueprint families define the long-term contract of what the tool generates.</p>
@@ -1904,7 +2044,7 @@ the blueprints encode the actual shape of the generated ecosystem.</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "navigation.breadcrumbs", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="../../../../javascripts/mermaid.js"></script>
       

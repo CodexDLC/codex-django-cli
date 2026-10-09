@@ -21,7 +21,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1350,6 +1350,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#current-work-agent-skills-2026-10-09" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current work: agent skills (2026-10-09)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#goal" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2075,6 +2086,15 @@
 
 
 <h1 id="release-prep-plan">Release Prep Plan</h1>
+<h2 id="current-work-agent-skills-2026-10-09">Current work: agent skills (2026-10-09)</h2>
+<p>This section records the current unreleased skill work. The older layer tracker below describes a prior <code>0.3.0</code> preparation pass and is retained as history; it does not select the next release version.</p>
+<ul>
+<li>Added a project-owned <code>docs/agent-skills/cli-development</code> entrypoint and discovery links in <code>AGENTS.md</code> and <code>CLAUDE.md</code>.</li>
+<li>Added a versioned CLI consumer skill under <code>src/codex_django_cli/agent_skills/resources</code>, with install, status, update, and delete commands. The installer tracks owned files by hash, preserves unrelated <code>AGENTS.md</code> text and unowned files, and refuses to replace local managed edits.</li>
+<li>Added the <code>codex-django skills</code> command, README instructions, lifecycle tests, and an Unreleased changelog entry. No release or version bump was made.</li>
+<li>Verification: full unit/integration suite reported 157 passed; focused skill/main tests reported 34 passed; Ruff, mypy, and diff checks passed. Both wheel and sdist contain the skill payload and installer. A wheel installed into an isolated target imported from that target and passed install/status/update/delete against a separate consumer project while preserving its <code>AGENTS.md</code> bytes.</li>
+<li>The local build generated <code>0.3.1.dev14+g4341052a4.d20261009</code> artifacts from VCS metadata. This is a build result, not a release-version decision. Legacy install-chain E2E was not run for this skill change.</li>
+</ul>
 <h2 id="goal">Goal</h2>
 <p>Use this file as the working release-prep tracker for the current <code>codex-django-cli</code> refactor.
 The release pass must move layer by layer and avoid mixing documentation, runtime architecture, blueprint moves, test synchronization, and release notes.</p>
@@ -2734,7 +2754,7 @@ The release pass must move layer by layer and avoid mixing documentation, runtim
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "navigation.breadcrumbs", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="../javascripts/mermaid.js"></script>
       
